@@ -1,0 +1,99 @@
+/* 추천 레시피 화면 전용 (클래스는 recipe- 로 시작 — 키트 sb-·공용 dc- 는 덮어쓰지 않음) */
+
+/* 제목 */
+.recipe-title__name {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 즐겨찾기 별 */
+.recipe-fav { color: var(--text-2); }
+.recipe-fav.is-on { color: var(--yellow); }
+
+/* 안내 */
+.recipe-notice__detail { color: var(--text-2); overflow-wrap: anywhere; }
+.recipe-warnings {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.recipe-nudge__icon { flex: none; color: var(--accent-strong); margin-top: 1px; }
+
+/* 수치 칸 */
+.recipe-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.recipe-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+}
+.recipe-stat__value { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 재료 줄 */
+.recipe-ings__list { margin: 0; padding: 0; list-style: none; }
+.recipe-ing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  min-height: 64px;
+}
+.recipe-ing + .recipe-ing { border-top: 1px solid var(--border); }
+.recipe-ing__swatch {
+  flex: none;
+  width: 12px;
+  height: 40px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.recipe-ing__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.recipe-ing__adjust { flex: none; display: flex; align-items: center; gap: 6px; }
+.recipe-ing__ml { min-width: 64px; text-align: center; }
+
+/* 정보 줄·제안 */
+.recipe-infoline__icon { flex: none; color: var(--accent); margin-top: 3px; }
+.recipe-sug__icon { flex: none; color: var(--text-2); }
+.recipe-sug--low_stock .recipe-sug__icon { color: var(--yellow); }
+.recipe-sug--add_ingredient .recipe-sug__icon { color: var(--blue); }
+
+/* 제조 버튼 — 모바일은 아래 버튼 줄(Page footer), PC 는 왼쪽 열 제조 카드. 전환은 CSS 로만 (900px 기준, 앱 배치와 같음) */
+.recipe-footer { display: flex; gap: var(--space-2); }
+/* [다른 추천] 1 : [제조 시작] 1.6 (v2.1 과 같은 비율) */
+.recipe-page .recipe-actions__regen { flex: 1 1 0; min-width: 0; }
+.recipe-page .recipe-actions__start { flex: 1.6 1 0; min-width: 0; }
+.recipe-actions__row { display: flex; gap: var(--space-2); }
+.recipe-page .recipe-actions,
+.recipe-page .recipe-tip--pc { display: none; }
+@media (min-width: 900px) {
+  .recipe-page .recipe-footer,
+  .recipe-page .recipe-tip--mobile { display: none; }
+  /* 왼쪽 열을 오른쪽 열 높이만큼 늘이고 제조 카드를 위·아래에 붙여(sticky)
+     오른쪽(이유·맛·제안·탐색)을 읽는 동안에도 [다른 추천]·[기기로 제조 시작]이 늘 보이게 */
+  .recipe-left { align-self: stretch; }
+  .recipe-page .recipe-tip--pc { display: block; }
+  .recipe-page .recipe-actions {
+    display: block;
+    position: sticky;
+    top: calc(var(--topbar-height) + var(--safe-top) + var(--space-4));
+    bottom: var(--space-4);
+    z-index: 2;
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+@media (max-width: 380px) {
+  .recipe-ing { padding: var(--space-3); gap: var(--space-2); }
+  .recipe-ing__ml { min-width: 52px; }
+  .recipe-stat { padding: var(--space-2); }
+}

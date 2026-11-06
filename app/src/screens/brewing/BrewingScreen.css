@@ -1,0 +1,419 @@
+/*
+ * 제조 진행 화면 (전체 화면) — 클래스는 brew- 로 시작
+ * 모바일(<900px): 한 줄. 두 열 묶음(.brew-col)은 display: contents 로 풀고 order 로 순서를 정함
+ *   진행 원 → 안내 → 펌프별 → 다시 연결 → 완료 카드 → 비상 정지/닫기 (v2.1 순서), 아래 묶음은 화면 아래에 붙임
+ * PC(≥900px): 2열 — 왼쪽(고정) 진행 원 + 비상 정지/닫기, 오른쪽 안내 · 펌프별 · 완료 카드
+ */
+
+.brew-screen {
+  --brew-tone: var(--accent);
+  --brew-tone-soft: var(--accent-soft);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--safe-top);
+  background: linear-gradient(180deg, var(--brew-tone-soft) 0, var(--bg) 360px) no-repeat, var(--bg);
+  transition: background-color var(--dur) var(--ease);
+}
+.brew-tone--info {
+  --brew-tone: var(--blue);
+  --brew-tone-soft: var(--blue-soft);
+}
+.brew-tone--accent {
+  --brew-tone: var(--accent);
+  --brew-tone-soft: var(--accent-soft);
+}
+.brew-tone--success {
+  --brew-tone: var(--green);
+  --brew-tone-soft: var(--green-soft);
+}
+.brew-tone--warning {
+  --brew-tone: var(--yellow);
+  --brew-tone-soft: var(--yellow-soft);
+}
+.brew-tone--danger {
+  --brew-tone: var(--red);
+  --brew-tone-soft: var(--red-soft);
+}
+
+.brew-wrap {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) calc(var(--space-4) + var(--safe-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* 모바일: 두 열 묶음을 풀어 한 줄로 */
+.brew-col {
+  display: contents;
+}
+.brew-hero {
+  order: 1;
+}
+.brew-status {
+  order: 2;
+}
+.brew-pumps {
+  order: 3;
+}
+.brew-reconnect {
+  order: 4;
+}
+.brew-result {
+  order: 5;
+}
+.brew-actions {
+  order: 6;
+}
+.brew-lost {
+  order: 7;
+}
+/* 아래 묶음의 첫 요소 — 내용이 짧으면 화면 아래로 (엄지가 닿는 곳) */
+.brew-bottom {
+  margin-top: auto;
+}
+
+/* ───────── 진행 원 + 제목 ───────── */
+.brew-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-2) 0 var(--space-1);
+  text-align: center;
+}
+.brew-hero__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  align-items: center;
+}
+.brew-hero__title {
+  font-size: var(--fs-title);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+.brew-hero__recipe {
+  color: var(--text-2);
+  font-size: var(--fs-body);
+  font-weight: 600;
+}
+
+.brew-ring {
+  --ring-size: 208px;
+  position: relative;
+  width: var(--ring-size);
+  height: var(--ring-size);
+  flex: none;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.brew-ring__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.brew-ring__track {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 9;
+}
+.brew-ring__fill {
+  fill: none;
+  stroke: var(--brew-tone);
+  stroke-width: 9;
+  stroke-linecap: round;
+  transition:
+    stroke-dashoffset 300ms var(--ease),
+    stroke var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+.brew-ring.is-indeterminate .brew-ring__svg {
+  animation: brew-spin 1.2s linear infinite;
+}
+.brew-ring.is-done {
+  animation: brew-pop 520ms var(--ease);
+}
+.brew-ring__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 18%;
+  text-align: center;
+}
+.brew-ring__icon {
+  color: var(--brew-tone);
+  margin-bottom: 2px;
+}
+.brew-ring__pct {
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+.brew-ring__pct small {
+  font-size: 0.48em;
+  font-weight: 700;
+  margin-left: 2px;
+  color: var(--text-2);
+}
+.brew-ring__sub {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--text-2);
+  line-height: 1.35;
+}
+
+@keyframes brew-spin {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(270deg);
+  }
+}
+@keyframes brew-pop {
+  0% {
+    transform: scale(0.96);
+  }
+  55% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brew-ring.is-indeterminate .brew-ring__svg,
+  .brew-ring.is-done {
+    animation: none;
+  }
+}
+
+/* ───────── 안내 ───────── */
+.brew-status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ───────── 펌프별 진행 ───────── */
+.brew-pumps__empty {
+  padding: var(--space-4);
+}
+.brew-pumps__list {
+  display: flex;
+  flex-direction: column;
+}
+.brew-pump {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 14px var(--space-4);
+}
+.brew-pump + .brew-pump {
+  border-top: 1px solid var(--border);
+}
+.brew-pump__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.brew-pump__name {
+  font-weight: 700;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.brew-pump__no {
+  flex: none;
+  font-size: var(--fs-small);
+  color: var(--text-3);
+}
+.brew-pump__ml {
+  flex: none;
+  margin-left: auto;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  color: var(--text-3);
+}
+.brew-pump__ml.is-active {
+  color: var(--accent-strong);
+}
+.brew-pump__ml.is-done {
+  color: var(--green);
+}
+.brew-pump__check {
+  flex: none;
+  color: var(--green);
+}
+
+/* ───────── 비상 정지 ───────── */
+.brew-actions,
+.brew-reconnect,
+.brew-lost,
+.brew-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.brew-stop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 76px;
+  padding: 0 var(--space-6);
+  border-radius: 18px;
+  background: var(--red);
+  color: #fff;
+  font-size: var(--fs-title);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 6px rgba(204, 42, 48, 0.25), 0 10px 24px rgba(204, 42, 48, 0.22);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+.brew-stop:hover:not(:disabled) {
+  background: var(--red-hover);
+}
+.brew-stop:active:not(:disabled) {
+  background: var(--red-hover);
+  transform: scale(0.985);
+}
+.brew-stop:disabled {
+  opacity: 0.75;
+}
+.brew-stop:focus-visible {
+  /* 전역 outline 대신 빨간 링 하나만 (흰 틈 + 빨강 — 흰 바탕 5.3:1) */
+  outline: none;
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--red);
+}
+
+/* 모바일: 제조 중에는 비상 정지를 화면 아래에 붙여 늘 보이게 */
+.brew-actions.is-running {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  gap: var(--space-2);
+  margin: 0 calc(-1 * var(--space-4)) calc(-1 * (var(--space-4) + var(--safe-bottom)));
+  margin-top: auto; /* .brew-bottom 과 같이: 내용이 짧아도 화면 맨 아래(엄지가 닿는 곳)에 */
+  padding: var(--space-4) var(--space-4) calc(var(--space-3) + var(--safe-bottom));
+  background: linear-gradient(to top, var(--bg) 78%, rgba(247, 246, 243, 0));
+}
+.brew-actions.is-running + .brew-lost {
+  margin-top: var(--space-4);
+}
+
+/* ───────── 완료: 피드백 · 한 잔 더 ───────── */
+.brew-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.brew-fb-row {
+  display: flex;
+  gap: var(--space-2);
+}
+.brew-fb {
+  flex: 1;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+.brew-fb:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.brew-fb:active {
+  transform: scale(0.98);
+}
+.brew-fb.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent-strong);
+}
+
+/* 작업 없음 */
+.brew-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+.brew-empty__btn {
+  width: min(320px, 80vw);
+}
+
+/* ───────── PC: 2열 ───────── */
+@media (min-width: 900px) {
+  .brew-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+    column-gap: var(--space-8);
+    padding: var(--space-8) var(--space-8) var(--space-10);
+  }
+  .brew-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+  .brew-col--side {
+    position: sticky;
+    top: calc(var(--space-6) + var(--safe-top));
+  }
+  .brew-bottom {
+    margin-top: 0;
+  }
+  .brew-hero {
+    padding: var(--space-4) 0 var(--space-2);
+  }
+  .brew-ring {
+    --ring-size: 240px;
+  }
+  .brew-ring__pct {
+    font-size: 52px;
+  }
+  .brew-actions.is-running {
+    position: static;
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
+  .brew-actions.is-running + .brew-lost {
+    margin-top: 0;
+  }
+}

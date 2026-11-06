@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 540" width="1180" height="540" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif">
+<defs>
+<marker id="dimA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9 z" fill="#6b7785"/></marker>
+<marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f80c9"/></marker>
+<marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker>
+<marker id="arrK" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/></marker>
+<marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/></marker>
+<marker id="arrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52606d"/></marker>
+<marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c92a2a"/></marker>
+</defs>
+<rect x="0" y="0" width="1180" height="540" fill="#ffffff"/>
+<text x="24.00" y="34.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">극성(방향)이 있는 부품 확대도</text>
+<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">아래 4가지는 방향을 거꾸로 하면 동작하지 않거나 고장이 납니다. 붙이기 전에 그림과 실물을 꼭 비교하세요.</text>
+<rect x="20.00" y="76.00" width="268.00" height="450.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<rect x="312.00" y="76.00" width="268.00" height="450.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<rect x="604.00" y="76.00" width="268.00" height="450.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<rect x="896.00" y="76.00" width="268.00" height="450.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<text x="34.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">① 다이오드 1N4007 (P10)</text>
+<line x1="40.00" y1="175.00" x2="94.00" y2="175.00" stroke="#9aa1a8" stroke-width="3" stroke-linecap="round"/>
+<line x1="214.00" y1="175.00" x2="268.00" y2="175.00" stroke="#9aa1a8" stroke-width="3" stroke-linecap="round"/>
+<rect x="94.00" y="157.00" width="120.00" height="36.00" rx="8" fill="#1e1e1e" stroke="#000" stroke-width="1"/>
+<rect x="186.00" y="157.00" width="14.00" height="36.00" fill="#c9cdd2" stroke="none" stroke-width="1.5"/>
+<text x="140.00" y="180.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#ddd">1N4007</text>
+<line x1="193.00" y1="193.00" x2="196.00" y2="221.00" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="193.00" cy="193.00" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="200.00" y="224.96" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round"></text>
+<text x="140.00" y="237.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#1f2933">은색 띠 쪽 = 캐소드(K)</text>
+<text x="50.00" y="145.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#52606d">애노드(A)</text>
+<text x="258.00" y="145.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="end" font-weight="normal" fill="#52606d">캐소드(K)</text>
+<line x1="60.00" y1="290.00" x2="130.00" y2="290.00" stroke="#1f2933" stroke-width="2" stroke-linecap="round"/>
+<polygon points="130.00,276.00 130.00,304.00 158.00,290.00" stroke-linejoin="round" stroke-linecap="round" fill="#1f2933" stroke="#1f2933" stroke-width="1.5"/>
+<line x1="160.00" y1="275.00" x2="160.00" y2="305.00" stroke="#1f2933" stroke-width="3" stroke-linecap="round"/>
+<line x1="160.00" y1="290.00" x2="230.00" y2="290.00" stroke="#1f2933" stroke-width="2" stroke-linecap="round"/>
+<text x="60.00" y="280.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#52606d">A</text>
+<text x="230.00" y="280.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="end" font-weight="normal" fill="#52606d">K</text>
+<text x="154.00" y="324.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">회로 기호 (세로 막대 = 띠)</text>
+<text x="34.00" y="370.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">연결:</text>
+<text x="34.00" y="386.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 띠(K) → 펌프 빨강(+) = 릴레이 NO</text>
+<text x="34.00" y="402.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 반대쪽(A) → 펌프 검정(−) = GND</text>
+<text x="34.00" y="450.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">⚠ 거꾸로 달면 펌프를 켜는 순간 단락 →</text>
+<text x="34.00" y="466.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">   ESP32 재부팅·어댑터 꺼짐·다이오드 과열</text>
+<text x="34.00" y="482.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">   (퓨즈는 멀쩡할 수 있음 → 띠를 눈으로 확인)</text>
+<text x="326.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13.5" text-anchor="start" font-weight="bold" fill="#1f2933">② 전해 커패시터 1000µF 16V (P16)</text>
+<rect x="410.00" y="122.00" width="72.00" height="108.00" rx="8" fill="#24324a" stroke="#111" stroke-width="1"/>
+<rect x="410.00" y="122.00" width="22.00" height="108.00" rx="6" fill="#9fb3c8" stroke="none" stroke-width="1.5"/>
+<text x="421.00" y="146.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="16" text-anchor="middle" font-weight="bold" fill="#24324a">−</text>
+<text x="421.00" y="168.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="16" text-anchor="middle" font-weight="bold" fill="#24324a">−</text>
+<text x="421.00" y="190.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="16" text-anchor="middle" font-weight="bold" fill="#24324a">−</text>
+<text x="421.00" y="212.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="16" text-anchor="middle" font-weight="bold" fill="#24324a">−</text>
+<text x="456.00" y="170.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#e9ecef">1000µF</text>
+<text x="456.00" y="186.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#e9ecef">16V</text>
+<line x1="428.00" y1="230.00" x2="428.00" y2="272.00" stroke="#9aa1a8" stroke-width="3" stroke-linecap="round"/>
+<line x1="464.00" y1="230.00" x2="464.00" y2="296.00" stroke="#9aa1a8" stroke-width="3" stroke-linecap="round"/>
+<text x="420.00" y="268.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="end" font-weight="bold" fill="#1f2933">− (짧은 다리)</text>
+<text x="472.00" y="292.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#d64545">+ (긴 다리)</text>
+<text x="326.00" y="330.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">띠(−−−) 쪽 다리가 마이너스</text>
+<text x="326.00" y="345.52" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">다리를 자른 뒤에는 띠로 구분</text>
+<text x="326.00" y="384.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">연결:</text>
+<text x="326.00" y="400.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· + 다리 → TB1 (5V 분배)</text>
+<text x="326.00" y="416.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· − 다리 → TB2 (GND 분배)</text>
+<text x="326.00" y="450.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">⚠ 거꾸로 꽂으면 부풀거나 터질 수</text>
+<text x="326.00" y="466.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">   있음. 전원 넣기 전 2번 확인</text>
+<text x="618.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">③ LED 5mm 빨강 (P05)</text>
+<path d="M712,210 L712,150 A26,26 0 0 1 764,150 L764,210 Z" stroke-linejoin="round" stroke-linecap="round" fill="#ff8787" stroke="#c92a2a" stroke-width="1.4"/>
+<rect x="708.00" y="206.00" width="60.00" height="8.00" fill="#ff8787" stroke="#c92a2a" stroke-width="1.2"/>
+<line x1="768.00" y1="204.00" x2="768.00" y2="216.00" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+<line x1="726.00" y1="214.00" x2="726.00" y2="296.00" stroke="#9aa1a8" stroke-width="3" stroke-linecap="round"/>
+<line x1="750.00" y1="214.00" x2="750.00" y2="272.00" stroke="#9aa1a8" stroke-width="3" stroke-linecap="round"/>
+<text x="718.00" y="292.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="end" font-weight="bold" fill="#d64545">+ 긴 다리 (애노드)</text>
+<text x="758.00" y="272.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#1f2933">− 짧은 다리</text>
+<line x1="768.00" y1="210.00" x2="778.00" y2="240.00" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="768.00" cy="210.00" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="782.00" y="244.14" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">평평한 쪽 = −</text>
+<text x="618.00" y="330.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">연결 (GPIO2 상태 표시):</text>
+<text x="618.00" y="346.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· GPIO2 → 220Ω(R1) → 긴 다리(+)</text>
+<text x="618.00" y="362.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 짧은 다리(−) → GND</text>
+<text x="618.00" y="420.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">저항 220Ω(P06)은 방향 없음.</text>
+<text x="618.00" y="435.52" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">빼먹으면 LED·ESP32 핀이 상할 수 있음</text>
+<text x="618.00" y="470.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">⚠ 거꾸로 달면 안 켜짐(고장 아님)</text>
+<text x="618.00" y="486.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">   → 돌려서 다시 꽂기</text>
+<text x="910.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">④ DC 전원 플러그·잭 (P11·P12)</text>
+<rect x="910.00" y="176.00" width="40.00" height="8.00" fill="#333" stroke="none" stroke-width="1.5"/>
+<rect x="950.00" y="164.00" width="66.00" height="32.00" rx="6" fill="#2b2b2b" stroke="#000" stroke-width="1"/>
+<rect x="1016.00" y="169.00" width="44.00" height="22.00" rx="2" fill="#c9cdd2" stroke="#777" stroke-width="1"/>
+<rect x="1016.00" y="176.00" width="44.00" height="8.00" fill="#555" stroke="none" stroke-width="1.5"/>
+<text x="910.00" y="146.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">어댑터 플러그 5.5/2.1mm (P11)</text>
+<line x1="1046.00" y1="169.00" x2="1068.00" y2="162.00" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="1046.00" cy="169.00" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="1072.00" y="166.32" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">바깥 금속 = −</text>
+<line x1="1056.00" y1="182.00" x2="1068.00" y2="208.00" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="1056.00" cy="182.00" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="1072.00" y="212.32" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#d64545" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">가운데 구멍 = +</text>
+<circle cx="1030.00" cy="270.00" r="12.00" fill="none" stroke="#1f2933" stroke-width="2"/>
+<circle cx="1030.00" cy="270.00" r="4.00" fill="#1f2933" stroke="none" stroke-width="1.5"/>
+<line x1="1034.00" y1="270.00" x2="1092.00" y2="270.00" stroke="#1f2933" stroke-width="2" stroke-linecap="round"/>
+<line x1="968.00" y1="270.00" x2="1018.00" y2="270.00" stroke="#1f2933" stroke-width="2" stroke-linecap="round"/>
+<text x="1102.00" y="276.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="normal" fill="#d64545">⊕</text>
+<text x="948.00" y="276.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="normal" fill="#1f2933">⊖</text>
+<text x="1030.00" y="304.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#52606d">"센터 +" 표시</text>
+<text x="910.00" y="340.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">연결:</text>
+<text x="910.00" y="356.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 플러그 → J1(터미널 DC 암 단자)</text>
+<text x="910.00" y="372.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· J1 + 단자 → 스위치 SW1 (빨강)</text>
+<text x="910.00" y="388.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· J1 − 단자 → TB2 GND (검정)</text>
+<text x="910.00" y="450.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">⚠ 연결 전 멀티미터로 J1 +/− 사이</text>
+<text x="910.00" y="466.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#c92a2a">   +5V(± 0.25V)인지 측정 (STEP1)</text>
+</svg>

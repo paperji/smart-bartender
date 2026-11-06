@@ -1,0 +1,86 @@
+/* 새 재료 탐색 화면 전용 — 클래스는 explore- 로 시작 (키트 sb-·공용 dc- 는 덮어쓰지 않음) */
+
+.explore-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.explore-intro__lead {
+  max-width: 68ch;
+}
+
+/* 정규화·탐색 안내(NO_MIXER 등) 여러 줄 */
+.explore-notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.explore-notes p {
+  margin: 0;
+}
+
+.explore-cards {
+  min-width: 0;
+}
+
+/* "새 재료 없이 지금 재료로는" 바로가기 */
+.explore-now__icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+.explore-now__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.explore-now__text p {
+  margin: 0;
+}
+.explore-now__name {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+.explore-now__chev {
+  flex: none;
+  color: var(--text-3);
+}
+
+/* 장착 재료가 없을 때 회색 안내 */
+.explore-note__icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--text-3);
+}
+.explore-note p {
+  margin: 0;
+}
+
+/* 결과 없이 로딩 중 (전체 화면 로딩 뒤) */
+.explore-loading {
+  display: flex;
+  justify-content: center;
+}
+
+/* AI 키 없음(기본 상태) — 노란 경고 대신 한 줄 안내 */
+.explore-note--nokey .explore-note__icon {
+  margin-top: 0;
+}
+.explore-note__text {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.explore-note__action {
+  margin-left: auto;
+}

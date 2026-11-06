@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 적응형 아이콘 배경 = 당근색 (테마 accent) -->
+    <color name="ic_launcher_background">#FF7A2F</color>
+    <!-- 시작 화면 바탕 = 앱 바탕색 (테마 bg) -->
+    <color name="splash_background">#F7F6F3</color>
+</resources>

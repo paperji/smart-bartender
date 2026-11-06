@@ -1,0 +1,201 @@
+/*
+ * 앱 설정 화면 전용 스타일 — 클래스는 모두 settings- 로 시작 (sb- 키트 클래스는 덮어쓰지 않음)
+ * 색·간격·모서리는 theme.css 변수만 사용
+ */
+
+.settings-stack { display: flex; flex-direction: column; gap: var(--space-6); min-width: 0; }
+.settings-card { display: flex; flex-direction: column; gap: var(--space-3); }
+
+/* ── AI 방식 ── */
+.settings-effective { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.settings-help { color: var(--text-2); font-size: var(--fs-caption); line-height: 1.55; }
+
+/* ── 키 상태 줄 ── */
+.settings-keystate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--touch);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-input);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.settings-keystate--saved { background: var(--green-soft); border-color: transparent; }
+.settings-keystate__text { display: flex; align-items: center; gap: var(--space-2); min-width: 0; font-weight: 600; font-size: var(--fs-label); }
+.settings-keystate__text svg { flex: none; color: var(--text-3); }
+.settings-keystate--saved .settings-keystate__text svg { color: var(--green); }
+.settings-keystate__hint { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+
+.settings-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.settings-actions > * { flex: 1 1 140px; }
+
+/* 키 입력칸 오른쪽 보기/숨기기 버튼 */
+.settings-eye { margin-right: calc(var(--space-2) * -1); }
+/* 키 입력값은 글자 사이를 조금 띄워 읽기 쉽게 (보기 상태) */
+.settings-keyinput:not(:placeholder-shown) { font-family: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; font-size: 15px; letter-spacing: 0.01em; }
+
+.settings-check-meta { display: block; margin-top: 2px; color: var(--text-2); font-size: var(--fs-small); }
+
+/* ── 모델 고르기 (키트에 Select 가 없어 화면에서 그림 — sb-input 과 같은 모양) ── */
+.settings-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.settings-field__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.settings-field__label { font-weight: 600; font-size: var(--fs-label); }
+.settings-field__hint { color: var(--text-2); font-size: var(--fs-caption); }
+.settings-field__error { color: var(--red); font-size: var(--fs-caption); font-weight: 600; }
+.settings-select-wrap { position: relative; }
+.settings-select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 calc(var(--space-3) + 28px) 0 var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-input);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast), background-color var(--dur-fast);
+}
+.settings-select:focus-visible { outline: none; border-color: var(--accent); background: var(--surface); box-shadow: var(--focus-ring); }
+.settings-select.has-error { border-color: var(--red); }
+.settings-select-wrap__chev { position: absolute; right: var(--space-3); top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; }
+.settings-linkbtn {
+  border: 0;
+  background: none;
+  padding: 0;
+  min-height: 0;
+  color: var(--accent-strong);
+  font: inherit;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.settings-linkbtn:hover { color: var(--text); }
+.settings-field__more { align-self: flex-start; padding: var(--space-1) 0; }
+
+/* ── 펼치기 (키 발급 방법·오픈소스) ── */
+.settings-disclosure { padding: 0; overflow: hidden; }
+.settings-disclosure__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-fast);
+}
+.settings-disclosure__toggle:hover { background: var(--surface-2); }
+.settings-disclosure__icon { flex: none; color: var(--accent); }
+.settings-disclosure__titles { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.settings-disclosure__title { font-weight: 700; font-size: var(--fs-body); }
+.settings-disclosure__sub { color: var(--text-2); font-size: var(--fs-caption); }
+.settings-disclosure__chev { flex: none; color: var(--text-3); transition: transform var(--dur) var(--ease); }
+.settings-disclosure.is-open .settings-disclosure__chev { transform: rotate(180deg); }
+.settings-disclosure__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: 0 var(--space-4) var(--space-4);
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-4);
+}
+.settings-disclosure__body[hidden] { display: none; }
+
+/* 3단계 그림 설명 */
+.settings-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+.settings-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-3);
+  border-radius: var(--radius-input);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.settings-step__art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+.settings-step__num {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--fs-small);
+  font-weight: 800;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.settings-step__title { font-weight: 700; font-size: var(--fs-label); }
+.settings-step__body { margin-top: 2px; color: var(--text-2); font-size: var(--fs-caption); line-height: 1.55; }
+.settings-step__body b { color: var(--text); font-weight: 700; }
+@media (min-width: 600px) {
+  .settings-steps--3 { grid-template-columns: repeat(3, 1fr); }
+  .settings-steps--3 .settings-step { grid-template-columns: 1fr; justify-items: start; }
+}
+/* 2열 화면(PC)에서 AI 칸이 좁으므로 세 단계는 세로로 */
+@media (min-width: 900px) {
+  .settings-steps--3 { grid-template-columns: 1fr; }
+  .settings-steps--3 .settings-step { grid-template-columns: auto 1fr; }
+}
+
+.settings-notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.settings-notes li { display: grid; grid-template-columns: 18px 1fr; gap: var(--space-2); color: var(--text-2); font-size: var(--fs-caption); line-height: 1.55; }
+.settings-notes li svg { margin-top: 2px; color: var(--text-3); }
+.settings-notes b { color: var(--text); font-weight: 700; }
+
+/* 앱 설치 줄 (웹) — [앱 설치] 버튼 + 안내 */
+.settings-install { display: flex; flex-direction: column; gap: var(--space-2); }
+
+/* 링크 (a) — 버튼 모양은 키트 클래스(sb-btn)를 그대로 씀 */
+.settings-extlink { text-decoration: none; }
+.settings-url { color: var(--blue); font-size: var(--fs-caption); word-break: break-all; text-decoration: underline; text-underline-offset: 2px; }
+.settings-url:hover { color: var(--accent-strong); }
+
+/* ── 성인 인증 ── */
+.settings-status { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+
+/* ── 앱 정보 ── */
+.settings-info-title { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); }
+.settings-info-lines { display: grid; grid-template-columns: 72px 1fr; gap: var(--space-2) var(--space-3); margin: 0; }
+.settings-info-lines dt { color: var(--text-3); font-size: var(--fs-label); font-weight: 600; }
+.settings-info-lines dd { margin: 0; font-size: var(--fs-label); font-weight: 600; color: var(--text); min-width: 0; overflow-wrap: anywhere; }
+
+.settings-oss { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.settings-oss li { display: flex; flex-direction: column; gap: 4px; padding: var(--space-3) 0; }
+.settings-oss li + li { border-top: 1px solid var(--border); }
+.settings-oss__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.settings-oss__name { font-weight: 700; font-size: var(--fs-label); }
+.settings-oss__copy { color: var(--text-2); font-size: var(--fs-small); line-height: 1.5; overflow-wrap: anywhere; }
+
+@media (prefers-reduced-motion: reduce) {
+  .settings-disclosure__chev { transition: none; }
+}
+
+.settings-stack--tight { gap: var(--space-4); }
+.settings-accent-icon { flex: none; color: var(--accent); }
+.settings-subhead { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-body); }

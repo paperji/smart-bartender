@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 테마 아이콘(안드로이드 13+)용 단색 전경 — scripts/gen-icons.mjs 가 만든 파일이에요(직접 고치지 말고 npm run icons) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <group
+      android:pivotX="32"
+      android:pivotY="29"
+      android:scaleX="1.1"
+      android:scaleY="1.1"
+      android:translateX="22"
+      android:translateY="25">
+    <path android:fillColor="#FFFFFFFF" android:pathData="M15 20 L49 20 L35 37 L29 37 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M19.5 25 L44.5 25 L35 36 L29 36 Z" />
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="3.4" android:strokeLineCap="round" android:pathData="M32 37 L32 48 M24.5 50 L39.5 50" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M43 11 L50 21 L40.5 19 Z" />
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2.2" android:strokeLineCap="round" android:pathData="M43 11 L41 6.5 M43 11 L45.5 6 M43 11 L48 8.5" />
+  </group>
+</vector>

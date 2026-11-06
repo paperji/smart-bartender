@@ -1,0 +1,13 @@
+{
+  "name": "smart-bartender-ai-backend",
+  "version": "2.1.0",
+  "private": true,
+  "description": "AI 스마트 바텐더 v2.1 - Gemini 기반 맞춤 레시피·탐색(explore) 제안 API (Vercel 서버리스)",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node test/local-test.js",
+    "dev": "node scripts/dev-server.js"
+  }
+}

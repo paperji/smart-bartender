@@ -1,0 +1,247 @@
+/* 재료 화면(목록·편집) 전용 — 클래스는 모두 ingredients- 로 시작 */
+
+/* ───────── 목록: 요약 타일 (장착 · 잔량 부족 · 주류) ───────── */
+.ingredients-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.ingredients-summary__tile {
+  flex: 1;
+  min-width: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+}
+.ingredients-summary__tile.is-warn {
+  border-color: color-mix(in srgb, var(--yellow) 45%, transparent);
+  background: var(--yellow-soft);
+}
+.ingredients-summary__label {
+  font-size: var(--fs-small);
+  color: var(--text-3);
+}
+.ingredients-summary__value {
+  font-size: var(--fs-heading);
+  font-weight: 700;
+  color: var(--text);
+}
+.ingredients-summary__tile.is-warn .ingredients-summary__value {
+  color: var(--yellow-strong);
+}
+
+/* ───────── 목록: 장착 제안 배너 ───────── */
+.ingredients-suggest__pick {
+  margin-top: var(--space-1);
+  font-weight: 600;
+  color: var(--accent-strong);
+}
+
+/* ───────── 목록: 펌프 카드 격자 (PC 2열 — Columns) ───────── */
+.ingredients-grid {
+  align-items: stretch;
+}
+.ingredients-grid__cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ingredients-grid__cell > .dc-pumpcard,
+.ingredients-grid__cell > .sb-card {
+  flex: 1;
+}
+.ingredients-grid__pickbadge {
+  position: absolute;
+  top: -10px;
+  right: 14px;
+  z-index: 1;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.ingredients-pumpcard--picked {
+  box-shadow: 0 0 0 2px var(--accent), var(--shadow);
+}
+
+/* ───────── 목록·편집: 보조 안내 (회색 카드 + 아이콘) ───────── */
+.ingredients-note,
+.ingredients-flow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.ingredients-note__icon,
+.ingredients-flow__icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--text-3);
+}
+.ingredients-flow__icon.is-info {
+  color: var(--blue);
+}
+.ingredients-note__text,
+.ingredients-flow__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--fs-caption);
+  color: var(--text-2);
+  line-height: 1.5;
+  min-width: 0;
+}
+.ingredients-flow__text {
+  display: block;
+}
+
+/* ───────── 편집: 탐색에서 온 안내 ───────── */
+.ingredients-explore {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.ingredients-explore__icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--accent-strong);
+}
+.ingredients-explore__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.ingredients-explore__title {
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+.ingredients-explore__msg {
+  font-size: var(--fs-label);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ───────── 편집: 머리 (펌프 번호 + 이름) ───────── */
+.ingredients-edit__head {
+  align-items: center;
+}
+.ingredients-edit__headtext {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+/* ───────── 편집: 빠른 선택 ───────── */
+.ingredients-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.ingredients-edit__more {
+  align-self: flex-start;
+}
+
+/* ───────── 편집: 남은 양 ───────── */
+.ingredients-edit__stock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.ingredients-edit__fill {
+  display: flex;
+  gap: var(--space-2);
+}
+.ingredients-edit__fill > * {
+  flex: 1;
+}
+
+/*
+ * 좁은 PC 창(900~1079px — 왼쪽 내비가 자리를 차지): 2열이면 오른쪽 칸이 좁아져 "비우기 (0ml)" 같은 버튼 글자가 잘림
+ * → 1열로 쌓음 (.ingredients-edit__cols.sb-columns 가 .sb-columns 보다 구체적이라 인라인 --cols 를 그대로 둬도 이김)
+ */
+@media (min-width: 900px) and (max-width: 1079.98px) {
+  .ingredients-edit__cols.sb-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ───────── 편집: 색상 견본 ───────── */
+.ingredients-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.ingredients-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+.ingredients-swatch:hover {
+  transform: scale(1.06);
+}
+.ingredients-swatch:active {
+  transform: scale(0.96);
+}
+.ingredients-swatch.is-selected {
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--text);
+}
+.ingredients-swatch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--focus-color);
+}
+.ingredients-swatch.is-selected:focus-visible {
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--text), 0 0 0 8px var(--focus-color);
+}
+
+/* ───────── 편집: 재료 빼기 ───────── */
+.ingredients-edit__remove {
+  align-self: flex-start;
+  color: var(--red);
+}
+
+/* ───────── 편집: 아래 버튼 줄 (모바일 취소 1 : 저장 2, PC 오른쪽 정렬) ───────── */
+.ingredients-edit__footer {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+}
+.ingredients-edit__cancel {
+  flex: 1;
+}
+.ingredients-edit__save {
+  flex: 2;
+}
+@media (min-width: 900px) {
+  .ingredients-edit__footer {
+    justify-content: flex-end;
+  }
+  .ingredients-edit__cancel,
+  .ingredients-edit__save {
+    flex: 0 0 auto;
+    min-width: 140px;
+  }
+  .ingredients-edit__save {
+    min-width: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ingredients-swatch {
+    transition: none;
+  }
+  .ingredients-swatch:hover,
+  .ingredients-swatch:active {
+    transform: none;
+  }
+}

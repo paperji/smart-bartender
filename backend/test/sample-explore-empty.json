@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "mode": "explore",
+  "user": {
+    "moods": [
+      "설렘"
+    ],
+    "taste": {
+      "sweet": 3,
+      "sour": 2,
+      "bitter": 1,
+      "fizzy": 4
+    },
+    "strength": "none",
+    "cupMl": 200,
+    "adultVerified": false
+  },
+  "ingredients": []
+}

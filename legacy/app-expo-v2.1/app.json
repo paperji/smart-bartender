@@ -1,0 +1,87 @@
+{
+  "expo": {
+    "name": "AI 스마트 바텐더",
+    "slug": "smart-bartender",
+    "version": "2.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "smartbartender",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0E1018",
+    "description": "팀 홍당무 캡스톤디자인 — 감정·취향 분석 기반 AI 맞춤형 음료/칵테일 배합 메이커 제어 앱",
+    "ios": {
+      "bundleIdentifier": "com.hongdangmu.smartbartender",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "칵테일 메이커와 블루투스로 연결하기 위해 사용합니다.",
+        "NSLocationWhenInUseUsageDescription": "현재 위치의 날씨를 불러와 음료 추천에 반영하기 위해 사용합니다."
+      }
+    },
+    "android": {
+      "package": "com.hongdangmu.smartbartender",
+      "versionCode": 3,
+      "adaptiveIcon": {
+        "backgroundColor": "#FF7A1A",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "blockedPermissions": [
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "permissions": [
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.VIBRATE"
+      ]
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "name": "AI 스마트 바텐더",
+      "shortName": "스마트바텐더",
+      "themeColor": "#0E1018",
+      "backgroundColor": "#0E1018",
+      "lang": "ko"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0E1018",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 180
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "현재 위치의 날씨를 불러와 음료 추천에 반영하기 위해 사용합니다.",
+          "isAndroidBackgroundLocationEnabled": false,
+          "isIosBackgroundLocationEnabled": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#FF7A1A",
+          "defaultChannel": "brew"
+        }
+      ],
+      [
+        "./plugins/with-ble-permissions",
+        {
+          "bluetoothText": "칵테일 메이커와 블루투스로 연결하기 위해 사용합니다."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

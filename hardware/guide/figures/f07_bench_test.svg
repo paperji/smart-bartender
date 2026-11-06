@@ -1,0 +1,292 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" width="1180" height="860" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif">
+<defs>
+<marker id="dimA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9 z" fill="#6b7785"/></marker>
+<marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f80c9"/></marker>
+<marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker>
+<marker id="arrK" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/></marker>
+<marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/></marker>
+<marker id="arrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52606d"/></marker>
+<marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c92a2a"/></marker>
+</defs>
+<rect x="0" y="0" width="1180" height="860" fill="#ffffff"/>
+<text x="24.00" y="34.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">벤치 테스트 연결도 (STEP2) — A안: 점퍼 뽑기, VCC=3V3, JD-VCC=어댑터 5V</text>
+<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">ESP32는 USB로만 전원을 받고, 어댑터 5V는 릴레이 코일과 펌프에만 씁니다. GND(−)는 모두 하나로 묶습니다.</text>
+<rect x="60.00" y="120.00" width="250.00" height="300.00" rx="6" fill="#2457a6" stroke="#0b2a5c" stroke-width="1.5"/>
+<rect x="130.00" y="138.00" width="110.00" height="52.00" rx="3" fill="#1c7ed6" stroke="#0b3d91" stroke-width="1"/>
+<text x="185.00" y="160.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#ffffff">릴레이 1</text>
+<text x="185.00" y="176.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="middle" font-weight="normal" fill="#d0ebff">JQC-3FF-S-Z</text>
+<circle cx="231.00" cy="147.00" r="3.50" fill="#ff6b6b" stroke="none" stroke-width="1.5"/>
+<rect x="64.00" y="144.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="151.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="155.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NO1</text>
+<rect x="64.00" y="160.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="167.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="171.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">COM1</text>
+<rect x="64.00" y="176.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="183.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="187.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NC1</text>
+<rect x="130.00" y="208.00" width="110.00" height="52.00" rx="3" fill="#1c7ed6" stroke="#0b3d91" stroke-width="1"/>
+<text x="185.00" y="230.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#ffffff">릴레이 2</text>
+<text x="185.00" y="246.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="middle" font-weight="normal" fill="#d0ebff">JQC-3FF-S-Z</text>
+<circle cx="231.00" cy="217.00" r="3.50" fill="#ff6b6b" stroke="none" stroke-width="1.5"/>
+<rect x="64.00" y="214.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="221.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="225.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NO2</text>
+<rect x="64.00" y="230.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="237.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="241.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">COM2</text>
+<rect x="64.00" y="246.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="253.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="257.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NC2</text>
+<rect x="130.00" y="278.00" width="110.00" height="52.00" rx="3" fill="#1c7ed6" stroke="#0b3d91" stroke-width="1"/>
+<text x="185.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#ffffff">릴레이 3</text>
+<text x="185.00" y="316.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="middle" font-weight="normal" fill="#d0ebff">JQC-3FF-S-Z</text>
+<circle cx="231.00" cy="287.00" r="3.50" fill="#ff6b6b" stroke="none" stroke-width="1.5"/>
+<rect x="64.00" y="284.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="291.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="295.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NO3</text>
+<rect x="64.00" y="300.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="307.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="311.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">COM3</text>
+<rect x="64.00" y="316.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="323.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="327.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NC3</text>
+<rect x="130.00" y="348.00" width="110.00" height="52.00" rx="3" fill="#1c7ed6" stroke="#0b3d91" stroke-width="1"/>
+<text x="185.00" y="370.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#ffffff">릴레이 4</text>
+<text x="185.00" y="386.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="middle" font-weight="normal" fill="#d0ebff">JQC-3FF-S-Z</text>
+<circle cx="231.00" cy="357.00" r="3.50" fill="#ff6b6b" stroke="none" stroke-width="1.5"/>
+<rect x="64.00" y="354.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="361.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="365.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NO4</text>
+<rect x="64.00" y="370.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="377.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="381.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">COM4</text>
+<rect x="64.00" y="386.00" width="30.00" height="14.00" rx="2" fill="#4dabf7" stroke="#0b3d91" stroke-width="0.8"/>
+<circle cx="79.00" cy="393.00" r="4.00" fill="#dee2e6" stroke="#495057" stroke-width="0.6"/>
+<text x="100.00" y="397.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="start" font-weight="normal" fill="#ffffff">NC4</text>
+<rect x="297.00" y="175.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="184.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">GND</text>
+<rect x="297.00" y="199.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="208.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">IN1</text>
+<rect x="297.00" y="223.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="232.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">IN2</text>
+<rect x="297.00" y="247.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="256.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">IN3</text>
+<rect x="297.00" y="271.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="280.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">IN4</text>
+<rect x="297.00" y="295.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="304.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">VCC</text>
+<rect x="297.00" y="343.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="352.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">VCC(점퍼)</text>
+<rect x="297.00" y="367.00" width="10.00" height="10.00" fill="#ffd43b" stroke="#7a5c00" stroke-width="0.8"/>
+<text x="290.00" y="376.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">JD-VCC</text>
+<rect x="324.00" y="342.00" width="12.00" height="32.00" rx="2" fill="#212529" stroke="#000" stroke-width="1"/>
+<text x="342.00" y="362.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="bold" fill="#c92a2a">점퍼 뽑음</text>
+<text x="185.00" y="438.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#1f2933">4채널 릴레이 모듈 K1~K4 (SZH-RLBG-012)</text>
+<rect x="520.00" y="112.00" width="150.00" height="489.00" rx="6" fill="#1f3b5c" stroke="#0b1d30" stroke-width="1.5"/>
+<rect x="550.00" y="120.00" width="90.00" height="52.00" rx="3" fill="#ced4da" stroke="#868e96" stroke-width="1"/>
+<text x="595.00" y="142.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="middle" font-weight="bold" fill="#343a40">ESP32-WROOM-32D</text>
+<text x="595.00" y="158.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9.5" text-anchor="middle" font-weight="normal" fill="#495057">안테나 (위쪽)</text>
+<rect x="577.00" y="587.00" width="36.00" height="18.00" rx="2" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text x="595.00" y="619.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="middle" font-weight="normal" fill="#52606d">micro USB</text>
+<rect x="528.00" y="579.00" width="18.00" height="12.00" rx="2" fill="#868e96" stroke="none" stroke-width="1.5"/>
+<rect x="644.00" y="579.00" width="18.00" height="12.00" rx="2" fill="#868e96" stroke="none" stroke-width="1.5"/>
+<text x="537.00" y="575.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="8.5" text-anchor="middle" font-weight="normal" fill="#dee2e6">EN</text>
+<text x="653.00" y="575.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="8.5" text-anchor="middle" font-weight="normal" fill="#dee2e6">BOOT</text>
+<circle cx="527.00" cy="184.00" r="4.20" fill="#e8590c" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="188.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="bold" fill="#ffffff">3V3</text>
+<circle cx="663.00" cy="184.00" r="4.20" fill="#495057" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="188.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">GND</text>
+<circle cx="527.00" cy="205.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="209.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">EN</text>
+<circle cx="663.00" cy="205.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="209.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">23</text>
+<circle cx="527.00" cy="226.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="230.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">VP</text>
+<circle cx="663.00" cy="226.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="230.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">22</text>
+<circle cx="527.00" cy="247.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="251.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">VN</text>
+<circle cx="663.00" cy="247.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="251.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">TX</text>
+<circle cx="527.00" cy="268.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="272.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">34</text>
+<circle cx="663.00" cy="268.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="272.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">RX</text>
+<circle cx="527.00" cy="289.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="293.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">35</text>
+<circle cx="663.00" cy="289.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="293.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">21</text>
+<circle cx="527.00" cy="310.00" r="4.20" fill="#d99a00" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="314.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="bold" fill="#ffffff">32</text>
+<circle cx="663.00" cy="310.00" r="4.20" fill="#495057" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="314.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">GND</text>
+<circle cx="527.00" cy="331.00" r="4.20" fill="#7048e8" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="335.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="bold" fill="#ffffff">33</text>
+<circle cx="663.00" cy="331.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="335.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">19</text>
+<circle cx="527.00" cy="352.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="356.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">25</text>
+<circle cx="663.00" cy="352.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="356.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">18</text>
+<circle cx="527.00" cy="373.00" r="4.20" fill="#1c7ed6" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="377.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="bold" fill="#ffffff">26</text>
+<circle cx="663.00" cy="373.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="377.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">5</text>
+<circle cx="527.00" cy="394.00" r="4.20" fill="#2f9e44" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="398.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="bold" fill="#ffffff">27</text>
+<circle cx="663.00" cy="394.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="398.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">17</text>
+<circle cx="527.00" cy="415.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="419.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">14</text>
+<circle cx="663.00" cy="415.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="419.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">16</text>
+<circle cx="527.00" cy="436.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="440.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">12</text>
+<circle cx="663.00" cy="436.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="440.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">4</text>
+<circle cx="527.00" cy="457.00" r="4.20" fill="#495057" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="461.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="bold" fill="#ffffff">GND</text>
+<circle cx="663.00" cy="457.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="461.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">0</text>
+<circle cx="527.00" cy="478.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="482.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">13</text>
+<circle cx="663.00" cy="478.00" r="4.20" fill="#8d6e63" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="482.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="bold" fill="#ffffff">2</text>
+<circle cx="527.00" cy="499.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="503.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">D2</text>
+<circle cx="663.00" cy="499.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="503.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">15</text>
+<circle cx="527.00" cy="520.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="524.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">D3</text>
+<circle cx="663.00" cy="520.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="524.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">D1</text>
+<circle cx="527.00" cy="541.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="545.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="normal" fill="#adb5bd">CMD</text>
+<circle cx="663.00" cy="541.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="545.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">D0</text>
+<circle cx="527.00" cy="562.00" r="4.20" fill="#868e96" stroke="#495057" stroke-width="0.8"/>
+<text x="536.00" y="566.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="start" font-weight="bold" fill="#ffffff">5V</text>
+<circle cx="663.00" cy="562.00" r="4.20" fill="#c9cdd2" stroke="#495057" stroke-width="0.8"/>
+<text x="654.00" y="566.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#adb5bd">CLK</text>
+<text x="595.00" y="104.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#1f2933">ESP32 DevKitC (U1) — USB 쪽이 아래</text>
+<polyline points="307.00,204.00 384.00,204.00 444.00,373.00 527.00,373.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#1c7ed6" stroke-width="2.6"/>
+<circle cx="307.00" cy="204.00" r="3.00" fill="#1c7ed6" stroke="none" stroke-width="1.5"/>
+<circle cx="527.00" cy="373.00" r="3.00" fill="#1c7ed6" stroke="none" stroke-width="1.5"/>
+<polyline points="307.00,228.00 396.00,228.00 456.00,394.00 527.00,394.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#2f9e44" stroke-width="2.6"/>
+<circle cx="307.00" cy="228.00" r="3.00" fill="#2f9e44" stroke="none" stroke-width="1.5"/>
+<circle cx="527.00" cy="394.00" r="3.00" fill="#2f9e44" stroke="none" stroke-width="1.5"/>
+<polyline points="307.00,252.00 408.00,252.00 468.00,310.00 527.00,310.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d99a00" stroke-width="2.6"/>
+<circle cx="307.00" cy="252.00" r="3.00" fill="#d99a00" stroke="none" stroke-width="1.5"/>
+<circle cx="527.00" cy="310.00" r="3.00" fill="#d99a00" stroke="none" stroke-width="1.5"/>
+<polyline points="307.00,276.00 420.00,276.00 480.00,331.00 527.00,331.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#7048e8" stroke-width="2.6"/>
+<circle cx="307.00" cy="276.00" r="3.00" fill="#7048e8" stroke="none" stroke-width="1.5"/>
+<circle cx="527.00" cy="331.00" r="3.00" fill="#7048e8" stroke="none" stroke-width="1.5"/>
+<polyline points="307.00,300.00 440.00,300.00 440.00,150.00 480.00,150.00 480.00,184.00 527.00,184.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#e8590c" stroke-width="2.6"/>
+<circle cx="307.00" cy="300.00" r="3.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<circle cx="527.00" cy="184.00" r="3.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<polyline points="307.00,180.00 450.00,180.00 450.00,457.00 527.00,457.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="2.6"/>
+<circle cx="307.00" cy="180.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<circle cx="527.00" cy="457.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<rect x="40.00" y="746.00" width="1100.00" height="52.00" rx="6" fill="#f8f9fa" stroke="#e4e7eb" stroke-width="1"/>
+<line x1="50.00" y1="760.00" x2="1130.00" y2="760.00" stroke="#d64545" stroke-width="3" stroke-linecap="round"/>
+<line x1="50.00" y1="784.00" x2="1130.00" y2="784.00" stroke="#1c7ed6" stroke-width="3" stroke-linecap="round"/>
+<text x="1130.00" y="756.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="end" font-weight="normal" fill="#d64545" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">+5V 레일 (어댑터)</text>
+<text x="1130.00" y="802.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="end" font-weight="normal" fill="#1c7ed6" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">GND 레일 (−, 모두 공통)</text>
+<text x="60.00" y="740.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">브레드보드 전원 레일(또는 레버 커넥터 P18 두 개)</text>
+<polyline points="450.00,180.00 470.00,180.00 470.00,784.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="2.6"/>
+<circle cx="450.00" cy="180.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<circle cx="470.00" cy="784.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<polyline points="307.00,372.00 330.00,372.00 330.00,760.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="2.6"/>
+<circle cx="307.00" cy="372.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<circle cx="330.00" cy="760.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<polyline points="64.00,167.00 40.00,167.00 40.00,730.00 52.00,730.00 52.00,760.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="2.6"/>
+<circle cx="64.00" cy="167.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<circle cx="52.00" cy="760.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<rect x="120.00" y="520.00" width="140.00" height="150.00" rx="8" fill="#ffffff" stroke="#1f2933" stroke-width="1.6"/>
+<rect x="123.00" y="560.00" width="134.00" height="107.00" fill="#d3e8fb" stroke="none" stroke-width="1.5"/>
+<rect x="160.00" y="638.00" width="60.00" height="24.00" rx="4" fill="#3d4852" stroke="#111" stroke-width="1"/>
+<text x="190.00" y="654.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#fff">펌프 1</text>
+<text x="148.00" y="546.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#2f80c9">물컵</text>
+<path d="M184,638 L184,500 C184,470 300,470 320,520" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#5aa9e6" stroke-width="6"/>
+<rect x="300.00" y="520.00" width="90.00" height="110.00" rx="8" fill="#ffffff" stroke="#1f2933" stroke-width="1.4"/>
+<text x="345.00" y="580.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">빈 컵</text>
+<polyline points="64.00,151.00 24.00,151.00 24.00,470.00 240.00,470.00 240.00,620.00 216.00,640.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="2.6"/>
+<circle cx="64.00" cy="151.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<circle cx="216.00" cy="640.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<polyline points="164.00,640.00 140.00,620.00 140.00,700.00 300.00,700.00 300.00,784.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="2.6"/>
+<circle cx="164.00" cy="640.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<circle cx="300.00" cy="784.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<line x1="240.00" y1="600.00" x2="270.00" y2="600.00" stroke="#9aa1a8" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="270.00" y1="600.00" x2="270.00" y2="628.00" stroke="#9aa1a8" stroke-width="2.2" stroke-linecap="round"/>
+<rect x="263.00" y="628.00" width="14.00" height="34.00" rx="3" fill="#1e1e1e" stroke="#000" stroke-width="1"/>
+<rect x="263.00" y="628.00" width="14.00" height="7.00" fill="#c9cdd2" stroke="none" stroke-width="1.5"/>
+<line x1="270.00" y1="662.00" x2="270.00" y2="700.00" stroke="#9aa1a8" stroke-width="2.2" stroke-linecap="round"/>
+<circle cx="270.00" cy="700.00" r="3.00" fill="#222" stroke="none" stroke-width="1.5"/>
+<text x="283.00" y="646.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">D1 1N4007</text>
+<text x="283.00" y="660.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#52606d">띠(위) = 빨강 쪽</text>
+<rect x="760.00" y="640.00" width="70.00" height="40.00" rx="6" fill="#343a40" stroke="#000" stroke-width="1"/>
+<text x="795.00" y="665.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#fff">어댑터</text>
+<path d="M830,660 C870,660 870,640 910,640" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222" stroke-width="3"/>
+<rect x="910.00" y="624.00" width="90.00" height="44.00" rx="4" fill="#2f9e44" stroke="#1b5e20" stroke-width="1"/>
+<text x="955.00" y="616.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#1f2933">J1 (P12)</text>
+<circle cx="935.00" cy="655.00" r="7.00" fill="#ced4da" stroke="#555" stroke-width="1.5"/>
+<circle cx="975.00" cy="655.00" r="7.00" fill="#ced4da" stroke="#555" stroke-width="1.5"/>
+<text x="935.00" y="640.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#fff">+</text>
+<text x="975.00" y="640.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#fff">−</text>
+<polyline points="935.00,662.00 935.00,760.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="2.6"/>
+<circle cx="935.00" cy="662.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<circle cx="935.00" cy="760.00" r="3.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<polyline points="975.00,662.00 975.00,784.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="2.6"/>
+<circle cx="975.00" cy="662.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<circle cx="975.00" cy="784.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<path d="M595,603 C595,663 900,623 980,300" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#495057" stroke-width="4"/>
+<rect x="930.00" y="190.00" width="200.00" height="120.00" rx="6" fill="#e9ecef" stroke="#495057" stroke-width="1.5"/>
+<rect x="945.00" y="202.00" width="170.00" height="80.00" rx="3" fill="#212529" stroke="none" stroke-width="1.5"/>
+<text x="1030.00" y="236.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#69db7c">시리얼 모니터</text>
+<text x="1030.00" y="256.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#69db7c">115200 / 새 줄</text>
+<text x="1030.00" y="330.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#1f2933">PC (Arduino IDE)</text>
+<text x="1030.00" y="352.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#52606d" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">↑ USB 케이블 (데이터용, P07)</text>
+<text x="513.00" y="566.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="end" font-weight="bold" fill="#c92a2a" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">5V 핀: 비워 둠 ✕</text>
+<polyline points="663.00,478.00 720.00,478.00 720.00,430.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#8d6e63" stroke-width="2.6"/>
+<circle cx="663.00" cy="478.00" r="3.00" fill="#8d6e63" stroke="none" stroke-width="1.5"/>
+<circle cx="720.00" cy="430.00" r="3.00" fill="#8d6e63" stroke="none" stroke-width="1.5"/>
+<rect x="712.00" y="430.00" width="16.00" height="40.00" rx="4" fill="#f3d9a4" stroke="#8d6e00" stroke-width="1"/>
+<text x="736.00" y="454.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">R1 220Ω</text>
+<line x1="720.00" y1="470.00" x2="720.00" y2="492.00" stroke="#8d6e63" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M708,492 L732,492 L732,512 A12,12 0 0 1 708,512 Z" stroke-linejoin="round" stroke-linecap="round" fill="#ff8787" stroke="#c92a2a" stroke-width="1.2"/>
+<text x="738.00" y="506.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="bold" fill="#1f2933">LED1 필수</text>
+<text x="738.00" y="521.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">긴 다리 위</text>
+<polyline points="720.00,524.00 720.00,540.00 800.00,540.00 800.00,184.00 663.00,184.00" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="2.6"/>
+<circle cx="720.00" cy="524.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<circle cx="663.00" cy="184.00" r="3.00" fill="#222222" stroke="none" stroke-width="1.5"/>
+<rect x="860.00" y="380.00" width="300.00" height="101.00" rx="6" fill="#fff5f5" stroke="#c92a2a" stroke-width="1.2"/>
+<text x="870.00" y="400.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#c92a2a">⚠ 5V 핀 연결 금지</text>
+<text x="870.00" y="417.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">ESP32의 5V 핀은 벤치 테스트에서</text>
+<text x="870.00" y="434.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">비워 둡니다. USB 5V와 어댑터 5V가</text>
+<text x="870.00" y="452.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">만나면 PC USB 포트·보드가 상할 수</text>
+<text x="870.00" y="469.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">있습니다(이중 전원 금지).</text>
+<rect x="860.00" y="500.00" width="300.00" height="101.00" rx="6" fill="#f1f8ff" stroke="#1c7ed6" stroke-width="1.2"/>
+<text x="870.00" y="520.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#1c7ed6">B안 (A안이 안 켜질 때) — 전원 모두 뺀 뒤</text>
+<text x="870.00" y="537.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">① VCC ← 3V3 선(주황)을 뽑아 치움</text>
+<text x="870.00" y="554.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">② +5V 선(빨강)을 JD-VCC → VCC 핀으로</text>
+<text x="870.00" y="572.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">③ 점퍼 캡 끼움(JD-VCC 핀엔 캡만)</text>
+<text x="870.00" y="589.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">B안에서는 VCC를 3V3에 연결 금지!</text>
+<line x1="60.00" y1="836.00" x2="86.00" y2="836.00" stroke="#e8590c" stroke-width="4" stroke-linecap="round"/>
+<text x="92.00" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">3V3</text>
+<line x1="138.70" y1="836.00" x2="164.70" y2="836.00" stroke="#1c7ed6" stroke-width="4" stroke-linecap="round"/>
+<text x="170.70" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">GPIO26→IN1</text>
+<line x1="269.73" y1="836.00" x2="295.73" y2="836.00" stroke="#2f9e44" stroke-width="4" stroke-linecap="round"/>
+<text x="301.73" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">GPIO27→IN2</text>
+<line x1="400.75" y1="836.00" x2="426.75" y2="836.00" stroke="#d99a00" stroke-width="4" stroke-linecap="round"/>
+<text x="432.75" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">GPIO32→IN3</text>
+<line x1="531.77" y1="836.00" x2="557.77" y2="836.00" stroke="#7048e8" stroke-width="4" stroke-linecap="round"/>
+<text x="563.77" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">GPIO33→IN4</text>
+<line x1="662.80" y1="836.00" x2="688.80" y2="836.00" stroke="#8d6e63" stroke-width="4" stroke-linecap="round"/>
+<text x="694.80" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">GPIO2→LED</text>
+<line x1="786.92" y1="836.00" x2="812.92" y2="836.00" stroke="#d64545" stroke-width="4" stroke-linecap="round"/>
+<text x="818.92" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">+5V</text>
+<line x1="864.70" y1="836.00" x2="890.70" y2="836.00" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<text x="896.70" y="840.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933">GND</text>
+</svg>

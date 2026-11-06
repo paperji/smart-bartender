@@ -1,0 +1,427 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1200" width="1800" height="1200" font-family="'Malgun Gothic', '맑은 고딕', sans-serif" role="img" aria-labelledby="t d">
+<title id="t">AI 스마트 바텐더 회로도 v3 (정식 회로도)</title><desc id="d">ESP32 DevKitC V4, 4채널 릴레이(SZH-RLBG-012), 수중펌프 4개, 1N4007 플라이백 다이오드, 1000uF 커패시터, 5V 4A 전원</desc>
+<g id="layer-bg">
+<rect x="0.0" y="0.0" width="1800.0" height="1200.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1.5" />
+<rect x="8.0" y="8.0" width="1784.0" height="1184.0" rx="0" fill="none" stroke="#444" stroke-width="1.2" />
+<rect x="18.0" y="100.0" width="560.0" height="340.0" rx="10" fill="none" stroke="#9e9e9e" stroke-width="1.3" stroke-dasharray="10 6" />
+<rect x="315.0" y="470.0" width="270.0" height="480.0" rx="10" fill="none" stroke="#9e9e9e" stroke-width="1.3" stroke-dasharray="10 6" />
+<rect x="18.0" y="1012.0" width="640.0" height="174.0" rx="8" fill="#fafafa" stroke="#bbb" stroke-width="1.2" />
+<rect x="672.0" y="1012.0" width="612.0" height="174.0" rx="8" fill="#fff8f6" stroke="#e0a89a" stroke-width="1.2" />
+<rect x="1298.0" y="1012.0" width="484.0" height="174.0" rx="0" fill="#fff" stroke="#222" stroke-width="1.6" />
+<line x1="1298.0" y1="1040.0" x2="1782.0" y2="1040.0" stroke="#222" stroke-width="1" stroke-linecap="round" />
+<line x1="1298.0" y1="1068.0" x2="1782.0" y2="1068.0" stroke="#222" stroke-width="1" stroke-linecap="round" />
+<line x1="1298.0" y1="1096.0" x2="1782.0" y2="1096.0" stroke="#222" stroke-width="1" stroke-linecap="round" />
+<line x1="1298.0" y1="1124.0" x2="1782.0" y2="1124.0" stroke="#222" stroke-width="1" stroke-linecap="round" />
+<line x1="1386.0" y1="1012.0" x2="1386.0" y2="1152.0" stroke="#222" stroke-width="1" stroke-linecap="round" />
+<line x1="1298.0" y1="1152.0" x2="1782.0" y2="1152.0" stroke="#222" stroke-width="1" stroke-linecap="round" />
+</g>
+<g id="layer-board">
+<rect x="40.0" y="145.0" width="110.0" height="150.0" rx="8" fill="#f3f3f3" stroke="#333" stroke-width="1.6" />
+<rect x="190.0" y="145.0" width="60.0" height="150.0" rx="6" fill="#e8f5e9" stroke="#333" stroke-width="1.6" />
+<rect x="600.0" y="330.0" width="240.0" height="450.0" rx="8" fill="#fbfbfd" stroke="#1b1b1b" stroke-width="2.2" />
+<rect x="606.0" y="800.0" width="168.0" height="150.0" rx="6" fill="#fafafa" stroke="#777" stroke-width="1.2" stroke-dasharray="5 4" />
+<rect x="960.0" y="260.0" width="740.0" height="430.0" rx="8" fill="#f4f8ff" stroke="#1b1b1b" stroke-width="2.2" />
+</g>
+<g id="layer-wire">
+<g class="wire"><path d="M150.0,160.0 L190.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M150.0,160.0 L190.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M150.0,280.0 L190.0,280.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M150.0,280.0 L190.0,280.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M250.0,160.0 L285.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M250.0,160.0 L285.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M335.0,160.0 L372.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M335.0,160.0 L372.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M432.0,160.0 L1645.0,160.0" fill="none" stroke="#fff" stroke-width="9.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M432.0,160.0 L1645.0,160.0" fill="none" stroke="#d32f2f" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M300.0,980.0 L1645.0,980.0" fill="none" stroke="#fff" stroke-width="9.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M300.0,980.0 L1645.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M250.0,280.0 L300.0,280.0 L300.0,980.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M250.0,280.0 L300.0,280.0 L300.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M455.0,160.0 L455.0,248.0" fill="none" stroke="#fff" stroke-width="8.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M455.0,160.0 L455.0,248.0" fill="none" stroke="#d32f2f" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M455.0,262.0 L455.0,340.0 L300.0,340.0" fill="none" stroke="#fff" stroke-width="8.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M455.0,262.0 L455.0,340.0 L300.0,340.0" fill="none" stroke="#1a1a1a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M640.0,330.0 L640.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M640.0,330.0 L640.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M840.0,410.0 L960.0,410.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M840.0,410.0 L960.0,410.0" fill="none" stroke="#ef6c00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M840.0,470.0 L960.0,470.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M840.0,470.0 L960.0,470.0" fill="none" stroke="#1e63d6" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M840.0,530.0 L960.0,530.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M840.0,530.0 L960.0,530.0" fill="none" stroke="#2e9e44" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M840.0,590.0 L960.0,590.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M840.0,590.0 L960.0,590.0" fill="none" stroke="#b8860b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M840.0,650.0 L960.0,650.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M840.0,650.0 L960.0,650.0" fill="none" stroke="#8e3fbf" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M790.0,780.0 L790.0,980.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M790.0,780.0 L790.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M960.0,316.0 L920.0,316.0 L920.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M960.0,316.0 L920.0,316.0 L920.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M960.0,670.0 L900.0,670.0 L900.0,980.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M960.0,670.0 L900.0,670.0 L900.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1225.0,260.0 L1225.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1225.0,260.0 L1225.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1225.0,362.0 L1225.0,690.0" fill="none" stroke="#8b1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1225.0,690.0 L1225.0,784.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1225.0,690.0 L1225.0,784.0" fill="none" stroke="#8b1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1225.0,836.0 L1225.0,980.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1225.0,836.0 L1225.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1225.0,730.0 L1269.0,730.0 L1269.0,788.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1225.0,730.0 L1269.0,730.0 L1269.0,788.0" fill="none" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1269.0,818.0 L1269.0,890.0 L1225.0,890.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1269.0,818.0 L1269.0,890.0 L1225.0,890.0" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1365.0,260.0 L1365.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1365.0,260.0 L1365.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1365.0,362.0 L1365.0,690.0" fill="none" stroke="#8b1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1365.0,690.0 L1365.0,784.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1365.0,690.0 L1365.0,784.0" fill="none" stroke="#8b1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1365.0,836.0 L1365.0,980.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1365.0,836.0 L1365.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1365.0,730.0 L1409.0,730.0 L1409.0,788.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1365.0,730.0 L1409.0,730.0 L1409.0,788.0" fill="none" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1409.0,818.0 L1409.0,890.0 L1365.0,890.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1409.0,818.0 L1409.0,890.0 L1365.0,890.0" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1505.0,260.0 L1505.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1505.0,260.0 L1505.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1505.0,362.0 L1505.0,690.0" fill="none" stroke="#8b1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1505.0,690.0 L1505.0,784.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1505.0,690.0 L1505.0,784.0" fill="none" stroke="#8b1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1505.0,836.0 L1505.0,980.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1505.0,836.0 L1505.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1505.0,730.0 L1549.0,730.0 L1549.0,788.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1505.0,730.0 L1549.0,730.0 L1549.0,788.0" fill="none" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1549.0,818.0 L1549.0,890.0 L1505.0,890.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1549.0,818.0 L1549.0,890.0 L1505.0,890.0" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1645.0,260.0 L1645.0,160.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1645.0,260.0 L1645.0,160.0" fill="none" stroke="#d32f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1645.0,362.0 L1645.0,690.0" fill="none" stroke="#8b1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1645.0,690.0 L1645.0,784.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1645.0,690.0 L1645.0,784.0" fill="none" stroke="#8b1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1645.0,836.0 L1645.0,980.0" fill="none" stroke="#fff" stroke-width="8.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M1645.0,836.0 L1645.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1645.0,730.0 L1689.0,730.0 L1689.0,788.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1645.0,730.0 L1689.0,730.0 L1689.0,788.0" fill="none" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M1689.0,818.0 L1689.0,890.0 L1645.0,890.0" fill="none" stroke="#fff" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M1689.0,818.0 L1689.0,890.0 L1645.0,890.0" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M600.0,520.0 L578.0,520.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M600.0,520.0 L578.0,520.0" fill="none" stroke="#6d4c41" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M515.0,520.0 L482.0,520.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M515.0,520.0 L482.0,520.0" fill="none" stroke="#6d4c41" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M456.0,520.0 L345.0,520.0 L345.0,980.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M456.0,520.0 L345.0,520.0 L345.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g class="wire"><path d="M600.0,610.0 L560.0,610.0 L560.0,625.0 L548.0,625.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M600.0,610.0 L560.0,610.0 L560.0,625.0 L548.0,625.0" fill="none" stroke="#00838f" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/></g>
+<g class="wire"><path d="M490.0,625.0 L440.0,625.0 L440.0,980.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M490.0,625.0 L440.0,625.0 L440.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/></g>
+<g class="wire"><path d="M600.0,700.0 L580.0,700.0 L580.0,790.0 L560.0,790.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M600.0,700.0 L580.0,700.0 L580.0,790.0 L560.0,790.0" fill="none" stroke="#c2185b" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/></g>
+<g class="wire"><path d="M484.0,760.0 L484.0,722.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M484.0,760.0 L484.0,722.0" fill="none" stroke="#ef6c00" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/></g>
+<g class="wire"><path d="M530.0,860.0 L530.0,980.0" fill="none" stroke="#fff" stroke-width="8.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M530.0,860.0 L530.0,980.0" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/></g>
+</g>
+<g id="layer-part">
+<circle cx="190.0" cy="160.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="190.0" cy="280.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="285.0" cy="160.0" r="4.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="335.0" cy="160.0" r="4.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="288.0" y1="158.0" x2="330.0" y2="138.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<rect x="372.0" y="151.0" width="60.0" height="18.0" rx="2" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="372.0" y1="160.0" x2="432.0" y2="160.0" stroke="#000" stroke-width="1.4" stroke-linecap="round" />
+<line x1="437.0" y1="250.0" x2="473.0" y2="250.0" stroke="#000" stroke-width="3" stroke-linecap="round" />
+<path d="M437,266 Q455,256 473,266" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" />
+<circle cx="960.0" cy="316.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="960.0" cy="410.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="960.0" cy="470.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="960.0" cy="530.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="960.0" cy="590.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="960.0" cy="650.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="960.0" cy="670.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="960.0" y1="316.0" x2="1045.0" y2="316.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="1045.0" y1="316.0" x2="1045.0" y2="336.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="1045.0" cy="340.0" r="4" fill="#fff" stroke="#000" stroke-width="1.6" />
+<circle cx="1045.0" cy="384.0" r="4" fill="#fff" stroke="#000" stroke-width="1.6" />
+<line x1="1045.0" y1="388.0" x2="1045.0" y2="410.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="960.0" y1="410.0" x2="1100.0" y2="410.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="1100.0" y1="410.0" x2="1100.0" y2="440.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<rect x="1056.0" y="332.0" width="16.0" height="60.0" rx="4" fill="none" stroke="#d32f2f" stroke-width="1.6" stroke-dasharray="4 3" />
+<line x1="1052.0" y1="344.0" x2="1076.0" y2="380.0" stroke="#d32f2f" stroke-width="2.6" stroke-linecap="round" />
+<line x1="1076.0" y1="344.0" x2="1052.0" y2="380.0" stroke="#d32f2f" stroke-width="2.6" stroke-linecap="round" />
+<rect x="1020.0" y="440.0" width="110.0" height="220.0" rx="6" fill="#fff" stroke="#333" stroke-width="1.6" />
+<line x1="960.0" y1="470.0" x2="1020.0" y2="470.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="960.0" y1="530.0" x2="1020.0" y2="530.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="960.0" y1="590.0" x2="1020.0" y2="590.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="960.0" y1="650.0" x2="1020.0" y2="650.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="960.0" y1="670.0" x2="1075.0" y2="670.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<line x1="1075.0" y1="670.0" x2="1075.0" y2="660.0" stroke="#555" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="1225.0" cy="260.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1260.0" y1="260.0" x2="1260.0" y2="236.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="1260.0" cy="232.0" r="4" fill="#fff" stroke="#777" stroke-width="1.8" />
+<circle cx="1260.0" cy="260.0" r="3.5" fill="#fff" stroke="#777" stroke-width="1.8" />
+<line x1="1225.0" y1="260.0" x2="1225.0" y2="300.0" stroke="#000" stroke-width="2" stroke-linecap="round" />
+<circle cx="1225.0" cy="300.0" r="3.2" fill="#000" stroke="#000" stroke-width="1" />
+<line x1="1225.0" y1="300.0" x2="1252.0" y2="340.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1260.0" y1="260.0" x2="1260.0" y2="344.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1260.0" y1="344.0" x2="1249.0" y2="344.0" stroke="#777" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1225.0" y1="362.0" x2="1241.0" y2="362.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<rect x="1161.0" y="430.0" width="28.0" height="50.0" rx="0" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1161.0" y1="480.0" x2="1189.0" y2="430.0" stroke="#000" stroke-width="1" stroke-linecap="round" />
+<line x1="1189.0" y1="440.0" x2="1238.0" y2="321.0" stroke="#555" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="4 3" />
+<circle cx="1225.0" cy="690.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="1225.0" cy="810.0" r="26" fill="#fff" stroke="#000" stroke-width="2.2" />
+<line x1="1258.0" y1="790.0" x2="1280.0" y2="790.0" stroke="#000" stroke-width="3" stroke-linecap="round" />
+<polygon points="1269.0,790.0 1258.0,818.0 1280.0,818.0" fill="#000" stroke="none" stroke-width="1" stroke-linejoin="round" />
+<circle cx="1365.0" cy="260.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1400.0" y1="260.0" x2="1400.0" y2="236.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="1400.0" cy="232.0" r="4" fill="#fff" stroke="#777" stroke-width="1.8" />
+<circle cx="1400.0" cy="260.0" r="3.5" fill="#fff" stroke="#777" stroke-width="1.8" />
+<line x1="1365.0" y1="260.0" x2="1365.0" y2="300.0" stroke="#000" stroke-width="2" stroke-linecap="round" />
+<circle cx="1365.0" cy="300.0" r="3.2" fill="#000" stroke="#000" stroke-width="1" />
+<line x1="1365.0" y1="300.0" x2="1392.0" y2="340.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1400.0" y1="260.0" x2="1400.0" y2="344.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1400.0" y1="344.0" x2="1389.0" y2="344.0" stroke="#777" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1365.0" y1="362.0" x2="1381.0" y2="362.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<rect x="1301.0" y="430.0" width="28.0" height="50.0" rx="0" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1301.0" y1="480.0" x2="1329.0" y2="430.0" stroke="#000" stroke-width="1" stroke-linecap="round" />
+<line x1="1329.0" y1="440.0" x2="1378.0" y2="321.0" stroke="#555" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="4 3" />
+<circle cx="1365.0" cy="690.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="1365.0" cy="810.0" r="26" fill="#fff" stroke="#000" stroke-width="2.2" />
+<line x1="1398.0" y1="790.0" x2="1420.0" y2="790.0" stroke="#000" stroke-width="3" stroke-linecap="round" />
+<polygon points="1409.0,790.0 1398.0,818.0 1420.0,818.0" fill="#000" stroke="none" stroke-width="1" stroke-linejoin="round" />
+<circle cx="1505.0" cy="260.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1540.0" y1="260.0" x2="1540.0" y2="236.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="1540.0" cy="232.0" r="4" fill="#fff" stroke="#777" stroke-width="1.8" />
+<circle cx="1540.0" cy="260.0" r="3.5" fill="#fff" stroke="#777" stroke-width="1.8" />
+<line x1="1505.0" y1="260.0" x2="1505.0" y2="300.0" stroke="#000" stroke-width="2" stroke-linecap="round" />
+<circle cx="1505.0" cy="300.0" r="3.2" fill="#000" stroke="#000" stroke-width="1" />
+<line x1="1505.0" y1="300.0" x2="1532.0" y2="340.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1540.0" y1="260.0" x2="1540.0" y2="344.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1540.0" y1="344.0" x2="1529.0" y2="344.0" stroke="#777" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1505.0" y1="362.0" x2="1521.0" y2="362.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<rect x="1441.0" y="430.0" width="28.0" height="50.0" rx="0" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1441.0" y1="480.0" x2="1469.0" y2="430.0" stroke="#000" stroke-width="1" stroke-linecap="round" />
+<line x1="1469.0" y1="440.0" x2="1518.0" y2="321.0" stroke="#555" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="4 3" />
+<circle cx="1505.0" cy="690.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="1505.0" cy="810.0" r="26" fill="#fff" stroke="#000" stroke-width="2.2" />
+<line x1="1538.0" y1="790.0" x2="1560.0" y2="790.0" stroke="#000" stroke-width="3" stroke-linecap="round" />
+<polygon points="1549.0,790.0 1538.0,818.0 1560.0,818.0" fill="#000" stroke="none" stroke-width="1" stroke-linejoin="round" />
+<circle cx="1645.0" cy="260.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1680.0" y1="260.0" x2="1680.0" y2="236.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="1680.0" cy="232.0" r="4" fill="#fff" stroke="#777" stroke-width="1.8" />
+<circle cx="1680.0" cy="260.0" r="3.5" fill="#fff" stroke="#777" stroke-width="1.8" />
+<line x1="1645.0" y1="260.0" x2="1645.0" y2="300.0" stroke="#000" stroke-width="2" stroke-linecap="round" />
+<circle cx="1645.0" cy="300.0" r="3.2" fill="#000" stroke="#000" stroke-width="1" />
+<line x1="1645.0" y1="300.0" x2="1672.0" y2="340.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1680.0" y1="260.0" x2="1680.0" y2="344.0" stroke="#777" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1680.0" y1="344.0" x2="1669.0" y2="344.0" stroke="#777" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1645.0" y1="362.0" x2="1661.0" y2="362.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<rect x="1581.0" y="430.0" width="28.0" height="50.0" rx="0" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="1581.0" y1="480.0" x2="1609.0" y2="430.0" stroke="#000" stroke-width="1" stroke-linecap="round" />
+<line x1="1609.0" y1="440.0" x2="1658.0" y2="321.0" stroke="#555" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="4 3" />
+<circle cx="1645.0" cy="690.0" r="3.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="1645.0" cy="810.0" r="26" fill="#fff" stroke="#000" stroke-width="2.2" />
+<line x1="1678.0" y1="790.0" x2="1700.0" y2="790.0" stroke="#000" stroke-width="3" stroke-linecap="round" />
+<polygon points="1689.0,790.0 1678.0,818.0 1700.0,818.0" fill="#000" stroke="none" stroke-width="1" stroke-linejoin="round" />
+<path d="M578,520 L573,513 L563,527 L553,513 L543,527 L533,513 L523,527 L515,520" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+<polygon points="482.0,509.0 482.0,531.0 458.0,520.0" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="round" />
+<line x1="456.0" y1="508.0" x2="456.0" y2="532.0" stroke="#000" stroke-width="2.6" stroke-linecap="round" />
+<line x1="470.0" y1="506.0" x2="478.0" y2="494.0" stroke="#000" stroke-width="1.4" stroke-linecap="round" />
+<polygon points="478.0,494.0 472.0,498.0 477.0,501.0" fill="#000" stroke="none" stroke-width="1" stroke-linejoin="round" />
+<line x1="480.0" y1="506.0" x2="488.0" y2="494.0" stroke="#000" stroke-width="1.4" stroke-linecap="round" />
+<polygon points="488.0,494.0 482.0,498.0 487.0,501.0" fill="#000" stroke="none" stroke-width="1" stroke-linejoin="round" />
+<circle cx="544.0" cy="625.0" r="4.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<circle cx="494.0" cy="625.0" r="4.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="540.0" y1="611.0" x2="498.0" y2="611.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="519.0" y1="611.0" x2="519.0" y2="599.0" stroke="#000" stroke-width="2" stroke-linecap="round" />
+<line x1="510.0" y1="599.0" x2="528.0" y2="599.0" stroke="#000" stroke-width="2" stroke-linecap="round" />
+<rect x="462.0" y="760.0" width="98.0" height="100.0" rx="6" fill="#fff" stroke="#000" stroke-width="1.8" stroke-dasharray="6 5" />
+<polygon points="472.0,722.0 496.0,722.0 496.0,708.0 484.0,700.0 472.0,708.0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6" stroke-linejoin="round" />
+<line x1="36.0" y1="1060.0" x2="96.0" y2="1060.0" stroke="#000" stroke-width="2.6" stroke-linecap="round" />
+<line x1="196.0" y1="1060.0" x2="256.0" y2="1060.0" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="470.0" y1="1060.0" x2="520.0" y2="1060.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="495.0" y1="1042.0" x2="495.0" y2="1078.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="36.0" y1="1100.0" x2="86.0" y2="1100.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<line x1="61.0" y1="1082.0" x2="61.0" y2="1118.0" stroke="#000" stroke-width="2.4" stroke-linecap="round" />
+<circle cx="290.0" cy="1100.0" r="4.5" fill="#fff" stroke="#000" stroke-width="1.8" />
+<line x1="36.0" y1="1140.0" x2="62.0" y2="1140.0" stroke="#d32f2f" stroke-width="4" stroke-linecap="round" />
+<line x1="106.0" y1="1140.0" x2="132.0" y2="1140.0" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round" />
+<line x1="176.0" y1="1140.0" x2="202.0" y2="1140.0" stroke="#ef6c00" stroke-width="4" stroke-linecap="round" />
+<line x1="246.0" y1="1140.0" x2="272.0" y2="1140.0" stroke="#1e63d6" stroke-width="4" stroke-linecap="round" />
+<line x1="306.0" y1="1140.0" x2="332.0" y2="1140.0" stroke="#2e9e44" stroke-width="4" stroke-linecap="round" />
+<line x1="366.0" y1="1140.0" x2="392.0" y2="1140.0" stroke="#b8860b" stroke-width="4" stroke-linecap="round" />
+<line x1="426.0" y1="1140.0" x2="452.0" y2="1140.0" stroke="#8e3fbf" stroke-width="4" stroke-linecap="round" />
+<line x1="486.0" y1="1140.0" x2="512.0" y2="1140.0" stroke="#8b1a1a" stroke-width="4" stroke-linecap="round" />
+</g>
+<g id="layer-dot">
+<circle cx="455.0" cy="160.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="300.0" cy="340.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="640.0" cy="160.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="790.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="920.0" cy="160.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="900.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1225.0" cy="160.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1225.0" cy="730.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1225.0" cy="890.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1225.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1365.0" cy="160.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1365.0" cy="730.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1365.0" cy="890.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1365.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1505.0" cy="160.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1505.0" cy="730.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1505.0" cy="890.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1505.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1645.0" cy="730.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="1645.0" cy="890.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="345.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="440.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="530.0" cy="980.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+<circle cx="495.0" cy="1060.0" r="4.5" fill="#000" stroke="#fff" stroke-width="1.2"/>
+</g>
+<g id="layer-label">
+<text x="28.0" y="50.0" font-size="28" fill="#111" text-anchor="start" font-weight="bold" >AI 스마트 바텐더 — 정식 회로도 (Schematic) v3</text>
+<text x="30.0" y="80.0" font-size="15" fill="#444" text-anchor="start" font-weight="normal" >ESP32 DevKitC V4 → 4채널 릴레이(Active-LOW) → 수중펌프 4개 · 펌프 단독 시간 제어 · BLE 통신 · 핀 번호는 docs/SPEC.md §1 핀맵과 동일</text>
+<text x="30.0" y="122.0" font-size="16" fill="#555" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" >① 전원 입력</text>
+<text x="95.0" y="190.0" font-size="15" fill="#111" text-anchor="middle" font-weight="bold" >AC 어댑터</text>
+<text x="95.0" y="210.2" font-size="15" fill="#111" text-anchor="middle" font-weight="normal" >5V 4A</text>
+<text x="95.0" y="230.5" font-size="15" fill="#111" text-anchor="middle" font-weight="normal" >(P11)</text>
+<text x="95.0" y="272.0" font-size="11" fill="#666" text-anchor="middle" font-weight="normal" >AC 100~240V</text>
+<text x="158.0" y="152.0" font-size="14" fill="#d32f2f" text-anchor="start" font-weight="bold" >+</text>
+<text x="158.0" y="298.0" font-size="16" fill="#1a1a1a" text-anchor="start" font-weight="bold" >−</text>
+<text x="220.0" y="205.0" font-size="16" fill="#111" text-anchor="middle" font-weight="bold" >J1</text>
+<text x="220.0" y="221.2" font-size="12" fill="#111" text-anchor="middle" font-weight="normal" >DC잭</text>
+<text x="220.0" y="237.4" font-size="12" fill="#111" text-anchor="middle" font-weight="normal" >단자</text>
+<text x="220.0" y="253.6" font-size="12" fill="#111" text-anchor="middle" font-weight="normal" >(P12)</text>
+<text x="170.0" y="318.0" font-size="11" fill="#666" text-anchor="middle" font-weight="normal" >플러그→잭</text>
+<text x="256.0" y="152.0" font-size="14" fill="#d32f2f" text-anchor="start" font-weight="bold" >+</text>
+<text x="256.0" y="298.0" font-size="16" fill="#1a1a1a" text-anchor="start" font-weight="bold" >−</text>
+<text x="310.0" y="188.0" font-size="12.5" fill="#111" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" >SW1</text>
+<text x="310.0" y="204.9" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" >전원 스위치</text>
+<text x="310.0" y="221.8" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" >(P13)</text>
+<text x="404.0" y="188.0" font-size="12.5" fill="#111" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" >F1</text>
+<text x="404.0" y="204.9" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" >퓨즈 3A</text>
+<text x="404.0" y="221.8" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" >(P14·P15)</text>
+<text x="470.0" y="150.0" font-size="15" fill="#d32f2f" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.2" stroke-linejoin="round" >+5V</text>
+<text x="1030.0" y="150.0" font-size="13" fill="#d32f2f" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.6" stroke-linejoin="round" >+5V 버스 (실물: TB1 레버 커넥터)</text>
+<text x="560.0" y="1000.0" font-size="13" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.6" stroke-linejoin="round" >GND — 모든 GND 공통 (실물: TB2 레버 커넥터 · J1(−) · ESP32 GND핀)</text>
+<text x="306.0" y="420.0" font-size="12" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >GND</text>
+<text x="425.0" y="247.0" font-size="15" fill="#d32f2f" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.2" stroke-linejoin="round" >+</text>
+<text x="481.0" y="248.0" font-size="15" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.2" stroke-linejoin="round" >C1</text>
+<text x="481.0" y="264.2" font-size="12" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >1000µF 16V</text>
+<text x="481.0" y="280.4" font-size="12" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >전해 (P16)</text>
+<text x="481.0" y="296.6" font-size="12" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >극성 주의</text>
+<text x="612.0" y="380.0" font-size="16" fill="#111" text-anchor="start" font-weight="bold" >② U1  ESP32 DevKitC V4</text>
+<text x="612.0" y="400.0" font-size="12" fill="#555" text-anchor="start" font-weight="normal" >(ESP32-WROOM-32D · P01)</text>
+<text x="646.0" y="352.0" font-size="12" fill="#d32f2f" text-anchor="start" font-weight="bold" >5V (J2-19)</text>
+<text x="646.0" y="250.0" font-size="12" fill="#d32f2f" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >ESP32 5V 입력</text>
+<text x="646.0" y="266.0" font-size="11.5" fill="#b00020" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >(USB 연결 시 이 선 분리!)</text>
+<text x="832.0" y="414.0" font-size="12.5" fill="#ef6c00" text-anchor="end" font-weight="bold" >3V3 (J2-1)</text>
+<text x="898.0" y="403.0" font-size="13" fill="#ef6c00" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.6" stroke-linejoin="round" >3V3</text>
+<text x="832.0" y="474.0" font-size="12.5" fill="#1e63d6" text-anchor="end" font-weight="bold" >GPIO26 (J2-10)</text>
+<text x="898.0" y="463.0" font-size="13" fill="#1e63d6" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.6" stroke-linejoin="round" >P1</text>
+<text x="832.0" y="534.0" font-size="12.5" fill="#2e9e44" text-anchor="end" font-weight="bold" >GPIO27 (J2-11)</text>
+<text x="898.0" y="523.0" font-size="13" fill="#2e9e44" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.6" stroke-linejoin="round" >P2</text>
+<text x="832.0" y="594.0" font-size="12.5" fill="#b8860b" text-anchor="end" font-weight="bold" >GPIO32 (J2-7)</text>
+<text x="898.0" y="583.0" font-size="13" fill="#b8860b" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.6" stroke-linejoin="round" >P3</text>
+<text x="832.0" y="654.0" font-size="12.5" fill="#8e3fbf" text-anchor="end" font-weight="bold" >GPIO33 (J2-8)</text>
+<text x="898.0" y="643.0" font-size="13" fill="#8e3fbf" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.6" stroke-linejoin="round" >P4</text>
+<text x="832.0" y="770.0" font-size="12.5" fill="#111" text-anchor="end" font-weight="bold" >GND (J2-14)</text>
+<text x="608.0" y="524.0" font-size="12.5" fill="#6d4c41" text-anchor="start" font-weight="bold" >GPIO2 (J3-15)</text>
+<text x="608.0" y="614.0" font-size="12.5" fill="#00838f" text-anchor="start" font-weight="bold" >GPIO4 (J3-13)</text>
+<text x="608.0" y="704.0" font-size="12.5" fill="#c2185b" text-anchor="start" font-weight="bold" >GPIO23 (J3-2)</text>
+<text x="612.0" y="728.0" font-size="11" fill="#666" text-anchor="start" font-weight="normal" >BLE 이름: SmartBartender-XXXX</text>
+<text x="612.0" y="742.9" font-size="11" fill="#666" text-anchor="start" font-weight="normal" >펌웨어: firmware/SmartBartender</text>
+<text x="616.0" y="822.0" font-size="12" fill="#555" text-anchor="start" font-weight="bold" >확장(선택) 펌프 5~8</text>
+<text x="616.0" y="838.2" font-size="12" fill="#555" text-anchor="start" font-weight="normal" >GPIO25·13·18·19</text>
+<text x="616.0" y="854.4" font-size="12" fill="#555" text-anchor="start" font-weight="normal" >→ 2번째 릴레이 IN1~4</text>
+<text x="616.0" y="870.6" font-size="12" fill="#555" text-anchor="start" font-weight="normal" >(위와 같은 회로 반복,</text>
+<text x="616.0" y="886.8" font-size="12" fill="#555" text-anchor="start" font-weight="normal" > 펌웨어 PUMP_COUNT=8)</text>
+<text x="972.0" y="288.0" font-size="15" fill="#111" text-anchor="start" font-weight="bold" >③ 4채널 릴레이 모듈 (P08)</text>
+<text x="926.0" y="232.0" font-size="12" fill="#d32f2f" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >JD-VCC</text>
+<text x="926.0" y="247.0" font-size="12" fill="#d32f2f" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >← +5V</text>
+<text x="968.0" y="310.0" font-size="12" fill="#222" text-anchor="start" font-weight="bold" >JD-VCC</text>
+<text x="968.0" y="404.0" font-size="12" fill="#222" text-anchor="start" font-weight="bold" >VCC</text>
+<text x="968.0" y="464.0" font-size="12" fill="#222" text-anchor="start" font-weight="bold" >IN1</text>
+<text x="968.0" y="524.0" font-size="12" fill="#222" text-anchor="start" font-weight="bold" >IN2</text>
+<text x="968.0" y="584.0" font-size="12" fill="#222" text-anchor="start" font-weight="bold" >IN3</text>
+<text x="968.0" y="644.0" font-size="12" fill="#222" text-anchor="start" font-weight="bold" >IN4</text>
+<text x="968.0" y="664.0" font-size="12" fill="#222" text-anchor="start" font-weight="bold" >GND</text>
+<text x="1084.0" y="350.0" font-size="12" fill="#d32f2f" text-anchor="start" font-weight="bold" >JD-VCC 점퍼 제거!</text>
+<text x="1084.0" y="366.2" font-size="12" fill="#444" text-anchor="start" font-weight="normal" >VCC=3.3V(입력부)</text>
+<text x="1084.0" y="382.4" font-size="12" fill="#444" text-anchor="start" font-weight="normal" >JD-VCC=5V(코일)</text>
+<text x="1075.0" y="480.0" font-size="12.5" fill="#111" text-anchor="middle" font-weight="bold" >입력부</text>
+<text x="1075.0" y="496.9" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" >옵토커플러</text>
+<text x="1075.0" y="513.8" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" >×4 +</text>
+<text x="1075.0" y="530.6" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" >트랜지스터</text>
+<text x="1075.0" y="547.5" font-size="12.5" fill="#111" text-anchor="middle" font-weight="normal" ></text>
+<text x="1075.0" y="564.4" font-size="12.5" fill="#b00020" text-anchor="middle" font-weight="bold" >LOW = ON</text>
+<text x="1219.0" y="276.0" font-size="11" fill="#333" text-anchor="end" font-weight="normal" >COM1</text>
+<text x="1268.0" y="228.0" font-size="11" fill="#777" text-anchor="start" font-weight="normal" >NC1</text>
+<text x="1268.0" y="242.0" font-size="10" fill="#777" text-anchor="start" font-weight="normal" >(비움)</text>
+<text x="1245.0" y="376.0" font-size="10.5" fill="#333" text-anchor="start" font-weight="normal" >NO</text>
+<text x="1175.0" y="498.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold" >K1</text>
+<text x="1175.0" y="514.0" font-size="11" fill="#1e63d6" text-anchor="middle" font-weight="bold" >←IN1</text>
+<text x="1231.0" y="682.0" font-size="11" fill="#333" text-anchor="start" font-weight="normal" >NO1</text>
+<text x="1231.0" y="716.0" font-size="11.5" fill="#8b1a1a" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >M1+</text>
+<text x="1225.0" y="817.0" font-size="17" fill="#111" text-anchor="middle" font-weight="bold" >M1</text>
+<text x="1207.0" y="786.0" font-size="14" fill="#d32f2f" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.9" stroke-linejoin="round" >+</text>
+<text x="1207.0" y="848.0" font-size="16" fill="#1a1a1a" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" >−</text>
+<text x="1233.0" y="934.0" font-size="12" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >펌프1</text>
+<text x="1233.0" y="950.2" font-size="12" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >(P09)</text>
+<text x="1279.0" y="800.0" font-size="11.5" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >D1</text>
+<text x="1279.0" y="815.5" font-size="11.5" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >1N4007</text>
+<text x="1359.0" y="276.0" font-size="11" fill="#333" text-anchor="end" font-weight="normal" >COM2</text>
+<text x="1408.0" y="228.0" font-size="11" fill="#777" text-anchor="start" font-weight="normal" >NC2</text>
+<text x="1408.0" y="242.0" font-size="10" fill="#777" text-anchor="start" font-weight="normal" >(비움)</text>
+<text x="1385.0" y="376.0" font-size="10.5" fill="#333" text-anchor="start" font-weight="normal" >NO</text>
+<text x="1315.0" y="498.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold" >K2</text>
+<text x="1315.0" y="514.0" font-size="11" fill="#2e9e44" text-anchor="middle" font-weight="bold" >←IN2</text>
+<text x="1371.0" y="682.0" font-size="11" fill="#333" text-anchor="start" font-weight="normal" >NO2</text>
+<text x="1371.0" y="716.0" font-size="11.5" fill="#8b1a1a" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >M2+</text>
+<text x="1365.0" y="817.0" font-size="17" fill="#111" text-anchor="middle" font-weight="bold" >M2</text>
+<text x="1347.0" y="786.0" font-size="14" fill="#d32f2f" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.9" stroke-linejoin="round" >+</text>
+<text x="1347.0" y="848.0" font-size="16" fill="#1a1a1a" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" >−</text>
+<text x="1373.0" y="934.0" font-size="12" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >펌프2</text>
+<text x="1373.0" y="950.2" font-size="12" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >(P09)</text>
+<text x="1419.0" y="800.0" font-size="11.5" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >D2</text>
+<text x="1419.0" y="815.5" font-size="11.5" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >1N4007</text>
+<text x="1499.0" y="276.0" font-size="11" fill="#333" text-anchor="end" font-weight="normal" >COM3</text>
+<text x="1548.0" y="228.0" font-size="11" fill="#777" text-anchor="start" font-weight="normal" >NC3</text>
+<text x="1548.0" y="242.0" font-size="10" fill="#777" text-anchor="start" font-weight="normal" >(비움)</text>
+<text x="1525.0" y="376.0" font-size="10.5" fill="#333" text-anchor="start" font-weight="normal" >NO</text>
+<text x="1455.0" y="498.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold" >K3</text>
+<text x="1455.0" y="514.0" font-size="11" fill="#b8860b" text-anchor="middle" font-weight="bold" >←IN3</text>
+<text x="1511.0" y="682.0" font-size="11" fill="#333" text-anchor="start" font-weight="normal" >NO3</text>
+<text x="1511.0" y="716.0" font-size="11.5" fill="#8b1a1a" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >M3+</text>
+<text x="1505.0" y="817.0" font-size="17" fill="#111" text-anchor="middle" font-weight="bold" >M3</text>
+<text x="1487.0" y="786.0" font-size="14" fill="#d32f2f" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.9" stroke-linejoin="round" >+</text>
+<text x="1487.0" y="848.0" font-size="16" fill="#1a1a1a" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" >−</text>
+<text x="1513.0" y="934.0" font-size="12" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >펌프3</text>
+<text x="1513.0" y="950.2" font-size="12" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >(P09)</text>
+<text x="1559.0" y="800.0" font-size="11.5" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >D3</text>
+<text x="1559.0" y="815.5" font-size="11.5" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >1N4007</text>
+<text x="1639.0" y="276.0" font-size="11" fill="#333" text-anchor="end" font-weight="normal" >COM4</text>
+<text x="1688.0" y="228.0" font-size="11" fill="#777" text-anchor="start" font-weight="normal" >NC4</text>
+<text x="1688.0" y="242.0" font-size="10" fill="#777" text-anchor="start" font-weight="normal" >(비움)</text>
+<text x="1665.0" y="376.0" font-size="10.5" fill="#333" text-anchor="start" font-weight="normal" >NO</text>
+<text x="1595.0" y="498.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold" >K4</text>
+<text x="1595.0" y="514.0" font-size="11" fill="#8e3fbf" text-anchor="middle" font-weight="bold" >←IN4</text>
+<text x="1651.0" y="682.0" font-size="11" fill="#333" text-anchor="start" font-weight="normal" >NO4</text>
+<text x="1651.0" y="716.0" font-size="11.5" fill="#8b1a1a" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >M4+</text>
+<text x="1645.0" y="817.0" font-size="17" fill="#111" text-anchor="middle" font-weight="bold" >M4</text>
+<text x="1627.0" y="786.0" font-size="14" fill="#d32f2f" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.9" stroke-linejoin="round" >+</text>
+<text x="1627.0" y="848.0" font-size="16" fill="#1a1a1a" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" >−</text>
+<text x="1653.0" y="934.0" font-size="12" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >펌프4</text>
+<text x="1653.0" y="950.2" font-size="12" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >(P09)</text>
+<text x="1699.0" y="800.0" font-size="11.5" fill="#111" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >D4</text>
+<text x="1699.0" y="815.5" font-size="11.5" fill="#111" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >1N4007</text>
+<text x="1150.0" y="730.0" font-size="15" fill="#555" text-anchor="end" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.2" stroke-linejoin="round" >④ 펌프 + 플라이백 다이오드</text>
+<text x="1150.0" y="752.0" font-size="12" fill="#444" text-anchor="end" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >띠(캐소드) = 펌프(+) 쪽</text>
+<text x="1150.0" y="768.2" font-size="12" fill="#444" text-anchor="end" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >펌프 빨간선=+, 검은선=−</text>
+<text x="1150.0" y="784.4" font-size="12" fill="#444" text-anchor="end" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >위치: 뚜껑 위 이음부 또는</text>
+<text x="1150.0" y="800.6" font-size="12" fill="#444" text-anchor="end" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >연장선 박스 쪽 끝 (전기적으로 동일)</text>
+<text x="1150.0" y="816.8" font-size="12" fill="#444" text-anchor="end" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >그림 접점은 OFF 상태</text>
+<text x="327.0" y="492.0" font-size="16" fill="#555" text-anchor="start" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" >⑤ 앞판 부품</text>
+<text x="546.0" y="506.0" font-size="12" fill="#111" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >R1 220Ω</text>
+<text x="470.0" y="550.0" font-size="11.5" fill="#111" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >LED1 상태 LED (P05) · 필수</text>
+<text x="470.0" y="565.5" font-size="11.5" fill="#111" text-anchor="middle" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >보드에 GPIO2 LED 없음 → 외부 LED</text>
+<text x="519.0" y="651.0" font-size="11.5" fill="#111" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >SW2 시작/정지 버튼</text>
+<text x="519.0" y="666.5" font-size="11.5" fill="#111" text-anchor="middle" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" >(P03 · 눌림=LOW)</text>
+<text x="511.0" y="804.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold" >BZ1</text>
+<text x="511.0" y="819.5" font-size="11.5" fill="#111" text-anchor="middle" font-weight="normal" >능동 부저</text>
+<text x="511.0" y="835.0" font-size="11.5" fill="#111" text-anchor="middle" font-weight="normal" >(P04)</text>
+<text x="554.0" y="786.0" font-size="10.5" fill="#333" text-anchor="end" font-weight="normal" >I/O</text>
+<text x="554.0" y="854.0" font-size="10" fill="#b00020" text-anchor="end" font-weight="normal" >HIGH=울림</text>
+<text x="489.0" y="774.0" font-size="10.5" fill="#333" text-anchor="start" font-weight="normal" >VCC</text>
+<text x="484.0" y="696.0" font-size="12" fill="#ef6c00" text-anchor="middle" font-weight="bold" paint-order="stroke" stroke="#fff" stroke-width="3.4" stroke-linejoin="round" >3V3</text>
+<text x="536.0" y="874.0" font-size="10.5" fill="#333" text-anchor="start" font-weight="normal" paint-order="stroke" stroke="#fff" stroke-width="2.9" stroke-linejoin="round" >GND</text>
+<text x="32.0" y="1036.0" font-size="15" fill="#111" text-anchor="start" font-weight="bold" >범례</text>
+<text x="104.0" y="1065.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >필수 배선</text>
+<text x="264.0" y="1065.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >선택 부품 (달면 그대로 연결)</text>
+<text x="528.0" y="1065.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >점 = 연결됨</text>
+<text x="94.0" y="1105.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >점 없는 교차 = 연결 안 됨</text>
+<text x="302.0" y="1105.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >부품/모듈 단자</text>
+<text x="67.0" y="1145.0" font-size="12.5" fill="#d32f2f" text-anchor="start" font-weight="bold" >+5V</text>
+<text x="137.0" y="1145.0" font-size="12.5" fill="#1a1a1a" text-anchor="start" font-weight="bold" >GND</text>
+<text x="207.0" y="1145.0" font-size="12.5" fill="#ef6c00" text-anchor="start" font-weight="bold" >3V3</text>
+<text x="277.0" y="1145.0" font-size="12.5" fill="#1e63d6" text-anchor="start" font-weight="bold" >P1</text>
+<text x="337.0" y="1145.0" font-size="12.5" fill="#2e9e44" text-anchor="start" font-weight="bold" >P2</text>
+<text x="397.0" y="1145.0" font-size="12.5" fill="#b8860b" text-anchor="start" font-weight="bold" >P3</text>
+<text x="457.0" y="1145.0" font-size="12.5" fill="#8e3fbf" text-anchor="start" font-weight="bold" >P4</text>
+<text x="517.0" y="1145.0" font-size="12.5" fill="#8b1a1a" text-anchor="start" font-weight="bold" >M1+~M4+ 펌프(+)</text>
+<text x="36.0" y="1166.0" font-size="11.5" fill="#444" text-anchor="start" font-weight="normal" >P1~P4 = 펌프1~4 제어 신호 (GPIO26·27·32·33 → IN1~4).  J2 = ESP32 왼쪽 핀줄, J3 = 오른쪽 핀줄</text>
+<text x="36.0" y="1181.5" font-size="11.5" fill="#444" text-anchor="start" font-weight="normal" >(안테나를 위로 두고 위에서부터 1번).  그림의 릴레이 접점은 꺼진(OFF) 상태입니다.</text>
+<text x="686.0" y="1036.0" font-size="15" fill="#b00020" text-anchor="start" font-weight="bold" >꼭 지킬 점</text>
+<text x="686.0" y="1060.0" font-size="12.3" fill="#111" text-anchor="start" font-weight="normal" >1) 릴레이는 LOW = ON (Active-LOW). 펌웨어는 gpio_set_level로 HIGH를 먼저 쓰고 OUTPUT.</text>
+<text x="686.0" y="1076.6" font-size="12.3" fill="#111" text-anchor="start" font-weight="normal" >2) A안(기본): JD-VCC 점퍼 제거, VCC ← 3V3, JD-VCC ← +5V.  3.3V로 안 켜지면 B안 —</text>
+<text x="686.0" y="1093.2" font-size="12.3" fill="#111" text-anchor="start" font-weight="normal" >    전원(USB·어댑터) 뺀 뒤 ⑪ 먼저 뽑기 → ⑨(+5V)를 VCC 핀으로 → 캡(JD-VCC엔 캡만). VCC–3V3 금지!</text>
+<text x="686.0" y="1109.8" font-size="12.3" fill="#111" text-anchor="start" font-weight="normal" >3) D1~D4 1N4007: 띠(캐소드) = 펌프(+).  4) C1: 긴 다리(+) → +5V, 띠(−) → GND.</text>
+<text x="686.0" y="1126.4" font-size="12.3" fill="#111" text-anchor="start" font-weight="normal" >5) USB 업로드 시 ESP32 5V 선(⑧)을 분리하고 뽑은 끝은 테이프로 감쌈 (이중 전원 금지).</text>
+<text x="686.0" y="1143.0" font-size="12.3" fill="#111" text-anchor="start" font-weight="normal" >6) 전원 넣기 전 멀티미터 도통 모드로 +5V–GND 단락(삐 소리) 없는지 확인.</text>
+<text x="1308.0" y="1031.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="bold" >도면명</text>
+<text x="1394.0" y="1031.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >AI 스마트 바텐더 회로도 v3 (정식 회로도)</text>
+<text x="1308.0" y="1059.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="bold" >팀 / 과목</text>
+<text x="1394.0" y="1059.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >팀 홍당무 · 캡스톤디자인Ⅱ (안양대 정보전기전자공학과)</text>
+<text x="1308.0" y="1087.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="bold" >작성일</text>
+<text x="1394.0" y="1087.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >2026-11-06</text>
+<text x="1308.0" y="1115.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="bold" >기준</text>
+<text x="1394.0" y="1115.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >SPEC v2.1 §1 핀맵 (smart-bartender/docs/SPEC.md)</text>
+<text x="1308.0" y="1143.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="bold" >도면 번호</text>
+<text x="1394.0" y="1143.0" font-size="12.5" fill="#111" text-anchor="start" font-weight="normal" >SB-SCH-03 · 시트 1/2 (2/2 = 배선도)</text>
+<text x="1540.0" y="1175.0" font-size="12.5" fill="#111" text-anchor="middle" font-weight="bold" >AI 스마트 바텐더 회로도 v3 · 팀 홍당무 · 2026-11-06 · SPEC v2.1 기준</text>
+</g>
+</svg>

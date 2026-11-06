@@ -1,0 +1,173 @@
+/* 바텐더 홈 (src/screens/home) — 클래스는 home- 로 시작 */
+
+/* 입력 영역: 기본 1열, 왼쪽 칸이 넓으면(640px 이상 — PC 1280px 이상) 2열 */
+.home-main {
+  container-type: inline-size;
+  container-name: home-main;
+}
+.home-form,
+.home-form__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+@container home-main (min-width: 640px) {
+  .home-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-5) var(--space-6);
+    align-items: start;
+  }
+}
+
+.home-grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 칩 묶음 */
+.home-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.home-chip-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 노란 안내 한 줄 */
+.home-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-caption);
+  line-height: 1.5;
+  color: var(--text);
+}
+.home-note--warning {
+  background: var(--yellow-soft);
+}
+.home-note--warning .home-note__icon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--yellow);
+}
+
+/* 장착된 재료 */
+.home-installed__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.home-installed__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--fs-small);
+  color: var(--text-3);
+}
+.home-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.home-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--text);
+}
+.home-tag__pump {
+  color: var(--text-3);
+  font-weight: 700;
+}
+
+/* 날씨 (자동으로 불러온 값) */
+.home-weather-now {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.home-weather-now__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-input);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+/* 요약 · 실행 카드 */
+.home-action__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.home-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+}
+.home-summary__row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: var(--space-3);
+  font-size: var(--fs-label);
+  line-height: 1.45;
+}
+.home-summary__row dt {
+  color: var(--text-2);
+}
+.home-summary__row dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text);
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.home-summary__row dd.is-empty {
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+/* PC: 오른쪽 카드는 스크롤해도 따라 내려옴 (상단바 아래). 화면 높이가 낮으면 카드 아래가 잘리지 않게 고정하지 않음 */
+@media (min-width: 1080px) and (min-height: 640px) {
+  .home-side {
+    position: sticky;
+    top: calc(var(--topbar-height) + var(--safe-top) + var(--space-4));
+  }
+}
+
+/*
+ * 좁은 PC 창(900~1079px — 왼쪽 내비가 자리를 차지): 2열이면 입력 칸이 요약 카드보다 좁아져(약 225px) 안내 배너가
+ * 두세 단어씩 줄바꿈되고 버튼 글자가 잘림 → 1열로 쌓고 요약·실행 카드는 입력 아래에
+ * (.home-layout.sb-columns 가 .sb-columns 보다 구체적이라 인라인 --cols 를 그대로 둬도 이김)
+ */
+@media (min-width: 900px) and (max-width: 1079.98px) {
+  .home-layout.sb-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

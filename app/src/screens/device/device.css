@@ -1,0 +1,537 @@
+/* 기기 화면 · 캘리브레이션 마법사 (src/screens/device) — 클래스는 device- / calibrate- 로 시작 */
+
+/* ───────── 공통 ───────── */
+.device-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* 상태 색 (아이콘 상자·점) */
+.device-tone--success { --tone-c: var(--green); --tone-bg: var(--green-soft); }
+.device-tone--warning { --tone-c: var(--yellow-strong); --tone-bg: var(--yellow-soft); }
+.device-tone--info { --tone-c: var(--blue); --tone-bg: var(--blue-soft); }
+.device-tone--danger { --tone-c: var(--red); --tone-bg: var(--red-soft); }
+.device-tone--neutral { --tone-c: var(--text-2); --tone-bg: var(--surface-2); }
+.device-tone--accent { --tone-c: var(--accent-strong); --tone-bg: var(--accent-soft); }
+
+.device-bigicon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-input);
+  color: var(--tone-c, var(--text-2));
+  background: var(--tone-bg, var(--surface-2));
+}
+.device-bigicon--sm {
+  width: 44px;
+  height: 44px;
+}
+
+.device-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--tone-c, var(--text-3));
+}
+
+/* ───────── 연결 카드 ───────── */
+.device-conn__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.device-conn__titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.device-conn__name {
+  margin: 0;
+  /* 기기 이름은 자르지 않음 (SmartBartender-A1B2 처럼 끝자리로 구분) */
+  overflow-wrap: anywhere;
+}
+.device-conn__state {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-caption);
+  color: var(--text-2);
+}
+.device-conn__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* 검색된 기기 */
+.device-found {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.device-found__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.device-found__row {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  background: var(--surface-2);
+  text-align: left;
+  color: var(--text);
+  transition: background-color var(--dur-fast), border-color var(--dur-fast);
+}
+.device-found__row:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+.device-found__row:active {
+  background: var(--accent-soft);
+}
+.device-found__icon {
+  flex: none;
+  color: var(--text-3);
+}
+.device-found__icon.is-likely {
+  color: var(--accent);
+}
+.device-found__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.device-found__name {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.device-found__sub {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.device-found__chevron {
+  flex: none;
+  color: var(--accent);
+}
+
+/* 신호 막대 */
+.device-bars {
+  flex: none;
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+}
+.device-bars__bar {
+  width: 4px;
+  border-radius: 1px;
+  background: var(--border-strong);
+}
+.device-bars__bar.is-on {
+  background: var(--green);
+}
+
+.device-remembered {
+  row-gap: 0;
+}
+.device-remembered__text {
+  flex: 1;
+  min-width: 160px;
+  margin: 0;
+}
+
+/* 데모 도구 */
+.device-demo-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-left: 32px;
+}
+
+/* ───────── 정보 (dl) ───────── */
+.device-info {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.device-info__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+.device-info__row dt {
+  flex: none;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--text-3);
+}
+.device-info__row dd {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.device-notes {
+  margin: 0;
+  padding-left: 1.2em;
+  list-style: disc outside;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--fs-caption);
+  color: var(--text-2);
+}
+
+/* 펌프별 유량 칸 */
+.device-calgrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: var(--space-2);
+}
+.device-calcell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.device-calcell.is-uncal {
+  border-color: #f5e0a3;
+  background: var(--yellow-soft);
+}
+.device-calcell__pump {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.device-calcell__value {
+  font-size: var(--fs-heading);
+  font-weight: 700;
+}
+.device-calcell__name {
+  max-width: 100%;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ───────── 작업 카드 ───────── */
+.device-job {
+  gap: var(--space-3);
+}
+.device-job__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.device-job__title {
+  margin: 0;
+  font-size: var(--fs-body);
+}
+
+/* ───────── 바로가기 카드 ───────── */
+.device-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.device-link__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.device-link__title {
+  font-weight: 700;
+}
+.device-link__caption {
+  font-size: var(--fs-caption);
+  color: var(--text-2);
+}
+.device-link__chevron {
+  flex: none;
+  color: var(--text-3);
+}
+
+/* ───────── 프라이밍 (길게 누르기) ───────── */
+.device-prime-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+@media (min-width: 600px) and (max-width: 899px) {
+  .device-prime-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.device-prime {
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  padding: var(--space-3);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-input);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  box-shadow: var(--shadow);
+  /* 길게 누를 때 글자 선택·메뉴가 뜨지 않게, 세로 스크롤은 허용 */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: pan-y;
+  transition: background-color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast);
+}
+.device-prime:hover:not(.is-blocked) {
+  border-color: var(--accent-border);
+}
+.device-prime:active:not(.is-blocked) {
+  background: var(--surface-2);
+  transform: scale(0.98);
+}
+.device-prime.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.device-prime.is-blocked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.device-prime__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.device-prime__dot {
+  width: 12px;
+  height: 12px;
+}
+.device-prime__pump {
+  font-weight: 700;
+}
+.device-prime__name {
+  max-width: 100%;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.device-prime.is-active .device-prime__name {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+/* ───────── 캘리브레이션 마법사 ───────── */
+.calibrate-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.calibrate-steps__item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--fs-small);
+  color: var(--text-3);
+  text-align: center;
+}
+.calibrate-steps__bar {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+.calibrate-steps__item.is-done .calibrate-steps__bar,
+.calibrate-steps__item.is-current .calibrate-steps__bar {
+  background: var(--accent);
+}
+.calibrate-steps__item.is-current {
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.calibrate-pumps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+@media (min-width: 900px) {
+  .calibrate-pumps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.calibrate-pump {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.calibrate-pump__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.calibrate-pump__name {
+  font-weight: 700;
+}
+.calibrate-pump__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-caption);
+  color: var(--text-2);
+}
+.calibrate-pump__chevron {
+  flex: none;
+  color: var(--text-3);
+}
+
+.calibrate-howto {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.calibrate-howto li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.calibrate-howto__num {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.calibrate-big {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 800;
+  color: var(--accent-strong);
+  font-variant-numeric: tabular-nums;
+}
+.calibrate-big__unit {
+  margin-left: 6px;
+  font-size: var(--fs-heading);
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.calibrate-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+.calibrate-done__icon {
+  color: var(--green);
+}
+
+.calibrate-table {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.calibrate-table__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+.calibrate-table__row + .calibrate-table__row {
+  border-top: 1px solid var(--border);
+}
+.calibrate-table__pump {
+  flex: none;
+  width: 64px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+}
+.calibrate-table__name {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.calibrate-table__value {
+  flex: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.calibrate-table__row.is-current .calibrate-table__value {
+  color: var(--accent-strong);
+}
+.calibrate-table__row.is-current {
+  background: var(--accent-soft);
+}
+
+.calibrate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}

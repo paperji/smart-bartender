@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 760" width="1140" height="760" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif">
+<defs>
+<marker id="dimA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9 z" fill="#6b7785"/></marker>
+<marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f80c9"/></marker>
+<marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker>
+<marker id="arrK" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/></marker>
+<marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/></marker>
+<marker id="arrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52606d"/></marker>
+<marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c92a2a"/></marker>
+</defs>
+<rect x="0" y="0" width="1140" height="760" fill="#ffffff"/>
+<text x="24.00" y="34.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">액체 경로도 — 용기 → 펌프 → 튜브 → 체크밸브 → 노즐 → 잔</text>
+<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">높이(z)는 실제 비율, 가로 길이는 보기 쉽게 줄였습니다. 펌프 1개 기준이며 4개 모두 같은 구조입니다.</text>
+<line x1="70.00" y1="488.00" x2="70.00" y2="130.25" stroke="#6b7785" stroke-width="1" stroke-linecap="round"/>
+<line x1="66.00" y1="488.00" x2="70.00" y2="488.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="62.00" y="492.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#6b7785">0</text>
+<line x1="66.00" y1="461.00" x2="70.00" y2="461.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="66.00" y1="434.00" x2="70.00" y2="434.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="62.00" y="438.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#6b7785">40</text>
+<line x1="66.00" y1="407.00" x2="70.00" y2="407.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="66.00" y1="380.00" x2="70.00" y2="380.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="62.00" y="384.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#6b7785">80</text>
+<line x1="66.00" y1="353.00" x2="70.00" y2="353.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="66.00" y1="326.00" x2="70.00" y2="326.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="62.00" y="330.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#6b7785">120</text>
+<line x1="66.00" y1="299.00" x2="70.00" y2="299.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="66.00" y1="272.00" x2="70.00" y2="272.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="62.00" y="276.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#6b7785">160</text>
+<line x1="66.00" y1="245.00" x2="70.00" y2="245.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="66.00" y1="218.00" x2="70.00" y2="218.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="62.00" y="222.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#6b7785">200</text>
+<line x1="66.00" y1="191.00" x2="70.00" y2="191.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="66.00" y1="164.00" x2="70.00" y2="164.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="62.00" y="168.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="end" font-weight="normal" fill="#6b7785">240</text>
+<line x1="66.00" y1="137.00" x2="70.00" y2="137.00" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="70.00" y="122.25" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#6b7785">z (mm)</text>
+<rect x="95.00" y="488.00" width="860.00" height="6.00" fill="#d3dbe4" stroke="#3e4c59" stroke-width="1"/>
+<rect x="95.00" y="137.00" width="860.00" height="6.75" fill="#d3dbe4" stroke="#3e4c59" stroke-width="1"/>
+<text x="960.00" y="145.05" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">선반 D (아래면 z 255)</text>
+<text x="960.00" y="492.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">바닥판 A (z 0)</text>
+<rect x="640.00" y="143.75" width="7.00" height="6.08" fill="#d3dbe4" stroke="#3e4c59" stroke-width="1"/>
+<rect x="640.00" y="183.57" width="7.00" height="304.43" fill="#d3dbe4" stroke="#3e4c59" stroke-width="1"/>
+<text x="643.00" y="326.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#52606d" transform="rotate(-90 643.00 326.00)">칸막이 E</text>
+<text x="360.00" y="522.30" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#2f80c9">용기 칸</text>
+<text x="800.00" y="522.30" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#2b8a3e">잔 칸</text>
+<rect x="150.00" y="273.35" width="180.00" height="214.65" rx="6" fill="#ffffff" stroke="#1f2933" stroke-width="1.6"/>
+<rect x="153.00" y="305.75" width="174.00" height="178.20" fill="#d3e8fb" stroke="none" stroke-width="1.5"/>
+<line x1="153.00" y1="305.75" x2="327.00" y2="305.75" stroke="#2f80c9" stroke-width="1.4" stroke-linecap="round"/>
+<rect x="145.00" y="265.25" width="190.00" height="8.10" rx="2" fill="#e9ecef" stroke="#1f2933" stroke-width="1.4"/>
+<text x="160.00" y="380.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#2f80c9">액체</text>
+<rect x="200.00" y="452.90" width="70.00" height="31.05" rx="4" fill="#3d4852" stroke="#111" stroke-width="1"/>
+<rect x="226.00" y="442.10" width="14.00" height="10.80" fill="#3d4852" stroke="#111" stroke-width="1"/>
+<text x="235.00" y="474.45" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#fff">펌프 P09</text>
+<path d="M262,452.9 C268,407.0 280,285.5 282,265.25 L282,238.24999999999997" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="2"/>
+<path d="M258,452.9 C262,407.0 274,285.5 276,265.25 L276,238.24999999999997" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="2"/>
+<rect x="270.00" y="223.40" width="18.00" height="14.85" rx="3" fill="#adb5bd" stroke="#666" stroke-width="0.8"/>
+<line x1="279.00" y1="223.40" x2="279.00" y2="164.00" stroke="#555" stroke-width="4" stroke-linecap="round"/>
+<path d="M233,442.1 L233,197.75 C233,159.95 250,158.59999999999997 280,158.59999999999997 L455,158.59999999999997" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#5aa9e6" stroke-width="6"/>
+<rect x="440.00" y="152.60" width="50.00" height="12.00" fill="#8ecdf5" stroke="#2f80c9" stroke-width="1"/>
+<rect x="440.00" y="152.10" width="22.00" height="13.00" fill="#5aa9e6" stroke="#2f80c9" stroke-width="1"/>
+<rect x="448.00" y="150.60" width="4.00" height="16.00" fill="#222" stroke="none" stroke-width="1.5"/>
+<rect x="476.00" y="151.60" width="4.00" height="14.00" fill="#222" stroke="none" stroke-width="1.5"/>
+<rect x="490.00" y="146.60" width="46.00" height="24.00" rx="3" fill="#f1f3f5" stroke="#1f2933" stroke-width="1.4"/>
+<line x1="497.00" y1="158.60" x2="529.00" y2="158.60" stroke="#e8590c" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arrO)"/>
+<rect x="536.00" y="153.60" width="10.00" height="10.00" fill="#f1f3f5" stroke="#1f2933" stroke-width="1"/>
+<path d="M544,158.59999999999997 L700,158.59999999999997 C760,158.59999999999997 800,155.89999999999998 800,169.39999999999998 L800,181.54999999999995" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#8ecdf5" stroke-width="4.5"/>
+<rect x="770.00" y="170.75" width="60.00" height="6.75" fill="#d3dbe4" stroke="#3e4c59" stroke-width="1"/>
+<rect x="770.00" y="143.75" width="6.00" height="27.00" fill="#e8edf2" stroke="#3e4c59" stroke-width="0.8" opacity="0.8"/>
+<rect x="824.00" y="143.75" width="6.00" height="27.00" fill="#e8edf2" stroke="#3e4c59" stroke-width="0.8" opacity="0.8"/>
+<rect x="745.00" y="471.80" width="110.00" height="16.20" fill="#ffffff" stroke="#3e4c59" stroke-width="1"/>
+<path d="M755,282.79999999999995 L763,471.8 L837,471.8 L845,282.79999999999995" stroke-linejoin="round" stroke-linecap="round" fill="#eef6ff" stroke="#2f80c9" stroke-width="1.6"/>
+<rect x="765.00" y="393.50" width="70.00" height="75.60" fill="#d3e8fb" stroke="none" stroke-width="1.5"/>
+<line x1="800.00" y1="184.25" x2="800.00" y2="386.75" stroke="#2f80c9" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 5"/>
+<text x="800.00" y="434.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#2f80c9">잔</text>
+<line x1="95.00" y1="272.00" x2="955.00" y2="272.00" stroke="#2f80c9" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="8 4"/>
+<text x="340.00" y="266.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#2f80c9" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">최대 액면 z 160 (용기를 가득 채워도 이 선 아래)</text>
+<line x1="700.00" y1="177.50" x2="955.00" y2="177.50" stroke="#e8590c" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="8 4"/>
+<text x="850.00" y="193.50" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#e8590c" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">노즐 출구 z 230</text>
+<line x1="975.00" y1="272.00" x2="975.00" y2="177.50" stroke="#e8590c" stroke-width="1.4" stroke-linecap="round" marker-end="url(#arrO)" marker-start="url(#arrO)"/>
+<text x="982.00" y="222.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#e8590c" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">70mm 이상 높게</text>
+<text x="982.00" y="238.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#e8590c" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">→ 사이펀 방지</text>
+<circle cx="165.00" cy="288.20" r="11.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<text x="165.00" y="292.88" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#fff">1</text>
+<text x="180.00" y="292.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">용기 (펌프가 바닥에 잠김)</text>
+<circle cx="248.00" cy="339.50" r="11.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<text x="248.00" y="344.18" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#fff">2</text>
+<text x="263.00" y="343.50" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">내경5/외경7 튜브 (P29)</text>
+<text x="263.00" y="359.02" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">약 70cm (용기 인출 여유)</text>
+<line x1="465.00" y1="165.60" x2="588.00" y2="188.30" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="465.00" cy="165.60" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<circle cx="600.00" cy="188.30" r="10.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<text x="600.00" y="192.44" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#fff">3</text>
+<text x="615.00" y="192.30" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">겹침 이음 → 아래 확대도</text>
+<line x1="513.00" y1="170.60" x2="588.00" y2="209.30" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="513.00" cy="170.60" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<circle cx="600.00" cy="209.30" r="10.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<text x="600.00" y="213.44" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#fff">4</text>
+<text x="615.00" y="213.30" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">체크밸브 P31 — 화살표(FLOW)가 노즐 쪽</text>
+<line x1="600.00" y1="161.60" x2="588.00" y2="230.30" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="600.00" cy="161.60" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<circle cx="600.00" cy="230.30" r="10.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<text x="600.00" y="234.44" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#fff">5</text>
+<text x="615.00" y="234.30" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">내경4/외경6 튜브 (P30) 약 10cm</text>
+<circle cx="862.00" cy="157.25" r="11.00" fill="#e8590c" stroke="none" stroke-width="1.5"/>
+<text x="862.00" y="161.93" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#fff">6</text>
+<text x="877.00" y="161.25" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">노즐 M1 (튜브 끝 3mm 돌출)</text>
+<line x1="643.00" y1="174.80" x2="690.00" y2="255.80" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="643.00" cy="174.80" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="694.00" y="259.76" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round"></text>
+<text x="694.00" y="259.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">칸막이 구멍 Ø25 (튜브 4가닥 통과)</text>
+<text x="643.00" y="522.30" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="1" text-anchor="start" font-weight="normal" fill="#1f2933"></text>
+<text x="24.00" y="544.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">③·④ 확대도 — 겹침 이음과 체크밸브 (실제 크기의 약 4배)</text>
+<rect x="80.00" y="615.30" width="168.00" height="29.40" fill="#5aa9e6" stroke="#2f80c9" stroke-width="1"/>
+<rect x="80.00" y="619.50" width="168.00" height="21.00" fill="#ffffff" stroke="none" stroke-width="1.5" opacity="0.75"/>
+<rect x="185.00" y="617.40" width="126.00" height="25.20" fill="#8ecdf5" stroke="#2f80c9" stroke-width="1"/>
+<rect x="185.00" y="621.60" width="126.00" height="16.80" fill="#f5fbff" stroke="none" stroke-width="1.5" opacity="0.75"/>
+<rect x="185.00" y="615.30" width="63.00" height="29.40" fill="none" stroke="#2f80c9" stroke-width="1.4"/>
+<polygon points="269.00,623.28 302.60,619.50 311.00,621.60 311.00,638.40 302.60,640.50 269.00,636.72" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#1f2933" stroke-width="1" stroke-dasharray="3 2"/>
+<rect x="311.00" y="608.79" width="67.20" height="42.42" rx="6" fill="#f1f3f5" stroke="#1f2933" stroke-width="1.6"/>
+<line x1="321.50" y1="630.00" x2="367.70" y2="630.00" stroke="#e8590c" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrO)"/>
+<text x="344.60" y="602.79" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="bold" fill="#e8590c">FLOW →</text>
+<rect x="382.40" y="617.40" width="168.00" height="25.20" fill="#8ecdf5" stroke="#2f80c9" stroke-width="1"/>
+<rect x="382.40" y="621.60" width="168.00" height="16.80" fill="#f5fbff" stroke="none" stroke-width="1.5" opacity="0.75"/>
+<polygon points="378.20,621.60 386.60,619.50 420.20,623.28 420.20,636.72 386.60,640.50 378.20,638.40" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#1f2933" stroke-width="1" stroke-dasharray="3 2"/>
+<rect x="211.40" y="611.30" width="6.00" height="37.40" rx="1" fill="#222" stroke="none" stroke-width="1.5"/>
+<rect x="287.00" y="613.40" width="6.00" height="33.20" rx="1" fill="#222" stroke="none" stroke-width="1.5"/>
+<rect x="400.40" y="613.40" width="6.00" height="33.20" rx="1" fill="#222" stroke="none" stroke-width="1.5"/>
+<text x="558.80" y="634.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#52606d">→ 노즐</text>
+<text x="75.80" y="634.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="end" font-weight="normal" fill="#52606d">펌프 →</text>
+<line x1="185.00" y1="612.30" x2="185.00" y2="594.30" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="248.00" y1="612.30" x2="248.00" y2="594.30" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="185.00" y1="599.30" x2="248.00" y2="599.30" stroke="#6b7785" stroke-width="1" stroke-linecap="round" marker-end="url(#dimA)" marker-start="url(#dimA)"/>
+<text x="216.50" y="595.30" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">겹침 ≥ 15</text>
+<line x1="185.00" y1="645.60" x2="185.00" y2="671.70" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="311.00" y1="645.60" x2="311.00" y2="671.70" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="185.00" y1="666.70" x2="311.00" y2="666.70" stroke="#6b7785" stroke-width="1" stroke-linecap="round" marker-end="url(#dimA)" marker-start="url(#dimA)"/>
+<text x="248.00" y="679.70" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">슬리브(내경4) 30</text>
+<line x1="382.40" y1="645.60" x2="382.40" y2="671.70" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="550.40" y1="645.60" x2="550.40" y2="671.70" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="382.40" y1="666.70" x2="550.40" y2="666.70" stroke="#6b7785" stroke-width="1" stroke-linecap="round" marker-end="url(#dimA)" marker-start="url(#dimA)"/>
+<text x="466.40" y="679.70" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">내경4 튜브 (약 10cm)</text>
+<line x1="130.40" y1="615.30" x2="63.20" y2="581.30" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="130.40" cy="615.30" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="67.20" y="585.44" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">내경5/외경7 튜브</text>
+<line x1="290.00" y1="617.40" x2="281.60" y2="571.30" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="290.00" cy="617.40" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="285.60" y="575.44" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">입구 바브(Ø3.2~5.0)에 슬리브 1cm 끼움</text>
+<line x1="214.40" y1="648.70" x2="101.00" y2="696.70" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="214.40" cy="648.70" r="2.40" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="105.00" y="700.84" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">케이블타이 3곳 (조이고 끝 자르기)</text>
+<rect x="680.00" y="554.00" width="440.00" height="118.40" rx="6" fill="#fff8f0" stroke="#e8590c" stroke-width="1.2"/>
+<text x="690.00" y="574.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#e8590c">연결 순서</text>
+<text x="690.00" y="591.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">1) 내경4 튜브 3cm를 밸브 입구 바브에 1cm 끼움</text>
+<text x="690.00" y="608.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">2) 내경5 튜브를 그 위로 1.5cm 이상 겹쳐 끼움</text>
+<text x="690.00" y="626.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">   (뜨거운 물에 10초 담그면 쉽게 들어감)</text>
+<text x="690.00" y="643.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">3) 겹친 곳·바브 위를 케이블타이로 조임</text>
+<text x="690.00" y="661.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">4) 밸브 화살표가 노즐 쪽인지 다시 확인</text>
+</svg>

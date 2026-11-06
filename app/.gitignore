@@ -1,0 +1,26 @@
+# 의존성
+node_modules/
+
+# 빌드 결과
+dist/
+dev-dist/
+release/
+android/app/build/
+android/build/
+android/.gradle/
+electron/out/
+*.tsbuildinfo
+
+# 로컬 비밀값 — 개발용 Gemini 키(VITE_DEV_GEMINI_KEY)는 절대 커밋하지 않음
+.env*.local
+.env
+.env.*
+!.env.example
+
+# 서명 키
+*.keystore
+*.jks
+
+# 기타
+npm-debug.*
+.DS_Store

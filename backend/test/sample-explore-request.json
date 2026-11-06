@@ -1,0 +1,92 @@
+{
+  "version": 2,
+  "user": {
+    "moods": [
+      "피곤함",
+      "설렘"
+    ],
+    "taste": {
+      "sweet": 3,
+      "sour": 2,
+      "bitter": 1,
+      "fizzy": 4
+    },
+    "strength": "none",
+    "weather": {
+      "condition": "맑음",
+      "tempC": 18.5,
+      "humidity": 60
+    },
+    "situation": "혼술",
+    "preference": "너무 달지 않았으면 좋겠어요",
+    "cupMl": 200,
+    "adultVerified": false
+  },
+  "ingredients": [
+    {
+      "pump": 1,
+      "name": "보드카",
+      "category": "spirit",
+      "abv": 40,
+      "remainingMl": 650,
+      "notes": ""
+    },
+    {
+      "pump": 2,
+      "name": "오렌지주스",
+      "category": "juice",
+      "abv": 0,
+      "remainingMl": 900,
+      "notes": ""
+    },
+    {
+      "pump": 3,
+      "name": "레몬주스",
+      "category": "juice",
+      "abv": 0,
+      "remainingMl": 300,
+      "notes": ""
+    },
+    {
+      "pump": 4,
+      "name": "사이다",
+      "category": "soda",
+      "abv": 0,
+      "remainingMl": 1000,
+      "notes": ""
+    }
+  ],
+  "history": [
+    {
+      "name": "선셋 피즈",
+      "liked": true,
+      "rejected": false,
+      "ingredients": [
+        {
+          "name": "오렌지주스",
+          "ml": 120
+        },
+        {
+          "name": "사이다",
+          "ml": 80
+        }
+      ]
+    },
+    {
+      "name": "레몬 스파클러",
+      "liked": false,
+      "rejected": true,
+      "ingredients": [
+        {
+          "name": "레몬주스",
+          "ml": 30
+        },
+        {
+          "name": "사이다",
+          "ml": 170
+        }
+      ]
+    }
+  ],
+  "mode": "explore"
+}

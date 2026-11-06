@@ -1,0 +1,251 @@
+/* 앱 뼈대 (App.tsx) — 상단바·왼쪽 내비(PC)·하단 탭바(모바일) */
+
+/* 탭바가 없는 화면·PC: 아래 고정 요소는 안전 영역만 피함 */
+:root.sb-no-tabbar {
+  --tabbar-offset: var(--safe-bottom);
+}
+@media (min-width: 900px) {
+  :root {
+    --tabbar-offset: var(--safe-bottom);
+  }
+}
+
+.sb-shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.sb-shell.has-tabbar {
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom));
+}
+.sb-main-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.sb-main {
+  flex: 1;
+  min-width: 0;
+  outline: none;
+}
+/* 본문으로 건너뛰기·화면 전환 때 프로그램으로 주는 초점 — 본문 전체에 테두리를 그리지 않음 */
+.sb-main:focus-visible {
+  outline: none;
+}
+
+/* 본문으로 건너뛰기 (키보드 사용자) */
+.sb-skip {
+  position: fixed;
+  top: -60px;
+  left: 12px;
+  z-index: 2000;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--text);
+  color: #fff;
+  font-weight: 700;
+}
+.sb-skip:focus {
+  top: calc(12px + var(--safe-top));
+  text-decoration: none;
+}
+
+/* ───────── 상단바 ───────── */
+.sb-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: calc(var(--topbar-height) + var(--safe-top));
+  padding: var(--safe-top) max(var(--space-3), var(--safe-right)) 0 max(var(--space-4), var(--safe-left));
+  background: rgba(247, 246, 243, 0.92);
+  backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid transparent;
+}
+.sb-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.sb-topbar__brand svg,
+.sb-rail__brand svg {
+  flex: none;
+}
+.sb-topbar__name {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.sb-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+/* 좁은 폰(360px)에서 줄어드는 쪽은 기기 칩(이름이 …) — 설정 버튼은 44px 그대로 */
+.sb-topbar__settings {
+  flex: none;
+}
+
+/* ───────── 내비 공통 ───────── */
+.sb-nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* 탭 이름은 정보 글자 — 흰 바탕 6.95:1 (예전 --text-3 #9aa0a8 은 2.6:1) */
+  color: var(--text-2);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--dur-fast), background-color var(--dur-fast);
+}
+.sb-nav__item:hover {
+  text-decoration: none;
+  color: var(--text);
+}
+.sb-nav__item.is-active {
+  color: var(--accent-strong);
+}
+.sb-nav__icon {
+  position: relative;
+  display: inline-flex;
+}
+.sb-nav__badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  border: 2px solid var(--surface);
+  box-sizing: content-box;
+}
+.sb-nav__badge--warning {
+  background: var(--yellow);
+  color: var(--text);
+}
+.sb-nav__badge--danger {
+  background: var(--red);
+}
+
+/* ───────── 하단 탭바 (모바일) ───────── */
+.sb-tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: calc(var(--tabbar-height) + var(--safe-bottom));
+  padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+}
+.sb-nav__item--tabbar {
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  font-size: 12px;
+  min-height: var(--touch);
+}
+.sb-nav__item--tabbar.is-active .sb-nav__icon::before {
+  content: '';
+  position: absolute;
+  inset: -4px -14px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  z-index: -1;
+}
+.sb-nav__item--tabbar .sb-nav__icon {
+  z-index: 0;
+}
+
+/* ───────── 왼쪽 내비 (PC) ───────── */
+.sb-rail {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .sb-shell:not(.sb-shell--bare) {
+    flex-direction: row;
+    padding-bottom: 0;
+  }
+  .sb-tabbar {
+    display: none;
+  }
+  .sb-rail {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: var(--rail-width);
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: calc(var(--space-5) + var(--safe-top)) var(--space-3) var(--space-5);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+  }
+  .sb-rail__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0 var(--space-2) var(--space-5);
+  }
+  .sb-rail__name {
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .sb-rail__items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+  .sb-nav__item--rail {
+    gap: var(--space-3);
+    min-height: 48px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-input);
+    font-size: 15px;
+    color: var(--text-2);
+  }
+  .sb-nav__item--rail:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  .sb-nav__item--rail.is-active {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+  .sb-topbar {
+    justify-content: flex-end;
+    padding-left: var(--space-8);
+    padding-right: var(--space-6);
+  }
+  .sb-topbar__brand,
+  .sb-topbar__settings {
+    display: none;
+  }
+}

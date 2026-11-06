@@ -1,0 +1,60 @@
+# 웹앱(app/)을 빌드해 GitHub Pages 에 올립니다 — https://paperji.github.io/smart-bartender/
+# main 에 app/ 변경이 올라오면 자동 실행(수동 실행도 가능). 빌드에는 API 키가 들어가지 않습니다
+# (npm run build 가 타입 검사 → vite build → 결과물 키 검사(check-no-secrets) 순으로 실행).
+# 처음 한 번: 저장소 Settings → Pages → Build and deployment → Source 를 "GitHub Actions" 로 (안 하면 "Get Pages site failed").
+name: Deploy web app to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'backend/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+# 기본은 읽기만 — Pages 배포 권한은 deploy 작업에만 (빌드 중 실행되는 패키지 스크립트가 배포 토큰을 못 쓰게)
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - name: 자동 테스트 (앱 ↔ 백엔드 보정 규칙 비교 포함)
+        run: npm test
+      - name: 빌드 (타입 검사 + 키 검사 포함)
+        run: npm run build
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: app/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

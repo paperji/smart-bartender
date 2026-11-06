@@ -1,0 +1,47 @@
+/* 기록 화면 (src/screens/history) — 클래스는 history- 로 시작 */
+
+/* 기록 종류 전환: 모바일은 가로 꽉, PC 는 적당한 폭 */
+@media (min-width: 900px) {
+  .history-tabs { max-width: 420px; }
+}
+
+/* 카드 목록: 모바일 1열, PC 2열 (같은 줄 카드 높이 맞춤 → "다시 만들기" 버튼이 나란히) */
+.history-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+.history-grid > li { display: flex; min-width: 0; }
+@media (min-width: 900px) {
+  .history-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+}
+
+.history-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  min-width: 0;
+}
+.history-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
+.history-card__titles { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.history-card__name { overflow-wrap: anywhere; }
+.history-card__badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.history-card__actions { display: flex; align-items: center; flex: none; margin: -6px -8px 0 0; }
+
+/* 재료 ml 목록 */
+.history-card__mls { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); }
+.history-card__ml { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--text-3); }
+
+/* 다시 만들기: 카드 맨 아래 */
+.history-card__remake { margin-top: auto; }
+
+/* 즐겨찾기 별(켜짐 = 노란 채움) · 회색 아이콘 버튼 */
+.history-star,
+.history-muted-btn { color: var(--text-3); }
+.history-star.is-on { color: var(--yellow); }
+.history-star.is-on svg { fill: currentColor; }
+.history-star.is-on:hover:not(:disabled) { color: var(--yellow); }

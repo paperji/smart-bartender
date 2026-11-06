@@ -1,0 +1,41 @@
+# 의존성·빌드 결과 (APK·EXE 는 저장소가 아니라 GitHub Releases 에 올림)
+node_modules/
+dist/
+dev-dist/
+release/
+app/android/app/build/
+app/android/build/
+.expo/
+.gradle/
+*.tsbuildinfo
+__pycache__/
+*.log
+
+# 펌웨어 PC 테스트 빌드 산출물
+firmware/test/*.exe
+firmware/test/*.obj
+firmware/test/*.pdb
+firmware/test/*.ilk
+
+# 로컬 비밀값 — 개발용 Gemini 키 등은 절대 커밋하지 않음
+.env
+.env.*
+!.env.example
+.vercel/
+
+# 안드로이드 서명 키와 비밀번호
+*.keystore
+*.jks
+keystore.properties
+app/android/keystore/
+
+# 기타
+.DS_Store
+Thumbs.db
+
+# 인증서·서명 파일·패키지 인증 (만들 일은 없지만 실수 방지)
+*.pem
+*.p12
+*.key
+google-services.json
+.npmrc

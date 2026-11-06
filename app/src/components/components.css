@@ -1,0 +1,178 @@
+/*
+ * 공용 도메인 컴포넌트 스타일 (src/components) — 클래스는 모두 dc- 로 시작
+ * 색·간격은 theme.css 토큰만. 옅은 재료 색이 흰 바탕에서 사라지지 않게 점·막대에 옅은 테두리.
+ */
+
+/* 접근성용 진한 글자색 (작은 글자도 WCAG AA 4.5:1) */
+.dc-tone-warning { color: var(--yellow-strong); }
+.dc-tone-accent { color: var(--accent-strong); color: color-mix(in srgb, var(--accent-strong) 80%, #000); }
+
+/* 재료 색 점 */
+.dc-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
+}
+
+/* ───────── ColorProgress ───────── */
+.dc-progress { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dc-progress__head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.dc-progress__track {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+  overflow: hidden;
+}
+.dc-progress__fill { height: 100%; border-radius: inherit; transition: width 300ms var(--ease); }
+
+/* ───────── RecipeBar ───────── */
+.dc-recipebar { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.dc-recipebar__bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+/* 옅은 색(사이다·우유)도 막대 테두리가 보이게 */
+.dc-recipebar__bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+.dc-recipebar__seg { flex-basis: 0; min-width: 3px; height: 100%; }
+.dc-recipebar__seg + .dc-recipebar__seg { border-left: 2px solid var(--surface); }
+.dc-recipebar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dc-recipebar__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+
+/* ───────── FlavorBars ───────── */
+.dc-flavor { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.dc-flavor__row { display: grid; grid-template-columns: 40px 1fr 16px; align-items: center; gap: var(--space-3); }
+.dc-flavor__label { font-size: var(--fs-label); font-weight: 600; color: var(--text-2); }
+.dc-flavor__cells { display: flex; gap: 4px; }
+.dc-flavor__cell { flex: 1; height: 10px; border-radius: 3px; background: var(--border); }
+.dc-flavor__num { font-size: var(--fs-small); color: var(--text-2); text-align: right; }
+
+/* ───────── PumpNumber ───────── */
+.dc-pumpnum {
+  flex: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+}
+.dc-pumpnum__cap { font-size: 9px; line-height: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--text-2); }
+.dc-pumpnum__n { font-size: 15px; line-height: 18px; font-weight: 700; }
+
+/* ───────── PumpCard ───────── */
+.dc-pumpcard__body { display: flex; flex-direction: column; gap: var(--space-3); }
+.dc-pumpcard__row { display: flex; align-items: center; gap: var(--space-3); }
+.dc-pumpcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.dc-pumpcard__name {
+  margin: 0;
+  font-size: var(--fs-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.dc-pumpcard__empty-title { margin: 0; font-weight: 700; color: var(--text-2); }
+.dc-pumpcard__meta {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-caption);
+  color: var(--text-2);
+}
+.dc-pumpcard__meta svg { flex: none; color: var(--text-3); }
+.dc-pumpcard__add { flex: none; color: var(--accent); }
+.dc-pumpcard__chevron { flex: none; color: var(--text-3); }
+.dc-pumpcard__badges { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.dc-pumpcard.dc-pumpcard--low { border-color: #f5e0a3; }
+
+/* ───────── ExploreCard ───────── */
+.dc-explore.dc-explore--compact,
+.dc-explore.dc-explore--full {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-color: var(--accent-border);
+}
+.dc-explore.dc-explore--full { border-width: 1.5px; }
+.dc-explore__head { display: flex; align-items: flex-start; gap: var(--space-3); }
+.dc-explore__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-input);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.dc-explore__headtext { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.dc-explore__add { margin: 2px 0 0; font-size: var(--fs-heading); font-weight: 700; line-height: 1.3; }
+.dc-explore__cat { margin: 0; font-size: var(--fs-caption); color: var(--text-2); }
+.dc-explore__recipe { display: flex; flex-direction: column; gap: 2px; }
+.dc-explore__name { margin: 0; font-size: var(--fs-title); font-weight: 800; line-height: 1.3; }
+.dc-explore__desc { margin: 0; color: var(--text-2); }
+.dc-explore__list { display: flex; flex-direction: column; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.dc-explore__ing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-input);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.dc-explore__ing.is-new { background: var(--accent-soft); border-color: var(--accent-border); border-style: dashed; }
+.dc-explore__ingtext { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.dc-explore__ingname { margin: 0; font-weight: 700; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.dc-explore__ingmeta { margin: 0; font-size: var(--fs-small); color: var(--text-2); }
+.dc-explore__ml { flex: none; font-size: var(--fs-label); font-weight: 600; color: var(--text-2); }
+.dc-explore__ing.is-new .dc-explore__ingname,
+.dc-explore__ing.is-new .dc-explore__ingmeta,
+.dc-explore__ing.is-new .dc-explore__ml {
+  color: var(--accent-strong);
+  color: color-mix(in srgb, var(--accent-strong) 80%, #000);
+}
+.dc-explore__msg { margin: 0; font-size: var(--fs-caption); color: var(--text-2); }
+.dc-explore__install { display: flex; flex-direction: column; gap: var(--space-1); }
+.dc-explore__hint { margin: 0; font-size: var(--fs-caption); color: var(--text-2); }
+.dc-explore__warn { margin: 0; font-size: var(--fs-caption); color: var(--yellow-strong); }
+
+/* ───────── 화면 오류 복구 카드 (ErrorBoundary) ───────── */
+.dc-crash { padding: var(--space-6) var(--space-4); }
+.dc-crash--full { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; }

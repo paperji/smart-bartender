@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 520" width="1180" height="520" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif">
+<defs>
+<marker id="dimA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9 z" fill="#6b7785"/></marker>
+<marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f80c9"/></marker>
+<marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker>
+<marker id="arrK" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/></marker>
+<marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/></marker>
+<marker id="arrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52606d"/></marker>
+<marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c92a2a"/></marker>
+</defs>
+<rect x="0" y="0" width="1180" height="520" fill="#ffffff"/>
+<text x="24.00" y="34.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">멀티미터 기초 — 도통(삐) · 전압 · 극성 · 단락 확인</text>
+<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">검정 리드는 COM, 빨강 리드는 VΩ 구멍에 꽂습니다. 다이얼만 바꿔 가며 아래 4가지를 연습해 보세요.</text>
+<rect x="20.00" y="76.00" width="268.00" height="430.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<text x="34.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">① 도통 테스트 (삐 소리)</text>
+<rect x="312.00" y="76.00" width="268.00" height="430.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<text x="326.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">② DC 전압 측정</text>
+<rect x="604.00" y="76.00" width="268.00" height="430.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<text x="618.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">③ 어댑터 극성 확인</text>
+<rect x="896.00" y="76.00" width="268.00" height="430.00" rx="8" fill="#ffffff" stroke="#e4e7eb" stroke-width="1.2"/>
+<text x="910.00" y="102.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">④ 전원 넣기 전 단락 검사</text>
+<rect x="34.00" y="120.00" width="120.00" height="190.00" rx="12" fill="#ffd43b" stroke="#7a5c00" stroke-width="1.6"/>
+<rect x="48.00" y="134.00" width="92.00" height="40.00" rx="4" fill="#c5d1c0" stroke="#556" stroke-width="1.2"/>
+<text x="94.00" y="164.00" font-family="'Consolas','Courier New',monospace" font-size="22" text-anchor="middle" font-weight="bold" fill="#1f2933">000</text>
+<circle cx="94.00" cy="230.00" r="32.00" fill="#343a40" stroke="#111" stroke-width="1"/>
+<line x1="94.00" y1="230.00" x2="80.00" y2="205.75" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+<text x="94.00" y="280.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#1f2933">•))) 도통</text>
+<circle cx="70.00" cy="296.00" r="6.00" fill="#111" stroke="none" stroke-width="1.5"/>
+<circle cx="118.00" cy="296.00" r="6.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<text x="61.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="end" font-weight="normal" fill="#1f2933">COM</text>
+<text x="127.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="start" font-weight="normal" fill="#1f2933">VΩ</text>
+<line x1="170.00" y1="210.00" x2="270.00" y2="210.00" stroke="#d64545" stroke-width="6" stroke-linecap="round"/>
+<line x1="160.00" y1="210.00" x2="170.00" y2="210.00" stroke="#c8742f" stroke-width="3" stroke-linecap="round"/>
+<line x1="270.00" y1="210.00" x2="280.00" y2="210.00" stroke="#c8742f" stroke-width="3" stroke-linecap="round"/>
+<path d="M70,296 Q140,340 158,236" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="3"/>
+<line x1="158.00" y1="236.00" x2="162.00" y2="210.00" stroke="#222222" stroke-width="7" stroke-linecap="round"/>
+<line x1="162.00" y1="210.00" x2="163.00" y2="202.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M118,296 Q220,360 273,236" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="3"/>
+<line x1="273.00" y1="236.00" x2="277.00" y2="210.00" stroke="#d64545" stroke-width="7" stroke-linecap="round"/>
+<line x1="277.00" y1="210.00" x2="278.00" y2="202.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<text x="225.00" y="186.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="15" text-anchor="middle" font-weight="bold" fill="#2b8a3e">"삐—"</text>
+<text x="34.00" y="400.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">전선 양 끝, 단자와 단자가 연결됐는지 봄.</text>
+<text x="34.00" y="416.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 삐 소리 = 연결됨</text>
+<text x="34.00" y="432.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 소리 없음 = 끊김 (또는 접촉 불량)</text>
+<text x="34.00" y="448.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">⚠ 전원이 꺼진 상태에서만 사용</text>
+<rect x="326.00" y="120.00" width="120.00" height="190.00" rx="12" fill="#ffd43b" stroke="#7a5c00" stroke-width="1.6"/>
+<rect x="340.00" y="134.00" width="92.00" height="40.00" rx="4" fill="#c5d1c0" stroke="#556" stroke-width="1.2"/>
+<text x="386.00" y="164.00" font-family="'Consolas','Courier New',monospace" font-size="22" text-anchor="middle" font-weight="bold" fill="#1f2933">5.12</text>
+<circle cx="386.00" cy="230.00" r="32.00" fill="#343a40" stroke="#111" stroke-width="1"/>
+<line x1="386.00" y1="230.00" x2="400.00" y2="205.75" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+<text x="386.00" y="280.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#1f2933">V⎓ 20V</text>
+<circle cx="362.00" cy="296.00" r="6.00" fill="#111" stroke="none" stroke-width="1.5"/>
+<circle cx="410.00" cy="296.00" r="6.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<text x="353.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="end" font-weight="normal" fill="#1f2933">COM</text>
+<text x="419.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="start" font-weight="normal" fill="#1f2933">VΩ</text>
+<rect x="472.00" y="190.00" width="80.00" height="34.00" rx="3" fill="#2f9e44" stroke="#1b5e20" stroke-width="1"/>
+<circle cx="492.00" cy="207.00" r="7.00" fill="#ced4da" stroke="#555" stroke-width="1.5"/>
+<circle cx="532.00" cy="207.00" r="7.00" fill="#ced4da" stroke="#555" stroke-width="1.5"/>
+<text x="492.00" y="186.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#d64545">+</text>
+<text x="532.00" y="186.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1f2933">−</text>
+<text x="512.00" y="244.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">J1 단자</text>
+<path d="M410,296 Q432,340 488,235" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="3"/>
+<line x1="488.00" y1="235.00" x2="492.00" y2="209.00" stroke="#d64545" stroke-width="7" stroke-linecap="round"/>
+<line x1="492.00" y1="209.00" x2="493.00" y2="201.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M362,296 Q512,380 528,235" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="3"/>
+<line x1="528.00" y1="235.00" x2="532.00" y2="209.00" stroke="#222222" stroke-width="7" stroke-linecap="round"/>
+<line x1="532.00" y1="209.00" x2="533.00" y2="201.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<text x="326.00" y="400.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">빨강 = +, 검정 = −에 댐.</text>
+<text x="326.00" y="416.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 정상: 4.9 ~ 5.25 V</text>
+<text x="326.00" y="432.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 숫자 앞에 − 표시 = 극성 반대</text>
+<text x="326.00" y="448.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">⚠ 전류(A) 위치에서 재면 퓨즈가 나감</text>
+<rect x="618.00" y="120.00" width="120.00" height="190.00" rx="12" fill="#ffd43b" stroke="#7a5c00" stroke-width="1.6"/>
+<rect x="632.00" y="134.00" width="92.00" height="40.00" rx="4" fill="#c5d1c0" stroke="#556" stroke-width="1.2"/>
+<text x="678.00" y="164.00" font-family="'Consolas','Courier New',monospace" font-size="22" text-anchor="middle" font-weight="bold" fill="#1f2933">5.10</text>
+<circle cx="678.00" cy="230.00" r="32.00" fill="#343a40" stroke="#111" stroke-width="1"/>
+<line x1="678.00" y1="230.00" x2="692.00" y2="205.75" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+<text x="678.00" y="280.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#1f2933">V⎓ 20V</text>
+<circle cx="654.00" cy="296.00" r="6.00" fill="#111" stroke="none" stroke-width="1.5"/>
+<circle cx="702.00" cy="296.00" r="6.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<text x="645.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="end" font-weight="normal" fill="#1f2933">COM</text>
+<text x="711.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="start" font-weight="normal" fill="#1f2933">VΩ</text>
+<rect x="754.00" y="198.00" width="50.00" height="8.00" fill="#333" stroke="none" stroke-width="1.5"/>
+<rect x="800.00" y="192.00" width="40.00" height="20.00" rx="2" fill="#c9cdd2" stroke="#777" stroke-width="1"/>
+<rect x="800.00" y="199.00" width="40.00" height="6.00" fill="#555" stroke="none" stroke-width="1.5"/>
+<path d="M702,296 Q754,340 836,232" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="3"/>
+<line x1="836.00" y1="232.00" x2="840.00" y2="206.00" stroke="#d64545" stroke-width="7" stroke-linecap="round"/>
+<line x1="840.00" y1="206.00" x2="841.00" y2="198.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M654,296 Q844,380 814,222" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="3"/>
+<line x1="814.00" y1="222.00" x2="818.00" y2="196.00" stroke="#222222" stroke-width="7" stroke-linecap="round"/>
+<line x1="818.00" y1="196.00" x2="819.00" y2="188.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<text x="812.00" y="182.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">가운데 + / 바깥 −</text>
+<text x="618.00" y="400.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">어댑터 플러그 가운데 구멍에 빨강,</text>
+<text x="618.00" y="416.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">바깥 금속에 검정.</text>
+<text x="618.00" y="432.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· +5.1 → 센터 + (정상)</text>
+<text x="618.00" y="448.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· −5.1 → 센터 − (이 기기에 사용 금지)</text>
+<rect x="910.00" y="120.00" width="120.00" height="190.00" rx="12" fill="#ffd43b" stroke="#7a5c00" stroke-width="1.6"/>
+<rect x="924.00" y="134.00" width="92.00" height="40.00" rx="4" fill="#c5d1c0" stroke="#556" stroke-width="1.2"/>
+<text x="970.00" y="164.00" font-family="'Consolas','Courier New',monospace" font-size="22" text-anchor="middle" font-weight="bold" fill="#1f2933">0.L</text>
+<circle cx="970.00" cy="230.00" r="32.00" fill="#343a40" stroke="#111" stroke-width="1"/>
+<line x1="970.00" y1="230.00" x2="945.75" y2="216.00" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+<text x="970.00" y="280.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#1f2933">Ω 2k</text>
+<circle cx="946.00" cy="296.00" r="6.00" fill="#111" stroke="none" stroke-width="1.5"/>
+<circle cx="994.00" cy="296.00" r="6.00" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<text x="937.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="end" font-weight="normal" fill="#1f2933">COM</text>
+<text x="1003.00" y="300.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="9" text-anchor="start" font-weight="normal" fill="#1f2933">VΩ</text>
+<rect x="1056.00" y="180.00" width="90.00" height="26.00" rx="3" fill="#f8f9fa" stroke="#1f2933" stroke-width="1"/>
+<rect x="1060.00" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1070.50" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1081.00" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1091.50" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1102.00" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1112.50" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1123.00" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1133.50" y="183.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<text x="1101.00" y="201.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="middle" font-weight="bold" fill="#d64545">TB1 5V</text>
+<rect x="1056.00" y="226.00" width="90.00" height="26.00" rx="3" fill="#f8f9fa" stroke="#1f2933" stroke-width="1"/>
+<rect x="1060.00" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1070.50" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1081.00" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1091.50" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1102.00" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1112.50" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1123.00" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<rect x="1133.50" y="229.00" width="7.00" height="7.00" fill="#ff922b" stroke="none" stroke-width="1.5"/>
+<text x="1101.00" y="247.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="middle" font-weight="bold" fill="#222222">TB2 GND</text>
+<path d="M994,296 Q1016,340 1060,236" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="3"/>
+<line x1="1060.00" y1="236.00" x2="1064.00" y2="210.00" stroke="#d64545" stroke-width="7" stroke-linecap="round"/>
+<line x1="1064.00" y1="210.00" x2="1065.00" y2="202.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M946,296 Q1096,380 1060,282" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#222222" stroke-width="3"/>
+<line x1="1060.00" y1="282.00" x2="1064.00" y2="256.00" stroke="#222222" stroke-width="7" stroke-linecap="round"/>
+<line x1="1064.00" y1="256.00" x2="1065.00" y2="248.00" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/>
+<text x="910.00" y="400.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">어댑터를 뽑고 5V–GND 사이 저항 측정.</text>
+<text x="910.00" y="416.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">· 숫자가 점점 커지다 OL → 정상</text>
+<text x="910.00" y="432.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">  (커패시터가 충전되는 중)</text>
+<text x="910.00" y="448.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">⚠ 0Ω 근처에서 안 변함 = 단락!</text>
+<text x="910.00" y="464.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">   → 전원 넣지 말고 배선 점검</text>
+</svg>
