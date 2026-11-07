@@ -6,17 +6,22 @@
  *  - 배치: 모바일 1열, PC(≥900px) 카드 2열
  */
 import { Clock, Sparkles, Star } from 'lucide-react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 import { ScreenBoundary } from '@/components';
 import { go } from '@/lib/nav';
-import { isFavorite, useHistory } from '@/store/history';
+import { shareKeyOf } from '@/lib/share/convert';
+import { isFavorite, useHistory, type HistoryEntry } from '@/store/history';
+import { useShared } from '@/store/shared';
 import { useSlots } from '@/store/slots';
 import { toast } from '@/store/toast';
 import { Button, Card, confirm, EmptyState, Page, PageHeader, Segmented } from '@/ui';
 
 import { FavoriteCard, HistoryCard } from './HistoryCards';
 import { favoriteOrigin, remakeSaved } from './remake';
+import { ShareDialog } from '../shared/ShareDialog';
+import { cancelShare } from '../shared/sharedActions';
 
 import './HistoryScreen.css';
 
@@ -38,6 +43,17 @@ function HistoryScreenContent() {
   const removeEntry = useHistory((s) => s.remove);
   const removeFavorite = useHistory((s) => s.removeFavorite);
   const slots = useSlots((s) => s.slots);
+  const mine = useShared((s) => s.mine);
+  const [shareTarget, setShareTarget] = useState<HistoryEntry | null>(null);
+
+  const onShare = async (e: HistoryEntry) => {
+    const already = mine[shareKeyOf(e.recipe)];
+    if (!already) {
+      setShareTarget(e);
+      return;
+    }
+    if (await cancelShare(already.id, e.recipe.name)) toast('공유를 취소했어요.', 'success');
+  };
 
   const likes = entries.filter((e) => e.feedback === 'like').length;
 
@@ -71,14 +87,21 @@ function HistoryScreenContent() {
                 <HistoryCard
                   entry={e}
                   slots={slots}
-                  fav={isFavorite(favorites, e.recipe)}
-                  onRemake={() => remakeSaved(e.recipe, e.source, e.strength)}
-                  onFav={() => toast(toggleFavorite(e.recipe) ? '즐겨찾기에 추가했어요.' : '즐겨찾기에서 뺐어요.', 'success')}
+                  fav={isFavorite(favorites, e.recipe, e.sharedId)}
+                  onRemake={() => remakeSaved(e.recipe, e.source, e.strength, { provider: e.provider, sharedId: e.sharedId })}
+                  onFav={() =>
+                    toast(
+                      toggleFavorite(e.recipe, { sharedId: e.sharedId, provider: e.provider, source: e.source }) ? '즐겨찾기에 추가했어요.' : '즐겨찾기에서 뺐어요.',
+                      'success',
+                    )
+                  }
                   onDelete={async () => {
                     if (await confirm('기록 삭제', `'${e.recipe.name}' 기록을 지울까요?`, { confirmText: '삭제', destructive: true })) {
                       removeEntry(e.id);
                     }
                   }}
+                  shared={!!mine[shareKeyOf(e.recipe)]}
+                  onShare={e.status === 'done' && !e.sharedId ? () => onShare(e) : undefined}
                 />
               </li>
             ))}
@@ -96,8 +119,8 @@ function HistoryScreenContent() {
                 fav={f}
                 slots={slots}
                 onRemake={() => {
-                  const { source, strength } = favoriteOrigin(f.recipe, useHistory.getState().entries);
-                  remakeSaved(f.recipe, source, strength);
+                  const { source, strength, provider, sharedId } = favoriteOrigin(f, useHistory.getState().entries);
+                  remakeSaved(f.recipe, source, strength, { provider, sharedId });
                 }}
                 onRemove={() => {
                   removeFavorite(f.id);
@@ -108,6 +131,7 @@ function HistoryScreenContent() {
           ))}
         </ul>
       )}
+      <ShareDialog entry={shareTarget} onClose={() => setShareTarget(null)} />
     </Page>
   );
 }

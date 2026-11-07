@@ -4,13 +4,14 @@
  * v3.0: expo-router → lib/nav.ts, Alert → ui/dialog/service, 키는 platform/secrets (BYOK — 키가 없으면 오프라인 추천)
  */
 import type { PumpPick } from '@/lib/ai/explore';
-import { GEMINI_ERROR_TEXT, generateRecipe, type GeminiErrorCode } from '@/lib/ai/recommend';
+import { providerLabel } from '@/lib/ai/providers';
+import { AI_ERROR_TEXT, generateRecipe, type AiErrorCode } from '@/lib/ai/recommend';
 import type { Category, ExploreItem, RecipeResult, RecommendMode, UserInput } from '@/lib/types';
-import { getGeminiKey } from '@/platform/secrets';
+import { getAiKey } from '@/platform/secrets';
 import { withAiBusy } from '@/store/aiBusy';
 import { useDraft, useSession } from '@/store/draft';
 import { historyHints, useHistory } from '@/store/history';
-import { useSettings } from '@/store/settings';
+import { activeModel, useSettings } from '@/store/settings';
 import { useSlots } from '@/store/slots';
 import { toast } from '@/store/toast';
 import { alertMessage } from '@/ui/dialog/service';
@@ -28,18 +29,19 @@ export interface RecommendArgs {
   target?: ExploreItem | null;
 }
 
-/** 현재 설정·재료·기록으로 AI 추천 요청 (설정이 gemini 여도 키가 없으면 오프라인 추천 + fallbackCode 'NO_KEY') */
+/** 현재 설정·재료·기록으로 AI 추천 요청 (설정이 ai 여도 고른 회사의 키가 없으면 오프라인 추천 + fallbackCode 'NO_KEY') */
 export async function requestRecommendation(args: RecommendArgs): Promise<RecipeResult> {
   const st = useSettings.getState();
-  const key = st.aiMode === 'gemini' ? await getGeminiKey() : null;
+  const key = st.aiMode === 'ai' ? await getAiKey(st.aiProvider) : null;
   const h = useHistory.getState();
   return generateRecipe({
     input: args.input,
     slots: useSlots.getState().slots,
     history: historyHints(h.entries, h.rejections),
     aiMode: st.aiMode,
-    geminiKey: key,
-    geminiModel: st.geminiModel,
+    aiProvider: st.aiProvider,
+    aiKey: key,
+    aiModel: activeModel(st),
     mode: args.mode ?? 'normal',
     adultVerified: !!st.adultVerifiedAt,
     variation: args.variation ?? Math.floor(Math.random() * 100000),
@@ -59,18 +61,19 @@ function goTo(path: '/recipe' | '/explore', how: NavHow) {
 let noKeyToastShown = false;
 
 /** 오프라인 추천으로 바뀐 이유 → 토스트 문구 (null 이면 토스트 없음) */
-export function fallbackToast(result: Pick<RecipeResult, 'source' | 'fallbackReason' | 'fallbackCode' | 'timedOut'>): {
+export function fallbackToast(result: Pick<RecipeResult, 'source' | 'fallbackReason' | 'fallbackCode' | 'timedOut' | 'provider'>): {
   message: string;
   kind: 'info' | 'warning';
 } | null {
   if (result.source !== 'offline' || !result.fallbackReason) return null;
   if (result.fallbackCode === 'NO_KEY') {
-    return { message: 'AI 키가 없어 오프라인 추천을 보여드려요. 설정에서 내 Gemini 키를 등록할 수 있어요.', kind: 'info' };
+    return { message: 'AI 키가 없어 오프라인 추천을 보여드려요. 설정에서 내 AI 키를 등록할 수 있어요.', kind: 'info' };
   }
   if (result.timedOut) return { message: 'AI 응답이 너무 늦어 오프라인 추천을 보여드려요.', kind: 'warning' };
-  const why = result.fallbackCode && result.fallbackCode in GEMINI_ERROR_TEXT ? GEMINI_ERROR_TEXT[result.fallbackCode as GeminiErrorCode] : null;
+  const why = result.fallbackCode && result.fallbackCode in AI_ERROR_TEXT ? AI_ERROR_TEXT[result.fallbackCode as AiErrorCode] : null;
+  const label = result.provider ? providerLabel(result.provider) : 'AI';
   return {
-    message: why ? `Gemini 를 쓰지 못해 오프라인 추천을 보여드려요. (${why})` : 'Gemini 에 연결하지 못해 오프라인 추천을 보여드려요.',
+    message: why ? `${label}에서 답을 받지 못해 오프라인 추천을 보여드려요. (${why})` : `${label}에 연결하지 못해 오프라인 추천을 보여드려요.`,
     kind: 'warning',
   };
 }
@@ -95,6 +98,7 @@ export function showResult(
       warnings: result.warnings,
       fallbackReason: result.fallbackReason,
       fallbackCode: result.fallbackCode,
+      ...(result.provider ? { provider: result.provider } : {}),
       input,
       createdAt: now,
       round: opts.round ?? 0,

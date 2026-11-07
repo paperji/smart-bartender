@@ -495,7 +495,9 @@ async function runUpdate(): Promise<void> {
       saveUpdatePrefs({ pendingPermission: { version: info.version, at: Date.now(), info } });
       set({ status: 'needs-permission', error: null, open: true });
       // "허용했어요, 계속"을 눌렀는데 아직 꺼져 있음
-      if (before === 'needs-permission') toast('아직 "이 출처 허용"이 꺼져 있어요. 설정에서 켠 뒤 다시 눌러 주세요.', 'warning');
+      if (before === 'needs-permission') {
+        toast('아직 "이 출처 허용"이 꺼져 있어요. 설정에서 켠 뒤(목록이 열리면 AI 스마트 바텐더를 눌러 켜기) 다시 눌러 주세요.', 'warning');
+      }
       return;
     }
     // 사용자가 이 버전을 골랐으므로 예전에 건너뛴 표시·허용 대기 표시·"나중에"는 지움

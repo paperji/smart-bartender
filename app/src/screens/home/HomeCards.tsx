@@ -5,9 +5,10 @@ import { ChevronRight, Compass, KeyRound, ListChecks, RotateCcw, Sparkles, WifiO
 import { useId } from 'react';
 
 import { aiModeCaption } from '@/lib/ai/mode';
+import { providerLabel } from '@/lib/ai/providers';
 import { go } from '@/lib/nav';
 import type { PumpSlot, UserInput } from '@/lib/types';
-import { useEffectiveAiMode, useSettings } from '@/store/settings';
+import { activeKeyHint, useEffectiveAiMode, useSettings } from '@/store/settings';
 import { Badge, Banner, Button, Card, cx, Divider, Row, SectionHeader, Stack, Text } from '@/ui';
 
 import { summaryRows } from './homeData';
@@ -17,7 +18,7 @@ import { summaryRows } from './homeData';
 /** 키가 없고 아직 닫지 않았으면 보임. 닫으면 settings.onboardingDismissed 에 저장 */
 export function OnboardingCard() {
   const dismissed = useSettings((s) => s.onboardingDismissed);
-  const hasKey = useSettings((s) => !!s.geminiKeyHint);
+  const hasKey = useSettings((s) => Object.keys(s.aiKeyHints).length > 0);
   const set = useSettings((s) => s.set);
   if (dismissed || hasKey) return null;
   return (
@@ -25,7 +26,7 @@ export function OnboardingCard() {
       tone="info"
       icon={Sparkles}
       title="처음 오셨나요?"
-      message="AI 키를 등록하면 Gemini 가 레시피를 만들어요. 없어도 오프라인 추천으로 바로 쓸 수 있어요."
+      message="내 AI 키(Gemini·ChatGPT·Claude 등)를 등록하면 AI 가 레시피를 만들어요. 없어도 오프라인 추천으로 바로 쓸 수 있어요."
       action={<Button size="sm" variant="secondary" icon={KeyRound} label="AI 키 등록하러 가기" onClick={() => go('/settings')} />}
       onClose={() => set({ onboardingDismissed: true })}
     />
@@ -90,9 +91,10 @@ export interface ActionCardProps {
 export function ActionCard({ input, wide, generating, onGenerate, onExplore, onReset }: ActionCardProps) {
   const hintId = useId();
   const aiMode = useSettings((s) => s.aiMode);
-  const hasKey = useSettings((s) => !!s.geminiKeyHint);
+  const hasKey = useSettings((s) => !!activeKeyHint(s));
+  const label = useSettings((s) => providerLabel(s.aiProvider));
   const effective = useEffectiveAiMode();
-  const caption = aiModeCaption(aiMode, hasKey);
+  const caption = aiModeCaption(aiMode, hasKey, label);
   return (
     <Card padded={wide ? 'lg' : true} className={cx('home-action', wide && 'home-action--wide')}>
       <Stack gap={14}>
@@ -102,8 +104,8 @@ export function ActionCard({ input, wide, generating, onGenerate, onExplore, onR
               title="지금 고른 조건"
               icon={ListChecks}
               action={
-                effective === 'gemini' ? (
-                  <Badge tone="info" icon={Sparkles} label="Gemini AI" />
+                effective === 'ai' ? (
+                  <Badge tone="info" icon={Sparkles} label={`${label} AI`} />
                 ) : (
                   <Badge tone="neutral" icon={WifiOff} label="오프라인 추천" />
                 )

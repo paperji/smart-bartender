@@ -42,20 +42,35 @@ const SMOKE_OUT = argValue('smoke-out');
 const DEV_URL = app.isPackaged ? null : process.env.SB_DEV_URL || argValue('dev-url');
 
 /**
- * 앱 화면(app://bartender 의 HTML)에 붙이는 콘텐츠 보안 정책 — 앱 파일·Gemini·Open-Meteo·GitHub 릴리스 정보만 (PKG-8)
+ * 앱 화면(app://bartender 의 HTML)에 붙이는 콘텐츠 보안 정책 — 앱 파일·AI 회사·Open-Meteo·GitHub 릴리스 정보·공유 레시피 서버만 (PKG-8)
  *  - 스크립트: 앱 파일만 (인라인·eval 없음). 스타일: 앱 파일 + 인라인 style 속성(React)
- *  - 연결: 앱 파일 + Gemini(generativelanguage.googleapis.com) + 날씨(api.open-meteo.com) + 새 버전 확인(api.github.com 릴리스 정보).
+ *  - 연결: 앱 파일 + AI 회사 API(AI_ORIGINS — src/lib/ai/providers.ts 의 origin 과 같게, 테스트로 비교)
+ *    + 날씨(api.open-meteo.com) + 새 버전 확인(api.github.com 릴리스 정보) + 모두의 레시피(Supabase, src/lib/share/api.ts SHARE_API_URL).
  *    Web Bluetooth 는 CSP 대상 아님. 새 버전 파일은 화면이 아니라 메인 프로세스가 내려받음(updater.cjs)
  *  - 다른 사이트를 틀 안에 넣거나(frame-ancestors) 다른 곳으로 양식을 보내지 못하게
  * 개발 서버(DEV_URL)는 Vite 가 인라인 스크립트를 쓰므로 붙이지 않음
  */
+/** AI 회사 API 주소 (Gemini·ChatGPT·Claude·Grok·DeepSeek·Mistral·Groq·OpenRouter) */
+const AI_ORIGINS = [
+  'https://generativelanguage.googleapis.com',
+  'https://api.openai.com',
+  'https://api.anthropic.com',
+  'https://api.x.ai',
+  'https://api.deepseek.com',
+  'https://api.mistral.ai',
+  'https://api.groq.com',
+  'https://openrouter.ai',
+];
+/** 모두의 레시피 서버 (Supabase) */
+const SHARE_ORIGIN = 'https://ikxqrlqouijspalysanl.supabase.co';
+
 const CSP = [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://generativelanguage.googleapis.com https://api.open-meteo.com https://api.github.com",
+  `connect-src 'self' ${AI_ORIGINS.join(' ')} https://api.open-meteo.com https://api.github.com ${SHARE_ORIGIN}`,
   "manifest-src 'self'",
   "worker-src 'self'",
   "object-src 'none'",

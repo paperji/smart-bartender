@@ -1,0 +1,97 @@
+/* 모두의 레시피 (src/screens/shared) — 클래스는 shared- 로 시작. 즐겨찾기 별·회색 버튼은 history- 클래스를 같이 씀 */
+
+/* 카드 목록: 모바일 1열, PC 2열 */
+.shared-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+.shared-grid > li { display: flex; min-width: 0; }
+@media (min-width: 900px) {
+  .shared-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+}
+
+.shared-loading { display: grid; place-items: center; min-height: 96px; color: var(--text-3); }
+
+.shared-card { display: flex; flex-direction: column; gap: var(--space-3); width: 100%; min-width: 0; }
+.shared-card--first { border-color: var(--accent-border); box-shadow: var(--shadow); }
+.shared-card__head { display: flex; align-items: flex-start; gap: var(--space-3); }
+.shared-card__titles { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.shared-card__name { overflow-wrap: anywhere; }
+.shared-card__en { color: var(--text-3); font-size: var(--fs-caption); font-weight: 600; }
+.shared-card__meta { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 3px; }
+.shared-card__count { color: var(--accent-strong); font-weight: 700; }
+.shared-card__actions { display: flex; align-items: center; flex: none; margin: -6px -8px 0 0; }
+.shared-card__comment {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--accent-soft);
+  color: var(--text);
+  font-size: var(--fs-caption);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.shared-card__desc { margin: 0; color: var(--text-2); font-size: var(--fs-caption); line-height: 1.55; overflow-wrap: anywhere; }
+.shared-card__badges { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* 순위 동그라미: 1위 당근, 2·3위 진한 회색, 4·5위 연한 회색 */
+.shared-rank {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-weight: 800;
+  font-size: var(--fs-label);
+  font-variant-numeric: tabular-nums;
+}
+.shared-rank--1 { background: var(--accent); color: var(--on-accent); }
+.shared-rank--2,
+.shared-rank--3 { background: var(--yellow-soft); color: var(--yellow-strong); }
+
+/* 재료: 장착됨(초록 체크) / 없음(회색) */
+.shared-card__ings { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.shared-ing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.shared-ing.is-on { background: var(--green-soft); border-color: transparent; color: var(--text); }
+.shared-ing.is-on svg { color: var(--green); }
+.shared-ing.is-off { color: var(--text-3); border-style: dashed; }
+.shared-ing__low { color: var(--yellow-strong); font-weight: 700; }
+.shared-card__ready { display: flex; align-items: center; gap: 6px; margin: 0; font-size: var(--fs-caption); font-weight: 600; }
+.shared-card__ready.is-ready { color: var(--green); }
+.shared-card__ready.is-missing { color: var(--text-2); }
+
+.shared-card__more { font-size: var(--fs-caption); color: var(--text-2); }
+.shared-card__more > summary { cursor: pointer; font-weight: 600; padding: var(--space-1) 0; min-height: 32px; display: flex; align-items: center; }
+.shared-card__more[open] > summary { margin-bottom: var(--space-2); }
+.shared-card__more > * + * { margin-top: var(--space-2); }
+.shared-card__use { margin-top: auto; }
+
+/* 검색 */
+.shared-search { display: flex; flex-direction: column; gap: var(--space-2); }
+.shared-search__form { display: flex; align-items: flex-end; gap: var(--space-2); }
+.shared-search__field { flex: 1; min-width: 0; }
+.shared-search > .sb-chip { align-self: flex-start; }
+.shared-result-count { color: var(--text-2); }
+.shared-subhead { margin-top: var(--space-2); color: var(--text-2); }
+
+/* 공유 창 */
+.shared-preview { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border-radius: var(--radius-input); background: var(--surface-2); }
+.shared-dialog__footer { justify-content: flex-end; width: 100%; }
+.shared-dialog__footer > * { flex: 1 1 0; }

@@ -6,6 +6,7 @@
  *   1) app/.env.development.local 의 VITE_DEV_GEMINI_KEY 값 그대로 (이 스크립트 안에서만 읽고 절대 출력하지 않음)
  *   2) Google API 키 모양: /AQ\.[A-Za-z0-9_-]{20,}/ , /AIza[0-9A-Za-z_-]{30,}/
  *   3) 개발용 키 변수 이름 'VITE_DEV_GEMINI_KEY' (배포 빌드에서는 dead code 로 지워져야 함)
+ *   4) (v3.1) 다른 AI 회사 키 모양(sk-proj-·sk-ant-·xai-·gsk_·sk-or-v1-)과 Supabase 비밀 키(sb_secret_) — 공개용 키 sb_publishable_ 는 괜찮음
  *  발견하면 파일 이름(과 어떤 규칙인지)만 출력하고 exit 1. 일치한 값은 출력하지 않음.
  *  APK·AAB·ZIP 은 바이트 그대로 + 안의 파일을 하나씩 풀어서도 검사(파일 이름은 "apk!/assets/public/..." 처럼 표시).
  *  app.asar(EXE 안의 앱 묶음)는 압축하지 않은 묶음이라 바이트 그대로 검사하면 충분. portable .exe 는 LZMA 로 압축돼 안을 못 보므로
@@ -41,6 +42,14 @@ const RULES = [
   { name: 'Google API 키 모양 (AQ.)', re: /AQ\.[A-Za-z0-9_-]{20,}/ },
   { name: 'Google API 키 모양 (AIza)', re: /AIza[0-9A-Za-z_-]{30,}/ },
   { name: '개발용 키 변수 이름', re: /VITE_DEV_GEMINI_KEY/ },
+  // v3.1: 다른 AI 회사 키 모양 (사용자 키는 기기에만 저장 — 배포물에 들어가면 안 됨)
+  { name: 'OpenAI 키 모양 (sk-proj-)', re: /sk-(?:proj|svcacct)-[A-Za-z0-9_-]{40,}/ },
+  { name: 'Anthropic 키 모양 (sk-ant-)', re: /sk-ant-(?:api|admin)\d{2}-[A-Za-z0-9_-]{40,}/ },
+  { name: 'xAI 키 모양 (xai-)', re: /xai-[A-Za-z0-9]{40,}/ },
+  { name: 'Groq 키 모양 (gsk_)', re: /gsk_[A-Za-z0-9]{40,}/ },
+  { name: 'OpenRouter 키 모양 (sk-or-v1-)', re: /sk-or-v1-[0-9a-f]{40,}/ },
+  // 공유 레시피 서버: 공개용 키(sb_publishable_)는 넣어도 되지만 비밀 키(sb_secret_)·service_role 은 안 됨
+  { name: 'Supabase 비밀 키 모양 (sb_secret_)', re: /sb_secret_[A-Za-z0-9_-]{20,}/ },
 ];
 
 function* walk(p) {

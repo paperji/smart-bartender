@@ -1,94 +1,78 @@
 /**
- * "키 발급 방법" — Google AI Studio 에서 Gemini API 키를 받는 3단계 그림 설명 (WEBAPP_DESIGN §4)
- * 비용·사용 한도, 키가 이 기기에만 저장된다는 안내 포함. 링크는 새 창(탭)으로 열림.
+ * "키 발급 방법" (v3.1) — 추천 AI 목록에서 하나를 고르면 그 AI 의 API 키를 받는 단계를 보여 줌
+ *  - 처음에는 지금 고른 AI(설정)의 안내. 다른 AI 를 눌러 미리 볼 수 있고, [이 AI 로 쓰기]로 바로 바꿀 수 있음
+ *  - 단계 · [○○ 열기](새 창) · 무료/비용 · 알아 둘 것 · 키 보관 안내
  */
-import { BadgeDollarSign, ClipboardPaste, ExternalLink, Gauge, HelpCircle, KeyRound, LogIn, ShieldCheck } from 'lucide-react';
+import { BadgeDollarSign, ExternalLink, HelpCircle, Info, ShieldCheck } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-import { AI_STUDIO_KEY_URL } from '@/lib/ai/gemini';
+import { FREE_LABEL, providerOf, type AiProviderId } from '@/lib/ai/providers';
+import { Badge, Button } from '@/ui';
 
 import { Disclosure } from './Disclosure';
+import { ProviderPicker } from './ProviderPicker';
 
-const STEPS = [
-  {
-    icon: LogIn,
-    title: 'Google AI Studio 열기',
-    body: (
-      <>
-        아래 <b>[Google AI Studio 열기]</b>를 눌러 Google 계정으로 로그인해요.
-      </>
-    ),
-  },
-  {
-    icon: KeyRound,
-    title: 'API 키 만들기',
-    body: (
-      <>
-        <b>Create API key</b>(API 키 만들기)를 눌러요. 프로젝트를 고르라고 하면 기본 프로젝트를 고르거나 새로 만들면 돼요.
-      </>
-    ),
-  },
-  {
-    icon: ClipboardPaste,
-    title: '복사해서 붙여 넣기',
-    body: (
-      <>
-        만들어진 키를 복사해 위 <b>API 키</b> 칸에 붙여 넣고 <b>[키 확인]</b> → <b>[저장]</b>을 눌러요.
-      </>
-    ),
-  },
-];
+export interface KeyGuideProps {
+  /** 설정에서 고른 AI (처음 보여 줄 안내) */
+  current: AiProviderId;
+  /** [이 AI 로 쓰기] */
+  onUse: (id: AiProviderId) => void;
+}
 
-export function KeyGuide() {
+export function KeyGuide({ current, onUse }: KeyGuideProps) {
+  const [shown, setShown] = useState<AiProviderId>(current);
+  // 설정에서 AI 를 바꾸면 안내도 그 AI 로
+  useEffect(() => setShown(current), [current]);
+  const p = providerOf(shown);
   return (
-    <Disclosure icon={HelpCircle} title="키 발급 방법" subtitle="Google AI Studio 에서 3단계로 무료 발급해요">
+    <Disclosure icon={HelpCircle} title="키 발급 방법" subtitle="AI 를 고르면 그 AI 의 API 키 받는 방법을 알려 드려요">
       <p className="settings-help">
-        API 키는 이 앱이 <b>내 Google 계정으로 Gemini AI 를 부를 때 쓰는 열쇠</b>예요(API = 앱끼리 주고받는 통로).
+        API 키는 이 앱이 <b>내 계정으로 AI 를 부를 때 쓰는 열쇠</b>예요(API = 앱끼리 주고받는 통로). 아래에서 키를 받을 AI 를 골라 보세요.
       </p>
-      <ol className="settings-steps settings-steps--3">
-        {STEPS.map((s, i) => {
-          const Icon = s.icon;
-          return (
-            <li key={s.title} className="settings-step">
-              <span className="settings-step__art" aria-hidden="true">
-                <Icon size={24} />
-                <span className="settings-step__num">{i + 1}</span>
-              </span>
-              <div>
-                <p className="settings-step__title">
-                  <span className="sr-only">{i + 1}단계. </span>
-                  {s.title}
-                </p>
-                <p className="settings-step__body">{s.body}</p>
-              </div>
-            </li>
-          );
-        })}
+      <ProviderPicker value={shown} onChange={setShown} ariaLabel="키 발급 방법을 볼 AI" compact />
+
+      <div className="settings-guide-head" aria-live="polite">
+        <span className="settings-guide-title">
+          {p.label} <span className="settings-guide-company">({p.company})</span>
+        </span>
+        <Badge label={FREE_LABEL[p.free]} tone={p.free === 'free' ? 'success' : p.free === 'partial' ? 'info' : 'warning'} />
+      </div>
+      <p className="settings-help">{p.priceNote}</p>
+
+      <ol className={`settings-steps settings-steps--${Math.min(p.steps.length, 4)}`} aria-label={`${p.label} API 키 받는 단계`}>
+        {p.steps.map((s, i) => (
+          <li key={`${p.id}-${i}`} className="settings-step">
+            <span className="settings-step__art" aria-hidden="true">
+              <span className="settings-step__num settings-step__num--big">{i + 1}</span>
+            </span>
+            <div>
+              <p className="settings-step__title">
+                <span className="sr-only">{i + 1}단계. </span>
+                {s.title}
+              </p>
+              <p className="settings-step__body">{s.body}</p>
+            </div>
+          </li>
+        ))}
       </ol>
-      <a
-        className="sb-btn sb-btn--secondary sb-btn--md sb-btn--full settings-extlink"
-        href={AI_STUDIO_KEY_URL}
-        target="_blank"
-        rel="noopener noreferrer">
+
+      <a className="sb-btn sb-btn--secondary sb-btn--md sb-btn--full settings-extlink" href={p.keyPageUrl} target="_blank" rel="noopener noreferrer">
         <ExternalLink size={18} aria-hidden="true" />
-        <span className="sb-btn__label">Google AI Studio 열기</span>
+        <span className="sb-btn__label">{p.keySiteLabel} 열기</span>
       </a>
+      {shown !== current ? <Button variant="ghost" label={`이 AI(${p.label})로 레시피 만들기`} onClick={() => onUse(shown)} full /> : null}
+
       <ul className="settings-notes">
-        <li>
-          <Gauge size={16} aria-hidden="true" />
-          <span>
-            <b>사용 한도</b> — 무료로 쓸 수 있지만 분당·하루 사용량 한도가 있어요. 한도를 넘으면 잠시 뒤 다시 되거나, 그동안은 오프라인 추천으로 이어서 만들어요.
-          </span>
-        </li>
-        <li>
-          <BadgeDollarSign size={16} aria-hidden="true" />
-          <span>
-            <b>비용</b> — 결제(유료 등급)를 연결한 키는 쓴 만큼 요금이 나갈 수 있어요. 사용량과 요금은 Google AI Studio 에서 확인해 주세요.
-          </span>
-        </li>
+        {p.notes.map((n, i) => (
+          <li key={`${p.id}-n${i}`}>
+            {i === 0 && p.free !== 'free' ? <BadgeDollarSign size={16} aria-hidden="true" /> : <Info size={16} aria-hidden="true" />}
+            <span>{n}</span>
+          </li>
+        ))}
         <li>
           <ShieldCheck size={16} aria-hidden="true" />
           <span>
-            <b>키 보관</b> — 키는 이 기기에만 저장돼요. 레시피를 만들 때 Google(Gemini)에만 보내고, 팀 서버나 다른 곳으로는 보내지 않아요. 다른 사람과 키를 나누지 마세요.
+            <b>키 보관</b> — 키는 이 기기에만 저장돼요. 레시피를 만들 때 {p.company}에만 보내고, 팀 서버나 다른 곳으로는 보내지 않아요. 다른 사람과 키를 나누지 마세요.
           </span>
         </li>
       </ul>

@@ -152,7 +152,9 @@
   bottom: 0;
   z-index: 60;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* 탭 수(appTabs TABS)만큼 한 줄로 — v3.1 에서 공유 탭이 더해져 5개 */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   height: calc(var(--tabbar-height) + var(--safe-bottom));
   padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
   background: rgba(255, 255, 255, 0.96);
@@ -258,3 +260,14 @@
   gap: 6px;
   color: var(--text-2);
 }
+
+/* 앱 업데이트 창 — 안드로이드 "이 출처 허용" 켜는 순서 (v3.1: 갤럭시는 목록이 열림) */
+.update-steps {
+  margin: 0;
+  padding-left: 1.3em;
+  display: grid;
+  gap: 6px;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+.update-steps b { color: var(--text); }

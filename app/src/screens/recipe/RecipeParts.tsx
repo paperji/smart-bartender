@@ -18,6 +18,7 @@ import {
   Settings as SettingsIcon,
   Sparkles,
   Star,
+  Users,
   Wine,
   type LucideIcon,
   type LucideProps,
@@ -25,6 +26,7 @@ import {
 import { forwardRef, type ReactNode } from 'react';
 
 import { colorFor } from '@/components';
+import { providerLabel, type AiProviderId } from '@/lib/ai/providers';
 import { fmtMl } from '@/lib/format';
 import type { PumpSlot, Recipe, RecipeSource, Suggestion } from '@/lib/types';
 import { Badge, Banner, Button, Card, IconButton, Row, Stack, Text, type Tone } from '@/ui';
@@ -33,21 +35,41 @@ import { ADJUST_STEP_ML, sharePctOf, totalMlOf, type FallbackNotice } from './re
 
 // ───────────────────────── 배지 ─────────────────────────
 
-/** 출처 배지 (v3.0: 서버 모드 제거 — 사용자 키로 부른 Gemini / 앱 내장 오프라인 추천) */
+/** 출처 배지 (v3.0: 서버 모드 제거 — 사용자 키로 부른 AI / 앱 내장 오프라인 추천. v3.1: AI 이름까지) */
 const SOURCE_BADGE: Record<RecipeSource, { label: string; tone: Tone; icon: LucideIcon }> = {
-  direct: { label: 'Gemini AI 추천', tone: 'info', icon: Sparkles },
+  direct: { label: 'AI 추천', tone: 'info', icon: Sparkles },
   offline: { label: '오프라인 추천', tone: 'warning', icon: CloudOff },
 };
 
-export function RecipeBadges({ source, abv, fromSaved, model }: { source: RecipeSource; abv: number; fromSaved?: boolean; model?: string }) {
+export function RecipeBadges({
+  source,
+  abv,
+  fromSaved,
+  model,
+  provider,
+  shared,
+}: {
+  source: RecipeSource;
+  abv: number;
+  fromSaved?: boolean;
+  model?: string;
+  provider?: AiProviderId;
+  /** 모두의 레시피에서 불러옴 */
+  shared?: boolean;
+}) {
   const b = SOURCE_BADGE[source] ?? SOURCE_BADGE.offline;
+  const label = source === 'direct' && provider && !shared ? `${b.label} · ${providerLabel(provider)}` : b.label;
   return (
     <Row wrap gap={6} className="recipe-badges">
-      <span title={source === 'direct' && model ? `모델: ${model}` : undefined}>
-        <Badge label={b.label} tone={b.tone} icon={b.icon} />
-      </span>
+      {shared ? (
+        <Badge label="모두의 레시피" tone="accent" icon={Users} />
+      ) : (
+        <span title={source === 'direct' && model ? `모델: ${model}` : undefined}>
+          <Badge label={label} tone={b.tone} icon={b.icon} />
+        </span>
+      )}
       {abv > 0 ? <Badge label={`도수 ${abv}%`} tone="danger" icon={Wine} /> : <Badge label="무알콜" tone="success" icon={Leaf} />}
-      {fromSaved ? <Badge label="저장된 레시피" tone="info" icon={Bookmark} /> : null}
+      {fromSaved && !shared ? <Badge label="저장된 레시피" tone="info" icon={Bookmark} /> : null}
     </Row>
   );
 }

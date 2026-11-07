@@ -45,3 +45,7 @@
 .history-star.is-on { color: var(--yellow); }
 .history-star.is-on svg { fill: currentColor; }
 .history-star.is-on:hover:not(:disabled) { color: var(--yellow); }
+
+/* v3.1 공유 버튼 (공유됨 = 당근색) */
+.history-share { color: var(--text-3); }
+.history-share.is-on { color: var(--accent-strong); }

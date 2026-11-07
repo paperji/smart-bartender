@@ -235,3 +235,43 @@ export function buildResponseSchema(req: RecipeRequest) {
     required: ['recipe', 'explore'],
   };
 }
+
+/**
+ * JSON 스키마를 받지 못하는 AI(json_object 모드 — DeepSeek·Mistral·Groq·OpenRouter 등)에게 줄 응답 모양 안내 (v3.1)
+ * 프롬프트에 "JSON" 낱말이 꼭 있어야 하는 회사가 있어 제목에 넣음. 펌프 번호는 이번에 쓸 수 있는 번호
+ */
+export function jsonShapeHint(req: RecipeRequest): string {
+  const pumps = usable(req).map((i) => i.pump);
+  const example = {
+    recipe: {
+      name: '음료 이름',
+      nameEn: 'English name',
+      description: '한 문장 설명',
+      reason: '추천 이유 2~3문장',
+      ingredients: [{ pump: pumps[0] ?? 1, name: '장착된 재료 이름', ml: 100 }],
+      estimatedAbv: 0,
+      flavor: { sweet: 3, sour: 2, bitter: 0, fizzy: 3, strength: 0 },
+      garnish: '',
+      tips: '',
+      suggestions: [{ type: 'info', message: '' }],
+    },
+    explore: [
+      {
+        addIngredient: '새로 장착할 재료',
+        category: 'juice',
+        abv: 0,
+        recipeName: '',
+        description: '',
+        ingredients: [{ name: '', ml: 100, installed: true, pump: pumps[0] ?? 1 }],
+        message: '',
+      },
+    ],
+  };
+  return [
+    '[응답 JSON 형식 — 아래와 같은 키 이름·모양의 JSON 객체 하나만, 설명이나 코드 블록 없이]',
+    JSON.stringify(example),
+    `- recipe.ingredients[].pump 는 [장착된 재료]의 펌프 번호(${pumps.length ? pumps.join(', ') : '없음'}) 중에서, name 은 목록과 똑같이`,
+    '- suggestions[].type 은 add_ingredient · substitute · low_stock · info 중 하나 (add_ingredient 면 ingredient, low_stock 이면 pump 도)',
+    `- explore[].category 는 ${CATEGORIES.join(' · ')} 중 하나, flavor 값은 0~5 정수`,
+  ].join('\n');
+}

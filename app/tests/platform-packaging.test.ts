@@ -16,6 +16,8 @@ import path from 'node:path';
 import { test } from 'node:test';
 import vm from 'node:vm';
 
+import { AI_ORIGINS } from '../src/lib/ai/providers';
+import { SHARE_API_URL } from '../src/lib/share/api';
 import { appBusyForReload, reloadWhenIdle, resetReloadWhenIdleForTest } from '../src/platform/swUpdate';
 import { useAiBusy } from '../src/store/aiBusy';
 import { useDevice } from '../src/store/device';
@@ -241,7 +243,9 @@ test('PKG-8: 앱 HTML 응답에 CSP(스크립트는 앱 파일만, 연결은 Gem
   const csp = res.headers.get('content-security-policy') ?? '';
   assert.match(csp, /default-src 'self'/);
   assert.match(csp, /script-src 'self'(;|$)/);
-  assert.match(csp, /(^|; )connect-src 'self' https:\/\/generativelanguage\.googleapis\.com https:\/\/api\.open-meteo\.com https:\/\/api\.github\.com(;|$)/);
+  // v3.1: AI 회사 8곳(providers.ts 의 origin 과 같은 순서) + 날씨 + GitHub 릴리스 + 모두의 레시피(Supabase) 만
+  const connect = `connect-src 'self' ${AI_ORIGINS.join(' ')} https://api.open-meteo.com https://api.github.com ${SHARE_API_URL}`;
+  assert.ok(csp.split('; ').includes(connect), `connect-src: ${csp}`);
   assert.match(csp, /object-src 'none'/);
   const traversal = await handlers.app({ url: 'app://bartender/..%2F..%2Fpackage.json' });
   assert.ok(traversal.status === 403 || traversal.status === 404, `dist 밖 파일은 막음 (${traversal.status})`);

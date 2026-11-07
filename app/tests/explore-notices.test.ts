@@ -9,7 +9,9 @@ import { test } from 'node:test';
 import { fallbackNotice, nextExploreRound, noticeLines, sourceBadge } from '../src/screens/explore/exploreNotices';
 
 test('sourceBadge', () => {
-  assert.equal(sourceBadge('direct').label, 'Gemini AI 추천');
+  assert.equal(sourceBadge('direct').label, 'AI 추천');
+  assert.equal(sourceBadge('direct', 'openai').label, 'AI 추천 · ChatGPT');
+  assert.equal(sourceBadge('offline', 'openai').label, '오프라인 추천');
   assert.equal(sourceBadge('offline').label, '오프라인 추천');
   assert.equal(sourceBadge('weird').label, '오프라인 추천');
 });
@@ -21,7 +23,10 @@ test('fallbackNotice', () => {
   assert.equal(nk.kind, 'nokey'); assert.equal(nk.tone, 'info'); assert.equal(nk.settings, true);
   const auth = fallbackNotice({ source: 'offline', fallbackReason: 'Gemini 오류(AUTH): ...', fallbackCode: 'AUTH' })!;
   assert.equal(auth.tone, 'warning'); assert.equal(auth.settings, true);
-  assert.match(auth.message, /^Gemini 를 쓰지 못해 앱에 내장된 규칙으로 골랐어요\. 이유: API 키가/);
+  assert.match(auth.message, /^AI에서 답을 받지 못해 앱에 내장된 규칙으로 골랐어요\. 이유: API 키가/);
+  const authC = fallbackNotice({ source: 'offline', fallbackReason: 'Claude 오류(AUTH): ...', fallbackCode: 'AUTH', provider: 'anthropic' })!;
+  assert.match(authC.message, /^Claude에서 답을 받지 못해/);
+  assert.match(nk.message, /내 AI 키를 등록하면/);
   const net = fallbackNotice({ source: 'offline', fallbackReason: 'Gemini 오류(NETWORK): ...', fallbackCode: 'NETWORK' })!;
   assert.match(net.message, /^인터넷 또는 AI 서버 문제로/); assert.equal(net.settings, false);
   const to = fallbackNotice({ source: 'offline', fallbackReason: 't', fallbackCode: 'TIMEOUT' })!;

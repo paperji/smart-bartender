@@ -230,7 +230,7 @@ test('AI 시간 제한 (SPEC §3.1): 직접 Gemini 25초, 시간 초과면 오�
   const hang = ((_u: unknown, init?: RequestInit) =>
     new Promise((_r, rej) => init?.signal?.addEventListener('abort', () => rej(Object.assign(new Error('aborted'), { name: 'AbortError' }))))) as typeof fetch;
   const res = await withFetch(hang, () =>
-    generateRecipe({ input, slots: [slot(1, '사이다', 'soda')], aiMode: 'gemini', geminiKey: 'test-key-not-real', mode: 'normal', timeoutMs: 30 }),
+    generateRecipe({ input, slots: [slot(1, '사이다', 'soda')], aiMode: 'ai', aiKey: 'test-key-not-real', mode: 'normal', timeoutMs: 30 }),
   );
   assert.equal(res.source, 'offline');
   assert.equal(res.timedOut, true);

@@ -672,7 +672,7 @@ test('성인 확인 전 레시피 suggestions (§3.2): 서버 fallback·앱 오�
       }
       // 같은 레시피를 Gemini 응답으로 받아 앱이 다시 검증(normalizeRecipe, 잔 맞춤 포함)해도 제안이 그대로 (가짜 fetch)
       const viaGemini = await withFakeFetch({ aiJson: () => ({ recipe: be.json.recipe, explore: [] }) }, () =>
-        generateRecipe({ input: u, slots, aiMode: 'gemini', geminiKey: 'test-key-not-real', mode: 'normal', adultVerified }),
+        generateRecipe({ input: u, slots, aiMode: 'ai', aiKey: 'test-key-not-real', mode: 'normal', adultVerified }),
       );
       assert.equal(viaGemini.source, 'direct');
       assert.deepEqual(viaGemini.recipe!.suggestions, beSug, `${strength} adult=${adultVerified}`);
@@ -800,7 +800,7 @@ test('NO_MIXER explore + AI 결과(가짜): 서버 finalize = 앱 직접 Gemini 
       assert.equal(be.json.recipe, null);
       assert.equal(beAiCalls, 1, `${c.name}: 서버 AI 재호출 없음`);
       const app = await withFakeFetch({ aiJson: () => aiJson }, async (calls) => {
-        const r = await generateRecipe({ input: u, slots: c.slots, aiMode: 'gemini', geminiKey: 'test-key-not-real', mode: 'explore', adultVerified: c.adult });
+        const r = await generateRecipe({ input: u, slots: c.slots, aiMode: 'ai', aiKey: 'test-key-not-real', mode: 'explore', adultVerified: c.adult });
         assert.deepEqual(calls.map((x) => x.startsWith(GEMINI_PREFIX)), [true], `${c.name}: 앱 AI 재호출 없음(가짜 Gemini 1번)`);
         return r;
       });
@@ -994,7 +994,7 @@ test('NO_MIXER explore (§3.3 규칙 8) 무작위: 가짜 AI 결과(술만 더�
       assert.equal(beAiCalls, 1, `${label}: 서버 AI 재호출 없음`);
       const beNames = be.json.explore.map((x: any) => x.addIngredient);
       const app = await withFakeFetch({ aiJson: () => aiJson }, async (calls) => {
-        const r = await generateRecipe({ input: u, slots, aiMode: 'gemini', geminiKey: 'test-key-not-real', mode: 'explore', adultVerified });
+        const r = await generateRecipe({ input: u, slots, aiMode: 'ai', aiKey: 'test-key-not-real', mode: 'explore', adultVerified });
         assert.deepEqual(calls.map((x) => x.startsWith(GEMINI_PREFIX)), [true], `${label}: 앱 AI 1번`);
         return r;
       });

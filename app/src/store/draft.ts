@@ -5,6 +5,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import type { AiProviderId } from '@/lib/ai/providers';
 import type { ExploreItem, Recipe, RecipeResult, Strength, Taste, UserInput } from '@/lib/types';
 
 import { appStorage, STORAGE_KEYS } from './storage';
@@ -87,6 +88,8 @@ export interface CurrentRecipe extends Omit<RecipeResult, 'recipe'> {
   variation: number;
   /** 기록/즐겨찾기에서 불러온 경우 */
   fromSaved?: boolean;
+  /** 모두의 레시피(공유)에서 불러온 경우 그 공유 레시피 id — 실제로 만들면 사용 횟수 1번 (v3.1) */
+  sharedId?: string;
 }
 
 /** 탐색(explore) 결과 화면 상태 */
@@ -100,6 +103,8 @@ export interface ExploreSession {
   fallbackReason?: string;
   /** 오프라인으로 바뀐 원인 코드 (RecipeResult.fallbackCode — 'NO_KEY' 등) */
   fallbackCode?: string;
+  /** 쓴(또는 쓰려던) AI 회사 */
+  provider?: AiProviderId;
   input: UserInput;
   createdAt: number;
   /** "다시 탐색" 횟수 */

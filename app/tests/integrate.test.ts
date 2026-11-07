@@ -128,5 +128,6 @@ test('App.tsx 배선: 앱 전체·라우트 오류 경계, 이동 기록, 다른
   // 주소가 바뀔 때마다 이동 기록 (lib/nav.dismissTo)
   assert.match(app, /useEffect\(\(\) => noteLocation\(\), \[location\]\)/);
   // 다른 창에서 키 저장·삭제 → 힌트 다시 맞추기 (설정 화면이 닫혀 있어도)
-  assert.match(app, /onGeminiKeyChange\(\(\) => \{\s*syncGeminiKeyHint\(\)/);
+  assert.match(app, /onAiKeyChange\(\(provider\) => \{[\s\S]{0,200}useSettings\.persist\.rehydrate\(\)\)\s*\.then\(\(\) => syncAiKeyHints\(provider\)\)/);
+  assert.match(app, /e\.key === STORAGE_KEYS\.settings\) void useSettings\.persist\.rehydrate\(\)/, '다른 탭의 설정 변경을 따라감');
 });

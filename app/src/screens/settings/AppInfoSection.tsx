@@ -3,7 +3,7 @@
  * 앱 설치(웹: 브라우저가 설치 가능하다고 알려 주면 [앱 설치] 버튼, 아니면 설치 방법 안내 — platform/install.ts),
  * 업데이트 확인(APK·EXE — lib/update.ts), 내려받기 링크(주소가 정해졌을 때만), 개인정보 안내, 오픈소스 라이선스 (lib/appInfo.ts)
  */
-import { Bluetooth, Download, ExternalLink, FileText, Globe, HardDrive, Info, Lock, MapPin, RefreshCw, Shield, Sparkles } from 'lucide-react';
+import { Bluetooth, Download, ExternalLink, FileText, Globe, HardDrive, Info, Lock, MapPin, RefreshCw, Shield, Sparkles, Users } from 'lucide-react';
 import { Fragment, useState } from 'react';
 
 import {
@@ -148,13 +148,13 @@ export function AppInfoSection() {
             <li>
               <HardDrive size={16} aria-hidden="true" />
               <span>
-                회원가입·로그인 없이 써요. 재료·기록·즐겨찾기·설정은 <b>이 기기에만</b> 저장돼요.
+                회원가입·로그인 없이 써요. 재료·기록·즐겨찾기·설정은 <b>이 기기에만</b> 저장돼요(내가 공유한 레시피만 공유 서버에).
               </span>
             </li>
             <li>
               <Sparkles size={16} aria-hidden="true" />
               <span>
-                Gemini AI 추천을 쓰면 입력한 기분·맛·상황·요청, 장착한 재료 목록, 최근 제조 기록 요약이 <b>내 키로 Google Gemini</b> 에 보내져요. 오프라인 추천은 아무것도 보내지 않아요.
+                AI 추천을 쓰면 입력한 기분·맛·상황·요청, 장착한 재료 목록, 최근 제조 기록 요약이 <b>내 키로, 고른 AI 회사</b>(Gemini 면 Google, ChatGPT 면 OpenAI 등)에 보내져요. 오프라인 추천은 아무것도 보내지 않아요.
               </span>
             </li>
             <li>
@@ -165,7 +165,16 @@ export function AppInfoSection() {
             </li>
             <li>
               <Lock size={16} aria-hidden="true" />
-              <span>API 키는 이 기기에만 저장되고 팀 서버나 다른 곳으로 보내지 않아요(Google 제외).</span>
+              <span>API 키는 이 기기에만 저장되고, 그 키를 만든 AI 회사 말고는 팀 서버나 다른 곳으로 보내지 않아요.</span>
+            </li>
+            <li>
+              <Users size={16} aria-hidden="true" />
+              <span>
+                <b>레시피를 공유</b>하면 이름·영어 이름·재료(종류·도수)·맛·가니시·만든 AI 이름과, 적은 경우 별명·한마디가 공유 서버(Supabase)에 올라가 누구나 볼 수 있어요.
+                AI 가 쓴 설명·팁도 기본으로 올라가는데, 그날의 기분·날씨 이야기가 섞일 수 있어 공유 창에서 뺄 수 있어요. 기분·날씨 입력값과 추천 이유는 올리지 않아요.
+                모두의 레시피를 볼 때와 공유 레시피로 실제로 만들 때는 이 앱의 무작위 번호(이름·연락처와 무관)만 함께 보내요.
+                남용(신고·사용 횟수 조작)을 막으려고 서버는 접속 주소를 알아볼 수 없게 바꾼 값(해시)만 함께 남겨요.
+              </span>
             </li>
             <li>
               <Bluetooth size={16} aria-hidden="true" />

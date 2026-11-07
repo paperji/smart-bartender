@@ -495,3 +495,19 @@ test('백그라운드에서 돌아온 직후 첫 ping 틱: 타이머가 멈췄�
   c.pingTick();
   assert.ok(await until(() => m.useDevice.getState().conn === 'reconnecting' || m.useDevice.getState().conn === 'connected', 2000));
 });
+
+test('v3.1: 기기를 다시 시작해도(데모 ↔ 실제) 방금 끝난 작업은 남김 — 완료 화면·피드백이 사라지지 않게, 진행 중인 작업은 남기지 않음', { skip }, async () => {
+  const { m, c } = await fresh();
+  await c.make([{ p: 1, ml: 10 }], 'seq');
+  assert.ok(await until(() => m.useDevice.getState().job?.status === 'done', 6000), '작업 끝남');
+  const done = m.useDevice.getState().job;
+  await c.init(false).catch(() => undefined);
+  assert.equal(m.useDevice.getState().job?.id, done.id, '끝난 작업은 그대로');
+  assert.equal(m.useDevice.getState().job?.status, 'done');
+  c.clearJob();
+  assert.equal(m.useDevice.getState().job, null);
+  // 진행 중 작업은 다시 시작하면 지움(예전과 같음 — 연결이 바뀌면 그 작업을 이어 볼 수 없으므로)
+  m.useDevice.setState({ job: { ...done, status: 'running' } });
+  await c.init(true, { autoConnect: false });
+  assert.equal(m.useDevice.getState().job, null);
+});

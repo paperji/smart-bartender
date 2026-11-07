@@ -1,9 +1,9 @@
-# AI 스마트 바텐더 v3.0 (팀 홍당무)
+# AI 스마트 바텐더 v3.1 (팀 홍당무)
 
 > 과제명: 사용자의 감정 및 취향 분석 기반 AI 맞춤형 음료 및 칵테일 배합 메이커
 > 안양대학교 정보전기전자공학과 캡스톤디자인Ⅱ (2026/2학기) · 팀 **홍당무**
 
-앱에서 기분·맛·도수·날씨·상황·성향을 고르면, AI(Gemini)가 **기기에 장착된 재료만으로** 레시피를 만들어
+앱에서 기분·맛·도수·날씨·상황·성향을 고르면, AI(내가 고른 Gemini·ChatGPT·Claude 등)가 **기기에 장착된 재료만으로** 레시피를 만들어
 블루투스(BLE)로 ESP32에 보내고, ESP32가 펌프 4개를 시간 제어해 한 잔을 배합해요.
 
 | 바로 쓰기 | 주소 |
@@ -15,17 +15,20 @@
 > 하드웨어가 없어도 **데모 모드(가상 기기)** 로 추천 → 제조 → 기록까지 전체 흐름을 체험할 수 있어요.
 
 ```
-[앱 v3.0 — 한 소스(app/)에서 네 가지 형태]
+[앱 v3.1 — 한 소스(app/)에서 네 가지 형태]
   웹(Chrome·Edge) · 설치형 웹앱(PWA) · 안드로이드 APK(Capacitor) · Windows EXE(Electron)
       │
-      ├─ HTTPS ──► Google Gemini API      ← 사용자 본인 키(BYOK). 키는 그 기기에만 저장, Google 에만 보냄
+      ├─ HTTPS ──► 고른 AI API (Gemini·ChatGPT·Claude·Grok·DeepSeek·Mistral·Groq·OpenRouter)
+      │             ← 사용자 본인 키(BYOK). 키는 그 기기에 AI 마다 따로 저장, 그 키의 회사에만 보냄
       │             (키가 없거나 실패하면 앱 내장 오프라인 규칙기반 추천으로 자동 대체)
       │             앱이 결과를 SPEC §3.3 규칙으로 다시 검증·보정(장착 재료만, 잔량·재료당 300ml·도수 상한)
+      │
+      ├─ HTTPS ──► 모두의 레시피 서버(Supabase, 공개용 키·정해진 함수만) ← 공유 레시피 올리기·인기 TOP 5·검색·사용 횟수
       │
       └─ BLE(블루투스, Nordic UART, 줄바꿈 JSON) ──► [ESP32] → [4채널 릴레이] → [펌프 ×4] → 체크밸브 → 노즐 → 잔
 ```
 
-팀이 운영하는 AI 서버는 없어요. v2.1 까지 쓰던 Vercel 서버(`backend/`)는 **보정 규칙의 기준 구현**으로만 남겨 두고,
+팀이 운영하는 AI 서버는 없어요(공유 레시피만 무료 Supabase 에 모아요 — [`docs/shared-recipes.sql`](docs/shared-recipes.sql)). v2.1 까지 쓰던 Vercel 서버(`backend/`)는 **보정 규칙의 기준 구현**으로만 남겨 두고,
 앱과 결과가 같은지 자동 테스트로 비교하는 데 써요(배포하지 않음 — [`backend/README.md`](backend/README.md)).
 
 ---
@@ -57,14 +60,17 @@
 |---|---|---|
 | 웹앱 | 위 웹 주소를 **Chrome·Edge** 로 열기 | Web Bluetooth — 연결할 때마다 브라우저 기기 선택 창. **아이폰(사파리)은 블루투스 불가**(데모·AI 추천만) |
 | 설치형 웹앱(PWA) | 웹앱에서 **설정 → 앱 정보 → 앱 설치** (또는 Chrome 메뉴 "앱 설치"·"홈 화면에 추가") | 웹앱과 같음. 인터넷 없이도 열림(AI·날씨만 인터넷 필요) |
-| 안드로이드 APK | Releases 의 `SmartBartender-3.0.3.apk` → 휴대폰에서 열어 설치("출처를 알 수 없는 앱" 허용) | 네이티브 BLE, 앱 안 검색 목록, 마지막 기기 자동 재연결 |
-| Windows EXE | Releases 의 `SmartBartender-3.0.3-portable.exe` → 더블클릭(설치 없음). SmartScreen 경고 → "추가 정보" → "실행" | PC 블루투스(4.0 이상) 어댑터 필요, 앱 안 기기 선택 창 |
+| 안드로이드 APK | Releases 의 `SmartBartender-3.1.0.apk` → 휴대폰에서 열어 설치("출처를 알 수 없는 앱" 허용) | 네이티브 BLE, 앱 안 검색 목록, 마지막 기기 자동 재연결 |
+| Windows EXE | Releases 의 `SmartBartender-3.1.0-portable.exe` → 더블클릭(설치 없음). SmartScreen 경고 → "추가 정보" → "실행" | PC 블루투스(4.0 이상) 어댑터 필요, 앱 안 기기 선택 창 |
 
 처음 켜면 데모 모드(가상 기기)가 켜져 있어요. 실제 기기는 **기기 탭 → 데모 모드 끄기 → 기기 검색(선택)** 으로 연결해요
 ([`app/README.md`](app/README.md) 4-2).
 
-**AI 키 (선택)**: **설정 → Gemini API 키** 에 본인 키를 붙여 넣고 **[키 확인] → [저장]** 하면 Gemini 가 레시피를 만들어요.
-키는 Google AI Studio(https://aistudio.google.com/apikey)에서 무료로 발급받을 수 있고(사용량 한도 있음), **그 기기에만 저장**돼요.
+**AI 키 (선택)**: **설정 → AI 고르기** 에서 AI 를 고르고 그 AI 의 API 키를 붙여 넣은 뒤 **[키 확인] → [저장]** 하면 그 AI 가 레시피를 만들어요.
+Gemini(Google AI Studio https://aistudio.google.com/apikey)·Groq 는 무료로 발급받을 수 있고(사용량 한도 있음), ChatGPT·Claude·Grok·DeepSeek·Mistral 은 각 회사에 충전한 만큼 써요.
+회사별 발급 방법은 앱 **설정 → 키 발급 방법**에서 AI 를 누르면 나와요. 키는 **그 기기에만 저장**돼요.
+
+**모두의 레시피 (v3.1)**: **기록** 탭에서 만든 잔을 **공유**하면, 다른 사람이 아래 **공유** 탭에서 **실제로 많이 만든 순 TOP 5** 와 검색으로 찾아 자기 기기로 만들 수 있어요([`app/README.md`](app/README.md) 4-8).
 키가 없거나 한도·인터넷 문제로 실패하면 앱에 내장된 **오프라인 추천**으로 이어서 만들어요. 자세한 내용은 [`app/README.md`](app/README.md) 5장.
 
 ### 2-2. 개발자 — 하드웨어 없이 바로 실행 (Node.js 22 이상)
@@ -73,11 +79,11 @@
 cd app
 npm ci
 npm run dev            # http://localhost:5173 — 데모 기기(가상 ESP32)에 자동 연결
-npm test               # 자동 테스트 (실제 Gemini 호출 없음, 가짜 fetch)
+npm test               # 자동 테스트 (실제 AI·공유 서버 호출 없음, 가짜 fetch)
 npm run typecheck      # 타입 검사
 npm run build          # 타입 검사 → vite build(dist/, PWA) → 키 검사(check-no-secrets)
-npm run build:android  # release/SmartBartender-3.0.3.apk  (Windows · JDK 21 · Android SDK — app/README.md 3-3)
-npm run build:exe      # release/SmartBartender-3.0.3-portable.exe (app/README.md 3-4)
+npm run build:android  # release/SmartBartender-3.1.0.apk  (Windows · JDK 21 · Android SDK — app/README.md 3-3)
+npm run build:exe      # release/SmartBartender-3.1.0-portable.exe (app/README.md 3-4)
 ```
 
 ---
@@ -89,22 +95,22 @@ npm run build:exe      # release/SmartBartender-3.0.3-portable.exe (app/README.m
 2. 그다음 `main` 에 `app/` 변경을 push 하거나, **Actions → "Deploy web app to GitHub Pages" → Run workflow** 를 눌러요.
    워크플로가 `npm ci` → `npm test` → `npm run build`(키 검사 포함) → 배포까지 해요. 빌드에는 API 키가 들어가지 않아요.
 3. **APK·EXE**: 팀 PC 에서 `npm run build:android`, `npm run build:exe` 로 만든 `app/release/` 의 두 파일을
-   GitHub **Releases**(예: 태그 `v3.0.3`)에 올려요. 깃에는 올리지 않아요(`.gitignore`).
+   GitHub **Releases**(예: 태그 `v3.1.0`)에 올려요. 깃에는 올리지 않아요(`.gitignore`).
    APK 서명 키(`app/android/keystore/`)는 커밋되지 않으니 **팀 드라이브에 따로 백업**하세요 — 잃어버리면 기존 앱 위에 업데이트 설치가 안 돼요.
 
 ---
 
-## 4. 지금 상태 (2026-11-07)
+## 4. 지금 상태 (2026-11-08)
 
 | 항목 | 검증된 것 | 아직 안 된 것 |
 |---|---|---|
-| 앱 v3.0.3 | `npm test` **323개** 통과(Windows 기준 — Linux CI 에서는 PowerShell 빌드 스크립트 시험 1개를 건너뜀)(가짜 Gemini·가짜 BLE, 앱↔백엔드 보정 규칙 비교 포함), `npm run typecheck` 0 오류, 웹·PWA 빌드와 키 검사 통과, APK(약 6MB)·EXE(약 108MB, 창 없이 실행 점검 통과) 빌드, **Windows 앱·휴대폰 APK ↔ 실제 ESP32** 연결·제조·비상 정지·재부팅 뒤 자동 재연결(2026-11-07, 갤럭시 S20 Ultra(안드로이드 13)), **v3.0.3 실기 시험**: 앱 안 업데이트 3.0.2 → 3.0.3(APK·EXE)·웹 자동 업데이트(PC·휴대폰 크롬), 페어링 PC 크롬 5/5·휴대폰 크롬 6/6·APK 8/8(모두 첫 시도)·EXE 5/5 (`docs/프로젝트_정리.md` 9.1) | 휴대폰 첫 연결이 가끔 실패할 수 있음(앱이 4번까지 자동으로 다시 시도 — v3.0.3 시험에서는 0번) |
+| 앱 v3.1.0 | **v3.1 실기 시험**: 모두의 레시피 공유(EXE) → 다른 기기에서 그 레시피로 실제 제조(APK·휴대폰 크롬·PC 크롬) → 만든 수 1·2·3·TOP 1, 여러 AI 키(가짜 키 거절·Gemini 실제 호출), 설정 톱니바퀴 문제 해결 (`docs/프로젝트_정리.md` 10장). `npm test` **383개** 통과(Windows 기준 — Linux CI 에서는 PowerShell 빌드 스크립트 시험 1개를 건너뜀)(가짜 AI·가짜 공유 서버·가짜 BLE, 앱↔백엔드 보정 규칙 비교 포함), `npm run typecheck` 0 오류, 웹·PWA 빌드와 키 검사 통과, APK(약 6MB)·EXE(약 108MB, 창 없이 실행 점검 통과) 빌드, **Windows 앱·휴대폰 APK ↔ 실제 ESP32** 연결·제조·비상 정지·재부팅 뒤 자동 재연결(2026-11-07, 갤럭시 S20 Ultra(안드로이드 13)), **v3.0.3 실기 시험**: 앱 안 업데이트 3.0.2 → 3.0.3(APK·EXE)·웹 자동 업데이트(PC·휴대폰 크롬), 페어링 PC 크롬 5/5·휴대폰 크롬 6/6·APK 8/8(모두 첫 시도)·EXE 5/5 (`docs/프로젝트_정리.md` 9.1) | 휴대폰 첫 연결이 가끔 실패할 수 있음(앱이 4번까지 자동으로 다시 시도 — v3.0.3 시험에서는 0번) |
 | 펌웨어 v2.1.2 | PC 단위 테스트 **213/213**(펌프 4개 180 + 8개 11 + BLE 송신 링버퍼·연결 감지 22), 컴파일 경고 0, **실제 보드(ESP32-D0WD-V3)에 업로드**, PC 블루투스 자동 시험 **32/32**(`firmware/test/ble_e2e.py`) | 릴레이·펌프를 단 실물 구동, 캘리브레이션 실측 |
 | 백엔드(기준 구현) v2.1 | 로컬 테스트 **68/68**(가짜 Gemini 응답, 2026-11-07 다시 실행) | 배포하지 않음(앱이 쓰지 않음) |
 | 회로·BOM·가이드 | BOM 검증 **78/0**·엑셀 수식 오류 0(2026-11-07 다시 실행), 문서 간 교차 검증, 연결 36개 일치 | 실물 조립, 릴레이 3.3V 동작(A안/B안) 확인 |
 
 펌웨어와 앱의 데모 기기는 같은 명령 스크립트 1,900여 개로 출력을 비교해 확인했어요(소수 셋째 자리 `setcal` 반올림 1건만 다름).
-진행 결과 요약은 [`docs/프로젝트_정리.md`](docs/프로젝트_정리.md) 7~9장에 있어요(9장 = 실제 ESP32 연결 시험).
+진행 결과 요약은 [`docs/프로젝트_정리.md`](docs/프로젝트_정리.md) 7~10장에 있어요(9장 = 실제 ESP32 연결 시험, 10장 = v3.1).
 
 ---
 
@@ -119,7 +125,8 @@ npm run build:exe      # release/SmartBartender-3.0.3-portable.exe (app/README.m
 6. **조립**: 조립가이드 STEP 3~12 (전원부 → 전장 박스 → 외형 → 배관 → 최종 점검).
 7. **앱 설치·연결**: Releases 의 APK(안드로이드) 또는 Chrome 웹앱 → 기기 탭에서 연결(`app/README.md` 4-2).
 8. **캘리브레이션**: 기기 탭 → 캘리브레이션 마법사(펌프마다 10초 측정). 하지 않으면 레시피보다 적게 나와요.
-9. **AI 키 등록·실측**: 시연 폰에 본인 Gemini 키 등록 → [키 확인]. 실제 Gemini 호출은 필요한 만큼만(무료 등급 한도).
+9. **AI 키 등록·실측**: 시연 폰에 본인 AI 키(무료면 Gemini·Groq) 등록 → [키 확인]. 실제 AI 호출은 필요한 만큼만(무료 등급 한도·유료 회사는 충전금).
+10. **공유 레시피 서버**: Supabase 무료 프로젝트 "smart-bartender"(서울)는 1주일 동안 아무도 쓰지 않으면 쉬어요. 시연 전에 대시보드에서 켜져 있는지 확인(쉬면 **Restore project**).
 
 ---
 

@@ -41,6 +41,7 @@ function openNowRecipe(ex: ExploreSession) {
       warnings: [],
       fallbackReason: ex.fallbackReason,
       fallbackCode: ex.fallbackCode,
+      ...(ex.provider ? { provider: ex.provider } : {}),
       createdAt: Date.now(),
       input: ex.input,
       variation: 0,
@@ -106,7 +107,7 @@ function ExploreScreenContent() {
     );
   }
 
-  const badge = sourceBadge(ex.source);
+  const badge = sourceBadge(ex.source, ex.provider);
   const installedCount = installedSlots(slots).length;
   const fallback = fallbackNotice(ex);
   const lines = noticeLines(ex.warnings);

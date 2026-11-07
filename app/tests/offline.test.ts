@@ -83,7 +83,7 @@ test('generateRecipe: Gemini 실패(연결 안 됨) 시 자동으로 오프라�
   }) as typeof fetch;
   let res;
   try {
-    res = await generateRecipe({ input: baseInput, slots: defaultSlots(), aiMode: 'gemini', geminiKey: 'test-key-not-real', timeoutMs: 3000 });
+    res = await generateRecipe({ input: baseInput, slots: defaultSlots(), aiMode: 'ai', aiKey: 'test-key-not-real', timeoutMs: 3000 });
   } finally {
     globalThis.fetch = real;
   }

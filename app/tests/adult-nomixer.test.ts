@@ -198,7 +198,7 @@ test('generateRecipe 모든 경로(오프라인·Gemini 응답 재검증): 성�
     const results: { path: string; sug: Suggestion[] }[] = [];
     assert.equal(buildRequest(input, slots, [], 'normal', adultVerified).user.adultVerified, adultVerified, '요청 user.adultVerified');
     const direct = await withFakeFetch({ aiJson: { recipe: aiRecipe, explore: [] } }, async (calls) => {
-      const r = await generateRecipe({ input, slots, aiMode: 'gemini', geminiKey: FAKE_KEY, adultVerified });
+      const r = await generateRecipe({ input, slots, aiMode: 'ai', aiKey: FAKE_KEY, adultVerified });
       assert.equal(calls.length, 1);
       assert.ok(calls[0].url.startsWith(GEMINI_PREFIX));
       const prompt: string = calls[0].body.contents[0].parts[0].text;
@@ -268,8 +268,8 @@ test('NO_MIXER explore — 직접 Gemini(가짜): 술만 새로 더하는 카드
       const r = await generateRecipe({
         input: MILK_ALLERGY.u,
         slots: MILK_ALLERGY.slots,
-        aiMode: 'gemini',
-        geminiKey: FAKE_KEY,
+        aiMode: 'ai',
+        aiKey: FAKE_KEY,
         mode: 'explore',
         adultVerified,
       });
@@ -302,7 +302,7 @@ test('NO_MIXER explore — Gemini 응답 재검증(거르지 않은 카드)·오
   // Gemini: recipe:null + 술만 더하는 카드가 섞인 explore (가짜 fetch) — v2.1 의 "예전 서버 응답 재검증" 사례를 Gemini 경로로
   const backendNotice = "지금 장착된 재료로는 '약하게'(최대 5%) 도수를 맞출 무알콜 재료가 없어요. 아래 재료를 장착해 보세요.";
   const s = await withFakeFetch({ aiJson: { recipe: null, explore: [GIN_MILK, TONIC] } }, () =>
-    generateRecipe({ input: MILK_ALLERGY.u, slots: MILK_ALLERGY.slots, aiMode: 'gemini', geminiKey: FAKE_KEY, mode: 'explore', adultVerified: true }),
+    generateRecipe({ input: MILK_ALLERGY.u, slots: MILK_ALLERGY.slots, aiMode: 'ai', aiKey: FAKE_KEY, mode: 'explore', adultVerified: true }),
   );
   assert.equal(s.source, 'direct');
   assert.deepEqual(s.explore.map((x) => x.addIngredient), ['토닉워터']);
@@ -332,7 +332,7 @@ test('NO_MIXER 가 레시피 보정에서 나온 경우(도수 상한 이하 술
   const CIDER = { addIngredient: '사이다', category: 'soda', abv: 0, recipeName: '비어 샌디', ingredients: [{ name: '맥주', ml: 100 }, { name: '사이다', ml: 100 }] };
   const ai = { recipe: { name: '보드카 스트레이트', ingredients: [{ pump: 1, name: '보드카', ml: 200 }] }, explore: [LAGER, CIDER] };
   const r = await withFakeFetch({ aiJson: ai }, () =>
-    generateRecipe({ input: u, slots, aiMode: 'gemini', geminiKey: FAKE_KEY, mode: 'explore', adultVerified: true }),
+    generateRecipe({ input: u, slots, aiMode: 'ai', aiKey: FAKE_KEY, mode: 'explore', adultVerified: true }),
   );
   assert.equal(r.recipe, null);
   assert.deepEqual(r.explore.map((x) => x.addIngredient), ['사이다']);
@@ -341,7 +341,7 @@ test('NO_MIXER 가 레시피 보정에서 나온 경우(도수 상한 이하 술
   const slots2 = [slot(1, '보드카', 'spirit', 40), slot(2, '오렌지주스', 'juice')];
   const ai2 = { recipe: { name: '스크루드라이버', ingredients: [{ pump: 1, name: '보드카', ml: 20 }, { pump: 2, name: '오렌지주스', ml: 180 }] }, explore: [LAGER] };
   const r2 = await withFakeFetch({ aiJson: ai2 }, () =>
-    generateRecipe({ input: u, slots: slots2, aiMode: 'gemini', geminiKey: FAKE_KEY, mode: 'explore', adultVerified: true }),
+    generateRecipe({ input: u, slots: slots2, aiMode: 'ai', aiKey: FAKE_KEY, mode: 'explore', adultVerified: true }),
   );
   assert.ok(r2.recipe);
   assert.deepEqual(r2.explore.map((x) => x.addIngredient), ['라거']);

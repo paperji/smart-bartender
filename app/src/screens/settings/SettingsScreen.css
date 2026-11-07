@@ -199,3 +199,45 @@
 .settings-stack--tight { gap: var(--space-4); }
 .settings-accent-icon { flex: none; color: var(--accent); }
 .settings-subhead { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-body); }
+
+/* v3.1 AI 고르기 카드 (설정 › AI 서비스 · 키 발급 방법) */
+.settings-providers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+@media (min-width: 600px) { .settings-providers { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* PC 2열 화면에서는 AI 칸이 좁으므로 2개씩 */
+@media (min-width: 900px) { .settings-providers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.settings-provider {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 56px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.settings-provider:hover { background: var(--surface-2); }
+.settings-provider:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.settings-provider.is-selected { border-color: var(--accent); background: var(--accent-soft); }
+.settings-provider__top { display: flex; flex-wrap: wrap; width: 100%; align-items: center; justify-content: space-between; gap: 2px var(--space-1); }
+.settings-provider__name { font-weight: 700; font-size: var(--fs-label); white-space: nowrap; }
+.settings-provider__free { flex: none; padding: 1px 7px; border-radius: var(--radius-pill); font-size: var(--fs-small); font-weight: 700; }
+.settings-provider__free.is-free { background: var(--green-soft); color: var(--green); }
+.settings-provider__free.is-partial { background: var(--blue-soft); color: var(--blue); }
+.settings-provider__free.is-paid { background: var(--surface-2); color: var(--text-3); }
+.settings-provider__company { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--text-3); font-size: var(--fs-small); }
+.settings-provider__saved { display: inline-flex; align-items: center; gap: 2px; color: var(--green); font-weight: 600; }
+.settings-providers--compact .settings-provider { min-height: 48px; }
+
+/* 키 발급 방법: 고른 AI 제목 · 번호만 있는 단계 */
+.settings-guide-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-1); }
+.settings-guide-title { font-weight: 800; font-size: var(--fs-body); }
+.settings-guide-company { color: var(--text-3); font-weight: 600; font-size: var(--fs-caption); }
+.settings-step__num--big { position: static; width: 32px; height: 32px; font-size: var(--fs-label); box-shadow: none; }
+.settings-steps--4 .settings-step .settings-step__art,
+.settings-steps--3 .settings-step .settings-step__art { width: 40px; height: 40px; }

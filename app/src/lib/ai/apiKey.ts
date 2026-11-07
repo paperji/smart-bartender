@@ -1,6 +1,6 @@
 /**
- * Gemini API 키 문자열 도우미 (WEBAPP_DESIGN §4) — 설정 화면 형식 검사, 키 확인·레시피 호출 전 검사, 오류 문구에서 키 가리기
- *  - 키는 HTTP 헤더(x-goog-api-key)로 보내므로 보이는 ASCII 문자(0x21~0x7E)만 쓸 수 있어요.
+ * AI API 키 문자열 도우미 (WEBAPP_DESIGN §4, v3.1 모든 AI 회사 공용) — 설정 화면 형식 검사, 키 확인·레시피 호출 전 검사, 오류 문구에서 키 가리기
+ *  - 키는 HTTP 헤더(x-goog-api-key · Authorization · x-api-key)로 보내므로 보이는 ASCII 문자(0x21~0x7E)만 쓸 수 있어요.
  *    보이지 않는 문자(U+200B 등)나 한글이 섞이면 fetch 가 요청을 만들기 전에 TypeError 를 던지고,
  *    그것을 "인터넷 연결 없음" 으로 잘못 안내했었음 → 저장 전·호출 전에 걸러 "키 오류" 로 안내
  *  - Google 오류 문구에 키가 그대로 들어올 수 있음 (정지된 키: "Consumer 'api_key:<키>' has been suspended.")
@@ -17,7 +17,7 @@ const NON_KEY_CHAR_RE = /[^\x21-\x7E]/;
 export const KEY_FORMAT_TEXT = {
   short: '키가 너무 짧아요. 복사한 키 전체를 다시 붙여 넣어 주세요.',
   space: '키 중간에 빈칸이 있어요. 복사한 키를 그대로 붙여 넣어 주세요.',
-  chars: '키에 보이지 않는 문자나 한글 같은 다른 글자가 섞여 있어요. Google AI Studio 의 복사 버튼으로 키를 다시 복사해 붙여 넣어 주세요.',
+  chars: '키에 보이지 않는 문자나 한글 같은 다른 글자가 섞여 있어요. 키를 만든 사이트의 복사 버튼으로 다시 복사해 붙여 넣어 주세요.',
 } as const;
 
 /** 키에 헤더로 보낼 수 없는 문자가 있는지 (앞뒤 공백은 잘라서 봄) */
@@ -49,7 +49,10 @@ export function redactKey(text: string, key?: string | null): string {
     .replace(/api_key:[^'"\s]+/gi, `api_key:${KEY_MASK}`)
     .replace(/([?&]key=)[^&'"\s]+/gi, `$1${KEY_MASK}`)
     .replace(/\bAIza[0-9A-Za-z_-]{20,}/g, KEY_MASK)
-    .replace(/\bAQ\.[0-9A-Za-z_.-]{10,}/g, KEY_MASK);
+    .replace(/\bAQ\.[0-9A-Za-z_.-]{10,}/g, KEY_MASK)
+    .replace(/\bsk-[0-9A-Za-z_*-]{16,}/g, KEY_MASK)
+    .replace(/\bxai-[0-9A-Za-z_-]{16,}/g, KEY_MASK)
+    .replace(/\bgsk_[0-9A-Za-z]{16,}/g, KEY_MASK);
 }
 
 /** 객체·배열 안의 모든 글자에 redactKey (Google 오류 본문 error 객체용, 깊이 제한) */

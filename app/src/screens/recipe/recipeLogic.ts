@@ -9,7 +9,8 @@
  */
 import { cleanText, normalizeRecipe, revalidateRecipe, STRENGTH_ABV, STRENGTH_KO, type NormalizeContext } from '@/lib/ai/normalize';
 import { preferenceExcludedPumps } from '@/lib/ai/preference';
-import { slotsToIngredients, type GeminiErrorCode } from '@/lib/ai/recommend';
+import { providerOf } from '@/lib/ai/providers';
+import { slotsToIngredients, type AiErrorCode } from '@/lib/ai/recommend';
 import { removalNotes } from '@/lib/brew';
 import type { DeviceLimits } from '@/lib/protocol';
 import type { PumpSlot, Recipe, RecipeResult, Strength, UserInput } from '@/lib/types';
@@ -146,22 +147,30 @@ export interface FallbackNotice {
   settingsLabel?: string;
 }
 
-/** 설정에서 고칠 수 있는 Gemini 오류 → 쉬운 안내 */
-const SETTINGS_FIXABLE: Partial<Record<GeminiErrorCode, { message: string; settingsLabel: string }>> = {
-  AUTH: { message: 'Gemini API 키가 올바르지 않거나 권한이 없어요.', settingsLabel: '설정에서 키 확인' },
-  RATE_LIMIT: { message: 'Gemini 사용량 한도에 걸렸어요. 무료 등급은 잠시 뒤 다시 추천받으면 돼요.', settingsLabel: '설정에서 키 확인' },
-  BILLING: { message: 'Gemini 사용 크레딧이 없어요. Google AI Studio 에서 결제 상태를 확인해 주세요.', settingsLabel: '설정에서 키 확인' },
-  MODEL: { message: '설정한 Gemini 모델을 찾을 수 없어요.', settingsLabel: '설정에서 모델 확인' },
-};
+/** 설정에서 고칠 수 있는 AI 오류 → 쉬운 안내 (label: AI 이름, site: 키를 만든 사이트) */
+function settingsFixable(code: AiErrorCode, label: string, site: string): { message: string; settingsLabel: string } | undefined {
+  switch (code) {
+    case 'AUTH':
+      return { message: `${label} API 키가 올바르지 않거나 권한이 없어요.`, settingsLabel: '설정에서 키 확인' };
+    case 'RATE_LIMIT':
+      return { message: `${label} 사용량 한도에 걸렸어요. 무료 등급은 잠시 뒤 다시 추천받으면 돼요.`, settingsLabel: '설정에서 키 확인' };
+    case 'BILLING':
+      return { message: `${label} 사용 크레딧이 없어요. ${site}에서 충전·결제 상태를 확인해 주세요.`, settingsLabel: '설정에서 키 확인' };
+    case 'MODEL':
+      return { message: `설정한 ${label} 모델을 찾을 수 없어요.`, settingsLabel: '설정에서 모델 확인' };
+    default:
+      return undefined;
+  }
+}
 
 /**
- * 오프라인 추천으로 바뀐 이유 → 화면 안내 (Gemini 결과·AI 방식이 오프라인이면 null)
+ * 오프라인 추천으로 바뀐 이유 → 화면 안내 (AI 결과·AI 방식이 오프라인이면 null)
  *  - NO_KEY(키 없음): 파란 안내 + [설정에서 키 등록]
  *  - AUTH·RATE_LIMIT·BILLING·MODEL: 노란 안내 + 쉬운 이유 + [설정에서 키 확인]/[설정에서 모델 확인]
  *  - 그 밖(시간 초과·네트워크·서버 오류·응답 보정 실패): v2.1 문구 그대로
  */
 export function fallbackNotice(
-  r: Pick<RecipeResult, 'source' | 'fallbackReason' | 'fallbackCode' | 'timedOut'>,
+  r: Pick<RecipeResult, 'source' | 'fallbackReason' | 'fallbackCode' | 'timedOut' | 'provider'>,
 ): FallbackNotice | null {
   if (r.source !== 'offline' || !r.fallbackReason) return null;
   const detail = r.fallbackReason.slice(0, 120);
@@ -170,13 +179,14 @@ export function fallbackNotice(
       tone: 'info',
       kind: 'key',
       title: 'AI 키가 없어 오프라인 추천을 보여드려요',
-      message: '앱에 내장된 규칙으로 레시피를 만들었어요. 설정에서 내 Gemini API 키를 등록하면 AI 가 레시피를 만들어요.',
+      message: '앱에 내장된 규칙으로 레시피를 만들었어요. 설정에서 내 AI API 키(Gemini·ChatGPT·Claude 등)를 등록하면 AI 가 레시피를 만들어요.',
       settingsLabel: '설정에서 키 등록',
     };
   }
-  const fix = r.fallbackCode ? SETTINGS_FIXABLE[r.fallbackCode as GeminiErrorCode] : undefined;
+  const p = providerOf(r.provider);
+  const fix = r.fallbackCode ? settingsFixable(r.fallbackCode as AiErrorCode, p.label, p.keySiteLabel) : undefined;
   if (fix) {
-    // "Gemini 오류(AUTH): <쉬운 안내> — <Google 원문>" 에서 쉬운 안내는 본문과 겹치므로 원문만 덧붙임
+    // "ChatGPT 오류(AUTH): <쉬운 안내> — <회사 원문>" 에서 쉬운 안내는 본문과 겹치므로 원문만 덧붙임
     const raw = r.fallbackReason.includes(' — ') ? r.fallbackReason.slice(r.fallbackReason.indexOf(' — ') + 3).trim() : '';
     return {
       tone: 'warning',

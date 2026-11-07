@@ -22,7 +22,7 @@ import type { UserInput } from '../src/lib/types';
 import { getDevGeminiKey, hasDevGeminiKey, pickDevKey } from '../src/platform/devKey';
 import { clearGeminiKey, GEMINI_KEY_STORAGE, getGeminiKey, onGeminiKeyChange, registerSecretBackend, setGeminiKey } from '../src/platform/secrets';
 import { kv } from '../src/platform/storage';
-import { deleteGeminiKey, saveGeminiKey, SETTINGS_DEFAULTS, syncGeminiKeyHint, useSettings } from '../src/store/settings';
+import { activeKeyHint, activeModel, deleteGeminiKey, saveGeminiKey, SETTINGS_DEFAULTS, syncGeminiKeyHint, useSettings } from '../src/store/settings';
 
 const GEMINI_PREFIX = 'https://generativelanguage.googleapis.com/';
 /** 실제 키처럼 보이지 않는 가짜 키 (검사 규칙 AQ./AIza 모양이 아님) */
@@ -211,16 +211,18 @@ test('[키 확인] checkGeminiKey: 성공(모델 있음)·모델 없음·400·40
 
 // ───────────────────────── 실제 AI 방식: 키가 없으면 오프라인 ─────────────────────────
 
-test('effectiveAiMode: gemini 설정이어도 키가 없으면(null·빈 문자열·공백) offline, offline 설정은 늘 offline', () => {
-  assert.equal(effectiveAiMode('gemini', null), 'offline');
-  assert.equal(effectiveAiMode('gemini', undefined), 'offline');
-  assert.equal(effectiveAiMode('gemini', ''), 'offline');
-  assert.equal(effectiveAiMode('gemini', '   '), 'offline');
-  assert.equal(effectiveAiMode('gemini', FAKE_KEY), 'gemini');
+test('effectiveAiMode: ai 설정이어도 키가 없으면(null·빈 문자열·공백) offline, offline 설정은 늘 offline (v3.0 저장값 gemini 도 ai)', () => {
+  assert.equal(effectiveAiMode('ai', null), 'offline');
+  assert.equal(effectiveAiMode('ai', undefined), 'offline');
+  assert.equal(effectiveAiMode('ai', ''), 'offline');
+  assert.equal(effectiveAiMode('ai', '   '), 'offline');
+  assert.equal(effectiveAiMode('ai', FAKE_KEY), 'ai');
+  assert.equal(effectiveAiMode('gemini', FAKE_KEY), 'ai', 'v3.0 저장값');
   assert.equal(effectiveAiMode('offline', FAKE_KEY), 'offline');
-  assert.equal(SETTINGS_DEFAULTS.aiMode, 'gemini', '기본 설정은 gemini');
-  assert.equal(SETTINGS_DEFAULTS.geminiModel, 'gemini-3.6-flash');
-  assert.equal(effectiveAiMode(SETTINGS_DEFAULTS.aiMode, SETTINGS_DEFAULTS.geminiKeyHint), 'offline', '처음 설치(키 없음) → 오프라인');
+  assert.equal(SETTINGS_DEFAULTS.aiMode, 'ai', '기본 설정은 ai');
+  assert.equal(SETTINGS_DEFAULTS.aiProvider, 'gemini', '기본 AI 는 Gemini');
+  assert.equal(activeModel(SETTINGS_DEFAULTS), 'gemini-3.6-flash');
+  assert.equal(effectiveAiMode(SETTINGS_DEFAULTS.aiMode, activeKeyHint(SETTINGS_DEFAULTS)), 'offline', '처음 설치(키 없음) → 오프라인');
 });
 
 test('generateRecipe: gemini 인데 키가 없으면 Gemini 를 부르지 않고 오프라인 추천 + fallbackCode NO_KEY (기존 안내 방식: fallbackReason)', async () => {
@@ -229,7 +231,7 @@ test('generateRecipe: gemini 인데 키가 없으면 Gemini 를 부르지 않고
       throw new Error('부르면 안 됨');
     },
     async (calls) => {
-      const res = await generateRecipe({ input, slots: defaultSlots(), aiMode: 'gemini', geminiKey: null });
+      const res = await generateRecipe({ input, slots: defaultSlots(), aiMode: 'ai', aiKey: null });
       assert.equal(calls.length, 0, 'Gemini 호출 없음');
       return res;
     },
@@ -246,7 +248,7 @@ test('generateRecipe: gemini 인데 키가 없으면 Gemini 를 부르지 않고
   assert.equal(fallbackToast({ source: 'direct' }), null);
   assert.equal(fallbackToast({ source: 'offline' }), null, '오프라인 설정(이유 없음)은 토스트 없음');
   // offline 설정은 fallbackReason·fallbackCode 없음
-  const off = await generateRecipe({ input, slots: defaultSlots(), aiMode: 'offline', geminiKey: FAKE_KEY });
+  const off = await generateRecipe({ input, slots: defaultSlots(), aiMode: 'offline', aiKey: FAKE_KEY });
   assert.equal(off.fallbackReason, undefined);
   assert.equal(off.fallbackCode, undefined);
 });
@@ -254,7 +256,7 @@ test('generateRecipe: gemini 인데 키가 없으면 Gemini 를 부르지 않고
 test('generateRecipe: Gemini 오류(429)도 같은 분류로 안내하고 오프라인 추천으로 이어감 (가짜 fetch)', async () => {
   const r = await withFakeFetch(
     () => gErr(429, 'You exceeded your current quota', { status: 'RESOURCE_EXHAUSTED' }),
-    () => generateRecipe({ input, slots: defaultSlots(), aiMode: 'gemini', geminiKey: FAKE_KEY }),
+    () => generateRecipe({ input, slots: defaultSlots(), aiMode: 'ai', aiKey: FAKE_KEY }),
   );
   assert.equal(r.source, 'offline');
   assert.equal(r.fallbackCode, 'RATE_LIMIT');
@@ -277,9 +279,9 @@ test('flow.requestRecommendation: 저장된 키·모델로 Gemini 호출(키는 
   // 키 저장 → 힌트 = 마지막 4자리, Gemini 호출
   await saveGeminiKey(`  ${FAKE_KEY}  `);
   assert.equal(await getGeminiKey(), FAKE_KEY);
-  assert.equal(useSettings.getState().geminiKeyHint, 'wxyz');
-  assert.equal(effectiveAiMode(useSettings.getState().aiMode, useSettings.getState().geminiKeyHint), 'gemini');
-  useSettings.getState().set({ geminiModel: 'gemini-2.5-flash' });
+  assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), 'wxyz');
+  assert.equal(effectiveAiMode(useSettings.getState().aiMode, (useSettings.getState().aiKeyHints.gemini ?? null)), 'ai');
+  useSettings.getState().set({ aiModels: { gemini: 'gemini-2.5-flash' } });
   const recipe = { name: '테스트 에이드', ingredients: [{ pump: 1, name: '사이다', ml: 150 }, { pump: 2, name: '오렌지주스', ml: 50 }] };
   const viaGemini = await withFakeFetch(
     () => json({ candidates: [{ content: { parts: [{ text: JSON.stringify({ recipe, explore: [] }) }] } }] }),
@@ -308,7 +310,7 @@ test('flow.requestRecommendation: 저장된 키·모델로 Gemini 호출(키는 
   // 키 삭제 → 힌트 지움
   await deleteGeminiKey();
   assert.equal(await getGeminiKey(), null);
-  assert.equal(useSettings.getState().geminiKeyHint, null);
+  assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), null);
   useSettings.setState({ ...SETTINGS_DEFAULTS, lastDevices: {} });
 });
 
@@ -335,12 +337,12 @@ test('secrets: localStorage 키 이름 sb.secret.geminiKey, 앞뒤 공백 제거
     await setGeminiKey(FAKE_KEY);
     assert.equal(mem.get(GEMINI_KEY_STORAGE), FAKE_KEY);
     assert.equal(kv.getItem(GEMINI_KEY_STORAGE), null, 'localStorage 에는 없음');
-    useSettings.getState().set({ geminiKeyHint: null });
+    useSettings.getState().set({ aiKeyHints: {} });
     await syncGeminiKeyHint();
-    assert.equal(useSettings.getState().geminiKeyHint, 'wxyz', '시작 시 힌트를 실제 키에 맞춤');
+    assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), 'wxyz', '시작 시 힌트를 실제 키에 맞춤');
     await clearGeminiKey();
     await syncGeminiKeyHint();
-    assert.equal(useSettings.getState().geminiKeyHint, null);
+    assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), null);
   } finally {
     registerSecretBackend(null);
   }

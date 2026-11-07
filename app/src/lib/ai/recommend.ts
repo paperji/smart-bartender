@@ -1,12 +1,12 @@
 /**
  * AI 레시피 생성 오케스트레이터 (SPEC §3, §5.4) — v3.0: 서버 모드 제거, 사용자 본인 키(BYOK) (WEBAPP_DESIGN §4)
- *  - gemini : 앱에서 Gemini REST 직접 호출(사용자 키, v2.1 의 'direct' 경로 그대로) → 실패 시 오프라인 추천
- *             키가 없으면 Gemini 를 부르지 않고 바로 오프라인 추천(fallbackReason·fallbackCode 'NO_KEY' 로 안내)
+ *  - ai     : 앱에서 고른 AI 회사(Gemini·ChatGPT·Claude 등, v3.1)를 사용자 키로 직접 호출(aiClient.callAi) → 실패 시 오프라인 추천
+ *             키가 없으면 AI 를 부르지 않고 바로 오프라인 추천(fallbackReason·fallbackCode 'NO_KEY' 로 안내)
  *  - offline: 앱 내장 규칙기반 추천만
  * 요청에는 mode("normal"|"explore"), history(최신 기록부터 최대 10개, liked/rejected),
  * user.adultVerified(설정의 성인 확인 값 — false 면 탐색(§5.4)과 레시피 suggestions(§3.2) 모두 술 장착·대체 제안을 하지 않고,
  * 규칙기반 문구도 술 장착을 권하지 않음, SPEC §3.1) 포함.
- * Gemini·오프라인 원본은 normalizeRecipe(SPEC §3.3 규칙 1~9) 로 보정합니다.
+ * AI·오프라인 원본은 normalizeRecipe(SPEC §3.3 규칙 1~9) 로 보정합니다.
  * 규칙 1 의 성향 제외(알레르기·싫어하는 재료)는 preference.ts 로 계산해 모든 경로의 보정에 excludePumps 로 넘김.
  * 성인 확인 전이면 레시피 suggestions 의 술 장착·대체 제안도 지움(normalizeRecipe 의 adultVerified — SPEC §3.2).
  * explore 는 parseExplore 로 다시 검증(성인 확인 전이면 술 장착 항목 제거).
@@ -14,7 +14,7 @@
  * 0개가 되면 AI 재호출 없이 오프라인 탐색(같은 필터)으로 채움 (SPEC §3.3 규칙 8).
  * normal 모드에서 만들 수 있는 재료가 없으면(잔량 0·무알콜인데 술만·성향으로 모두 제외·도수 상한을 맞출 무알콜 재료 없음)
  * AI 를 부르지 않고 바로 안내 (백엔드가 422 를 주는 경우와 같은 판정·같은 뜻의 문구).
- * 시간 제한 (SPEC §3.1): 직접 Gemini 25초. (브라우저·Node 공통 — fetch 만 사용)
+ * 시간 제한 (SPEC §3.1): AI 직접 호출 25초. (브라우저·Node 공통 — fetch 만 사용)
  */
 import type {
   AiMode,
@@ -29,16 +29,16 @@ import type {
   RecommendMode,
   UserInput,
 } from '../types';
-import { hasInvalidKeyChars, redactKey } from './apiKey';
+import { AiError, AI_TIMEOUT_MS, NO_KEY_TEXT } from './aiCommon';
+import { callAi } from './aiClient';
 import { exploreToRawRecipe, filterNoMixerExplore, nameKey, parseExplore } from './explore';
 import { clampCup, cleanText, noMixerMessage, normalizeRecipe, RecipeError, STRENGTH_ABV, STRENGTH_KO } from './normalize';
 import { offlineRecipe } from './offline';
 import { offlineExplore } from './offline-explore';
 import { excludedByPreference, preferenceExcludedPumps } from './preference';
-import { buildResponseSchema, buildUserPrompt, DEFAULT_GEMINI_MODEL, SYSTEM_PROMPT } from './prompt';
+import { providerOf, type AiProviderId } from './providers';
 
-/** 직접 Gemini 호출 1회 시간 제한 (SPEC §3.1: 25초) */
-export const AI_TIMEOUT_MS = 25000;
+export { AI_TIMEOUT_MS } from './aiCommon';
 /** history 최대 개수 (SPEC §3.1) */
 export const HISTORY_LIMIT = 10;
 
@@ -98,195 +98,27 @@ export function buildRequest(
   };
 }
 
-export class AiError extends Error {
-  /** 'TIMEOUT' = 응답 시간 초과 (안내 문구 구분용). 직접 Gemini 호출은 classifyGeminiError 의 코드 */
-  readonly code?: string;
-  constructor(message: string, code?: string) {
-    super(message);
-    this.name = 'AiError';
-    this.code = code;
-  }
-}
-
-async function fetchJson(url: string, init: RequestInit, timeoutMs: number): Promise<{ status: number; body: any }> {
-  const ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  let timer: ReturnType<typeof setTimeout> | null = null;
-  const timeout = new Promise<never>((_, reject) => {
-    timer = setTimeout(() => {
-      ctrl?.abort();
-      reject(new AiError(`응답 시간이 ${Math.round(timeoutMs / 1000)}초를 넘었어요`, 'TIMEOUT'));
-    }, timeoutMs);
-  });
-  try {
-    const res = (await Promise.race([fetch(url, { ...init, signal: ctrl?.signal }), timeout])) as Response;
-    const text = await res.text();
-    let body: any = null;
-    try {
-      body = text ? JSON.parse(text) : null;
-    } catch {
-      body = { raw: text };
-    }
-    return { status: res.status, body };
-  } catch (e: any) {
-    if (e instanceof AiError) throw e;
-    if (e?.name === 'AbortError') throw new AiError('요청이 취소됐어요(시간 초과)', 'TIMEOUT');
-    throw new AiError(`네트워크 오류: ${e?.message ?? e}`);
-  } finally {
-    if (timer) clearTimeout(timer);
-  }
-}
-
-function extractJson(text: string): unknown {
-  const t = text.trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '');
-  try {
-    return JSON.parse(t);
-  } catch {
-    const s = t.indexOf('{');
-    const e = t.lastIndexOf('}');
-    if (s >= 0 && e > s) return JSON.parse(t.slice(s, e + 1));
-    throw new AiError('AI 응답을 해석하지 못했어요');
-  }
-}
-
-/** Gemini 응답 JSON → { recipe, explore } (예전 형식: 최상위가 레시피) */
-export function splitGeminiJson(json: any): { recipe: unknown | null; explore: unknown } {
-  if (json && typeof json === 'object' && ('recipe' in json || 'explore' in json)) {
-    const r = json.recipe && typeof json.recipe === 'object' ? json.recipe : null;
-    return { recipe: r, explore: json.explore };
-  }
-  return { recipe: json && typeof json === 'object' ? json : null, explore: [] };
-}
-
-/** 직접 Gemini 호출 오류 코드 (SPEC §3.2 warningCode 와 같은 이름) */
-export type GeminiErrorCode =
-  | 'TIMEOUT'
-  | 'NETWORK'
-  | 'RATE_LIMIT'
-  | 'BILLING'
-  | 'AUTH'
-  | 'MODEL'
-  | 'BAD_REQUEST'
-  | 'UPSTREAM';
-
-/**
- * Gemini HTTP 결과 → 오류 코드 — 백엔드 backend/lib/gemini.js classify() 와 같은 규칙 (parity 테스트로 비교)
- *  - BILLING: 402 또는 "prepayment credits are depleted" 처럼 선불 크레딧 소진 문구일 때만.
- *    'billing' 단어만으로는 판단하지 않음 — 무료 등급의 일반 429 문구 "You exceeded your current quota, please check your
- *    plan and billing details" 에도 들어 있어, 그것은 RATE_LIMIT(무료 등급 한도 초과, 잠시 후 다시 시도)
- *  - AUTH: 401·403 또는 API_KEY_INVALID / API key not valid / PERMISSION_DENIED
- *  - RATE_LIMIT 429 · MODEL 404 · BAD_REQUEST 400 · 그 밖 UPSTREAM
- * r.error: fetch 자체가 실패한 경우 'TIMEOUT' | 'NETWORK'
- */
-export function classifyGeminiError(r: { status: number; data?: any; error?: 'TIMEOUT' | 'NETWORK' }): GeminiErrorCode {
-  if (r.error === 'TIMEOUT') return 'TIMEOUT';
-  if (r.error === 'NETWORK') return 'NETWORK';
-  const detail = JSON.stringify((r.data && r.data.error) || {});
-  if (r.status === 402 || /prepay|prepayment|credits? (are |is )?depleted/i.test(detail)) return 'BILLING';
-  if (r.status === 401 || r.status === 403 || /API_KEY_INVALID|API key not valid|PERMISSION_DENIED/i.test(detail)) return 'AUTH';
-  if (r.status === 429) return 'RATE_LIMIT';
-  if (r.status === 404) return 'MODEL';
-  if (r.status === 400) return 'BAD_REQUEST';
-  return 'UPSTREAM';
-}
-
-/** 키가 없어 Gemini 를 부르지 않았을 때 (fallbackCode 'NO_KEY') */
-export const NO_KEY_TEXT = 'Gemini API 키가 설정되지 않았어요';
-
-/** 오류 코드별 쉬운 안내 (오프라인 추천으로 바뀐 이유에 보임) */
-export const GEMINI_ERROR_TEXT: Record<GeminiErrorCode, string> = {
-  TIMEOUT: '응답 시간이 넘었어요',
-  NETWORK: 'Gemini 서버에 연결하지 못했어요',
-  RATE_LIMIT: '사용량 한도에 걸렸어요(무료 등급은 잠시 후 다시 시도)',
-  BILLING: '사용 크레딧이 없어요(Google AI Studio 결제 확인)',
-  AUTH: 'API 키가 올바르지 않거나 권한이 없어요(설정에서 키 확인)',
-  MODEL: '모델을 찾을 수 없어요(설정에서 모델 이름 확인)',
-  BAD_REQUEST: '요청이 거절됐어요',
-  UPSTREAM: 'Gemini 서버 오류예요',
-};
-
-/** 모델 이름의 주 버전 (gemini-3.6-flash → 3). 모르면 null — 백엔드 majorVersion 과 같음 */
-function geminiMajor(model: string): number | null {
-  const mm = /^gemini-(\d+)/.exec(String(model || ''));
-  return mm ? Number(mm[1]) : null;
-}
-
-/**
- * Gemini REST generateContent 직접 호출 (JSON 모드 + responseJsonSchema).
- * temperature 는 Gemini 2.x 이하에만 보냄 (3 이상은 공식 문서 권장대로 보내지 않음 — 백엔드와 같음).
- * 실패하면 AiError(code = classifyGeminiError 결과)
- */
-export async function callGemini(
-  apiKey: string,
-  req: RecipeRequest,
-  model = DEFAULT_GEMINI_MODEL,
-  timeoutMs = AI_TIMEOUT_MS,
-): Promise<{ recipe: unknown | null; explore: unknown }> {
-  const m0 = model || DEFAULT_GEMINI_MODEL;
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m0)}:generateContent`;
-  const major = geminiMajor(m0);
-  const generationConfig: Record<string, unknown> = {
-    responseMimeType: 'application/json',
-    responseJsonSchema: buildResponseSchema(req),
-  };
-  if (major != null && major < 3) generationConfig.temperature = 0.9;
-  const payload = {
-    systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-    contents: [{ role: 'user', parts: [{ text: buildUserPrompt(req) }] }],
-    generationConfig,
-  };
-  const key = (apiKey ?? '').trim();
-  // 보이지 않는 문자·한글 등이 든 키는 헤더로 보낼 수 없어 fetch 가 요청 전에 TypeError → 예전엔 NETWORK 로 오인. 보내지 않고 키 오류로
-  if (hasInvalidKeyChars(key)) {
-    throw new AiError(`Gemini 오류(AUTH): ${GEMINI_ERROR_TEXT.AUTH} — 키에 쓸 수 없는 문자(보이지 않는 문자·한글 등)가 있어요`, 'AUTH');
-  }
-  let status: number;
-  let body: any;
-  try {
-    ({ status, body } = await fetchJson(
-      url,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-        body: JSON.stringify(payload),
-      },
-      timeoutMs,
-    ));
-  } catch (e: any) {
-    const code = classifyGeminiError({ status: 0, error: e instanceof AiError && e.code === 'TIMEOUT' ? 'TIMEOUT' : 'NETWORK' });
-    throw new AiError(`Gemini 오류(${code}): ${GEMINI_ERROR_TEXT[code]}`, code);
-  }
-  if (status >= 400 || body?.error) {
-    const code = classifyGeminiError({ status, data: body });
-    // Google 원문은 화면(레시피 안내의 괄호)·임시 저장(fallbackReason)에 쓰이므로 키 값을 가린 뒤 자름
-    // (정지된 키: "Permission denied: Consumer 'api_key:<키>' has been suspended." — 80자 안에 키 전체가 들어감)
-    const m = redactKey(String(body?.error?.message ?? `HTTP ${status}`), key).slice(0, 80);
-    throw new AiError(`Gemini 오류(${code}): ${GEMINI_ERROR_TEXT[code]} — ${m}`, code);
-  }
-  const text: string | undefined = body?.candidates?.[0]?.content?.parts
-    ?.map((p: any) => (typeof p?.text === 'string' ? p.text : ''))
-    .join('');
-  if (!text) {
-    const reason = body?.promptFeedback?.blockReason || body?.candidates?.[0]?.finishReason || '빈 응답';
-    throw new AiError(`Gemini 가 레시피를 만들지 못했어요 (${reason})`);
-  }
-  const split = splitGeminiJson(extractJson(text));
-  if (req.mode === 'normal' && !split.recipe) throw new AiError('Gemini 응답에 레시피가 없어요');
-  return split;
-}
+// AI 호출 공통 도구·회사별 요청은 aiCommon.ts·aiClient.ts 로 옮김 (v3.1) — 예전 가져오기 경로를 위해 다시 내보냄
+export { AiError, AI_ERROR_TEXT, classifyGeminiError, GEMINI_ERROR_TEXT, NO_KEY_TEXT, splitGeminiJson, type AiErrorCode, type GeminiErrorCode } from './aiCommon';
+export { callAi, callGemini } from './aiClient';
 
 export interface GenerateOptions {
   input: UserInput;
   slots: PumpSlot[];
   /** 이전 기록 (최신 기록부터, SPEC §3.1) */
   history?: HistoryHint[];
-  /** gemini(사용자 키로 Gemini 직접 호출, 키가 없으면 오프라인) | offline */
+  /** ai(사용자 키로 고른 AI 직접 호출, 키가 없으면 오프라인) | offline */
   aiMode: AiMode;
-  geminiKey?: string | null;
-  geminiModel?: string;
+  /** 고른 AI 회사 (생략하면 Gemini) */
+  aiProvider?: AiProviderId;
+  /** 그 회사의 사용자 키 */
+  aiKey?: string | null;
+  /** 모델 (생략하면 그 회사 기본 모델) */
+  aiModel?: string;
   /** normal(기본) | explore */
   mode?: RecommendMode;
   /**
-   * 만 19세 확인 여부 (요청 user.adultVerified). false·생략이면 탐색(Gemini·오프라인)의 술 후보·술 장착 카드 제거(§5.4),
+   * 만 19세 확인 여부 (요청 user.adultVerified). false·생략이면 탐색(AI·오프라인)의 술 후보·술 장착 카드 제거(§5.4),
    * 레시피 suggestions 의 술 add_ingredient/substitute 제거·규칙기반 문구의 술 장착 권유 없음(§3.2)
    */
   adultVerified?: boolean;
@@ -399,16 +231,16 @@ export async function generateRecipe(opts: GenerateOptions): Promise<RecipeResul
     throw new RecipeError('장착된 재료가 없어요. 재료 탭에서 펌프에 재료를 먼저 등록해 주세요.', 'NO_INGREDIENTS');
   }
   const strength = req.user.strength;
-  // SPEC §3.3 규칙 1: 성향(알레르기·싫어하는 재료)으로 뺄 펌프 — Gemini·오프라인 결과 보정, 도수 보정(섞을 재료) 모두에서 제외
+  // SPEC §3.3 규칙 1: 성향(알레르기·싫어하는 재료)으로 뺄 펌프 — AI·오프라인 결과 보정, 도수 보정(섞을 재료) 모두에서 제외
   const excludePumps = preferenceExcludedPumps(req.ingredients, req.user.preference);
   // 만들 수 있는 재료가 없거나(잔량 0·무알콜인데 술만·성향으로 모두 제외) 도수 상한을 맞출 무알콜 재료가 없음 (백엔드와 같은 판정)
   const noMixer = lacksMixer(req.ingredients, strength, excludePumps);
   const exploreOnly = !usableIngredients(req.ingredients, strength, excludePumps).length || noMixer;
   if (mode === 'normal' && exploreOnly) {
-    // 백엔드는 이 경우 AI 를 부르지 않고 422 → 앱도 Gemini 를 기다리지 않고 바로 같은 뜻의 안내
+    // 백엔드는 이 경우 AI 를 부르지 않고 422 → 앱도 AI 를 기다리지 않고 바로 같은 뜻의 안내
     throw new RecipeError(noUsableMessage(req, { excludePumps, noMixer }), noMixer ? 'NO_MIXER' : 'NO_USABLE');
   }
-  // adultVerified: 성인 확인 전이면 레시피 suggestions 에서도 술 장착·대체 제안을 지움 (SPEC §3.2 — Gemini·오프라인 모두)
+  // adultVerified: 성인 확인 전이면 레시피 suggestions 에서도 술 장착·대체 제안을 지움 (SPEC §3.2 — AI·오프라인 모두)
   const ctx = { ingredients: req.ingredients, strength, cupMl: req.user.cupMl, excludePumps, adultVerified };
   // 탐색 카드에도 같은 성향 제외 적용: 제외 재료를 새로 장착하라는 카드는 버리고, 제외 재료 줄은 지움 (SPEC §5.4 — 백엔드 exploreOpts 와 같음)
   const excludeName = (name: string) => excludedByPreference({ name }, req.user.preference);
@@ -474,13 +306,14 @@ export async function generateRecipe(opts: GenerateOptions): Promise<RecipeResul
   };
 
   let fallbackCode: string | undefined;
-  /** 사용자 키로 Gemini 직접 호출 (v2.1 의 direct 경로). 실패하면 null → 오프라인 추천 (오류 문구는 fallbackReason) */
-  const attemptGemini = async (): Promise<RecipeResult | null> => {
+  const provider = providerOf(opts.aiProvider);
+  /** 사용자 키로 고른 AI 직접 호출 (v2.1 의 direct 경로). 실패하면 null → 오프라인 추천 (오류 문구는 fallbackReason) */
+  const attemptAi = async (): Promise<RecipeResult | null> => {
     try {
-      if (!opts.geminiKey) throw new AiError(NO_KEY_TEXT, 'NO_KEY');
-      const model = opts.geminiModel || DEFAULT_GEMINI_MODEL;
-      const raw = await callGemini(opts.geminiKey, req, model, opts.timeoutMs ?? AI_TIMEOUT_MS);
-      return finish(raw, 'direct', model);
+      if (!opts.aiKey) throw new AiError(NO_KEY_TEXT, 'NO_KEY');
+      const model = opts.aiModel || provider.defaultModel;
+      const raw = await callAi(provider.id, opts.aiKey, req, model, opts.timeoutMs ?? AI_TIMEOUT_MS);
+      return { ...finish(raw, 'direct', model), provider: provider.id };
     } catch (e: any) {
       if (e instanceof AiError && e.code === 'TIMEOUT') timedOut = true;
       fallbackCode = e instanceof AiError ? e.code : e instanceof RecipeError ? 'INVALID_RECIPE' : undefined;
@@ -489,8 +322,8 @@ export async function generateRecipe(opts: GenerateOptions): Promise<RecipeResul
     }
   };
 
-  if (opts.aiMode === 'gemini') {
-    const r = await attemptGemini();
+  if (opts.aiMode === 'ai') {
+    const r = await attemptAi();
     if (r) return r;
   }
 
@@ -515,6 +348,8 @@ export async function generateRecipe(opts: GenerateOptions): Promise<RecipeResul
   const res = finish({ recipe: rawRecipe, explore: offlineExplore(req, exploreOpts) }, 'offline');
   return {
     ...res,
+    // 쓰려던 AI (안내 문구 "ChatGPT 를 쓰지 못해…" 용)
+    ...(opts.aiMode === 'ai' ? { provider: provider.id } : {}),
     fallbackReason: opts.aiMode === 'offline' ? undefined : errors.join(' / ') || undefined,
     ...(opts.aiMode !== 'offline' && fallbackCode ? { fallbackCode } : {}),
     ...(timedOut && opts.aiMode !== 'offline' ? { timedOut: true } : {}),

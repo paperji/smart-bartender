@@ -11,11 +11,13 @@
  */
 import { cleanText, normName, particle, revalidateRecipe, strengthForAbv, type NormalizeResult } from '@/lib/ai/normalize';
 import { preferenceExcludedPumps } from '@/lib/ai/preference';
+import type { AiProviderId } from '@/lib/ai/providers';
 import { slotsToIngredients } from '@/lib/ai/recommend';
 import { DeviceError, deviceClient } from '@/lib/device/client';
 import { fmtMl } from '@/lib/format';
 import { go } from '@/lib/nav';
 import { deviceLimits, dispensedDelta, validateMake, type MakeStep } from '@/lib/protocol';
+import type { IngredientMeta } from '@/lib/share/convert';
 import type { PumpSlot, Recipe, RecipeSource, Strength } from '@/lib/types';
 import { isAppActive } from '@/platform/appState';
 import { haptic } from '@/platform/haptics';
@@ -25,6 +27,7 @@ import { isBusy, useDevice, type JobState } from '@/store/device';
 import { useDraft, useSession, type CurrentRecipe } from '@/store/draft';
 import { useHistory } from '@/store/history';
 import { useSettings } from '@/store/settings';
+import { recordSharedUse } from '@/store/shared';
 import { isLowStock, useSlots } from '@/store/slots';
 import { toast } from '@/store/toast';
 import { alertMessage, confirmAsync } from '@/ui/dialog/service';
@@ -167,6 +170,8 @@ export async function startBrew(): Promise<boolean> {
     }
     // 명령은 기기에 닿았지만 응답(ack)을 못 받음 → 기기가 실제로 붓고 있을 수 있으므로 진행 화면에서 확인
   }
+  // 모두의 레시피로 실제 기기에서 만들기 시작 → 사용 횟수 1번 (데모 기기의 가짜 제조는 세지 않음, 실패해도 제조와 무관)
+  if (cur.sharedId && useDevice.getState().transportKind !== 'demo') recordSharedUse(cur.sharedId).catch(() => undefined);
   useSession.getState().setRejectStreak(0);
   go('/brewing');
   return true;
@@ -178,6 +183,10 @@ export interface BrewSnapshot {
   source: RecipeSource;
   moods: string[];
   strength: Strength;
+  /** 만든 AI 회사 · 공유 레시피 id · 재료 종류·도수 (기록에 남겨 공유할 때 씀, v3.1) */
+  provider?: AiProviderId;
+  sharedId?: string;
+  meta?: IngredientMeta[];
   /** 그 작업을 시작한 레시피 세션 (useSession.current.createdAt) */
   sessionAt: number;
 }
@@ -196,12 +205,20 @@ function remember<K, V>(map: Map<K, V>, key: K, value: V) {
 }
 
 function rememberBrew(jobId: string, cur: CurrentRecipe) {
+  const slots = useSlots.getState().slots;
+  const meta = cur.recipe.ingredients.flatMap((i) => {
+    const s = slots.find((x) => x.pump === i.pump);
+    return s ? [{ name: i.name, category: s.category, abv: s.abv }] : [];
+  });
   remember(brewSnapshots, jobId, {
     recipe: cur.recipe,
     source: cur.source,
     moods: cur.input.moods,
     strength: cur.input.strength,
     sessionAt: cur.createdAt,
+    ...(cur.source === 'direct' && cur.provider ? { provider: cur.provider } : {}),
+    ...(cur.sharedId ? { sharedId: cur.sharedId } : {}),
+    ...(meta.length ? { meta } : {}),
   });
 }
 
@@ -361,10 +378,15 @@ export function registerJobEffects() {
     const old = useHistory.getState().entries.find((x) => x.id === historyId);
     // 기록 내용: 이미 있는 기록이면 레시피·입력은 그대로(결과만 갱신), 없으면 작업을 시작할 때의 레시피.
     // 앱이 시작하지 않은 작업(스냅샷 없음)만 지금 화면의 레시피로 (예전 동작)
+    const extra = (x: { provider?: AiProviderId; sharedId?: string; meta?: IngredientMeta[] }) => ({
+      ...(x.provider ? { provider: x.provider } : {}),
+      ...(x.sharedId ? { sharedId: x.sharedId } : {}),
+      ...(x.meta?.length ? { meta: x.meta } : {}),
+    });
     const base = old
-      ? { recipe: old.recipe, source: old.source, moods: old.moods, strength: old.strength }
+      ? { recipe: old.recipe, source: old.source, moods: old.moods, strength: old.strength, ...extra(old) }
       : snap
-        ? { recipe: snap.recipe, source: snap.source, moods: snap.moods, strength: snap.strength }
+        ? { recipe: snap.recipe, source: snap.source, moods: snap.moods, strength: snap.strength, ...extra(snap) }
         : cur
           ? { recipe: cur.recipe, source: cur.source, moods: cur.input.moods, strength: cur.input.strength }
           : null;

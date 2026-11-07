@@ -10,7 +10,7 @@
  *  - Google 오류 본문·문구에 든 키 값은 가림(apiKey.ts redactKey)
  */
 import { hasInvalidKeyChars, KEY_FORMAT_TEXT, redactKey, redactKeyDeep } from './apiKey';
-import { classifyGeminiError, type GeminiErrorCode } from './recommend';
+import { classifyGeminiError, type GeminiErrorCode } from './aiCommon';
 import { DEFAULT_GEMINI_MODEL } from './prompt';
 
 export const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta';
@@ -163,8 +163,10 @@ export interface KeyCheckResult {
   code: KeyCheckCode;
   /** 화면에 그대로 보여 줄 안내 (해요체) */
   message: string;
-  /** 쓸 수 있는 모델 목록 (실패하면 []) */
+  /** 쓸 수 있는 모델 목록 (실패하면 []) — 화면 목록용으로 거른 것 */
   models: GeminiModelInfo[];
+  /** 거르기 전 이 키로 쓸 수 있는 모든 모델 ID (v3.1 — 목록에 안 보이는 모델도 '쓸 수 있음'으로 판단) */
+  available?: string[];
   /** 분류 전 Gemini 오류 코드 (진단용) */
   errorCode?: GeminiErrorCode;
 }

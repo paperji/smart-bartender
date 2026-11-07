@@ -258,7 +258,9 @@ class DeviceClient {
       t = createDeviceTransport(kind);
     }
     this.transport = t;
-    setDevice({ ...initialDeviceState, transportKind: kind });
+    // 방금 끝난 작업은 남김 — 제조가 끝나자마자(다른 탭에서 바꾼 데모 모드 등으로) 다시 시작해도 완료 화면·피드백이 사라지지 않게
+    const prev = useDevice.getState().job;
+    setDevice({ ...initialDeviceState, transportKind: kind, job: prev && !isBusy(prev) ? prev : null });
     this.unsubs.push(
       t.onLine((line) => this.handleLine(line)),
       t.onState((s, info) => this.handleState(s, info)),

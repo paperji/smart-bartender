@@ -2,6 +2,7 @@
  * 앱 전역 도메인 타입 (docs/SPEC.md §2, §3 과 일치)
  * 이 파일은 React Native 에 의존하지 않는 순수 타입입니다(테스트에서 그대로 사용).
  */
+import type { AiProviderId } from './ai/providers';
 
 /** 재료 종류 (SPEC §3.1) */
 export type Category =
@@ -169,7 +170,7 @@ export interface Recipe {
 
 /**
  * 레시피 출처 (v3.0: 서버 모드 제거 — WEBAPP_DESIGN §4)
- * - direct: 앱이 사용자 키로 Gemini 를 직접 호출 (AI 방식 'gemini')
+ * - direct: 앱이 사용자 키로 AI(Gemini·ChatGPT·Claude 등)를 직접 호출 (AI 방식 'ai')
  * - offline: 앱 내장 규칙기반 추천
  */
 export type RecipeSource = 'direct' | 'offline';
@@ -203,12 +204,14 @@ export interface RecipeResult {
   mode: RecommendMode;
   source: RecipeSource;
   model?: string;
+  /** 쓴(또는 쓰려던) AI 회사 — source 'direct' 면 이 회사가 만든 레시피 (v3.1) */
+  provider?: AiProviderId;
   /** 정규화 과정에서 바뀐 내용 / 대체 사유 */
   warnings: string[];
   /** AI 호출 실패로 오프라인 추천을 썼다면 그 원인 */
   fallbackReason?: string;
   /**
-   * 오프라인 추천으로 바뀐 원인 코드 — 'NO_KEY'(키 없음) 또는 Gemini 오류 분류(classifyGeminiError:
+   * 오프라인 추천으로 바뀐 원인 코드 — 'NO_KEY'(키 없음) 또는 AI 오류 분류(classifyAiError:
    * TIMEOUT·NETWORK·RATE_LIMIT·BILLING·AUTH·MODEL·BAD_REQUEST·UPSTREAM), 'INVALID_RECIPE'(AI 응답을 보정할 수 없음)
    */
   fallbackCode?: string;
@@ -220,8 +223,9 @@ export interface RecipeResult {
 export type DispenseMode = 'seq' | 'par';
 
 /**
- * AI 추천 방식 (v3.0 — WEBAPP_DESIGN §4)
- * - gemini : 사용자 본인 Gemini API 키로 직접 호출 (키가 없으면 실제로는 offline — lib/ai/mode.ts effectiveAiMode)
+ * AI 추천 방식 (v3.1 — WEBAPP_DESIGN §4)
+ * - ai     : 사용자 본인 AI API 키(Gemini·ChatGPT·Claude 등, 설정의 aiProvider)로 직접 호출
+ *            (키가 없으면 실제로는 offline — lib/ai/mode.ts effectiveAiMode). v3.0 저장값 'gemini' 는 'ai' 로 읽음
  * - offline: 앱 내장 규칙기반 추천만
  */
-export type AiMode = 'gemini' | 'offline';
+export type AiMode = 'ai' | 'offline';

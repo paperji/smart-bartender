@@ -107,7 +107,7 @@ function RecipeScreenContent() {
   // 성향(알레르기·싫어하는 재료)으로 뺀 재료는 ml 조정·잔 맞춤 때 도수 보정용 재료로도 다시 넣지 않음 (SPEC §3.3 규칙 1·8)
   // adultVerified: 다시 검증할 때도 성인 확인 전이면 술 장착·대체 제안을 지움 (SPEC §3.2, 요청과 같은 설정 값)
   const ctx = recheckContext(slots, current.input, limits, adultVerified);
-  const fav = isFavorite(favorites, r);
+  const fav = isFavorite(favorites, r, current.sharedId);
   const cupMl = current.input.cupMl;
   const notice = fallbackNotice(current);
   const busy = isBusy(job);
@@ -124,7 +124,7 @@ function RecipeScreenContent() {
   const fitToCup = () => apply(fitRecipeToCup(r, current.warnings, cupMl, ctx));
 
   const onToggleFavorite = () => {
-    const added = toggleFavorite(r);
+    const added = toggleFavorite(r, { sharedId: current.sharedId, provider: current.provider, source: current.source });
     toast(added ? '즐겨찾기에 추가했어요.' : '즐겨찾기에서 뺐어요.', 'success');
   };
 
@@ -255,7 +255,14 @@ function RecipeScreenContent() {
 
       {/* 제목 */}
       <Stack gap={8} className="recipe-title">
-        <RecipeBadges source={current.source} abv={r.estimatedAbv} fromSaved={current.fromSaved} model={current.model} />
+        <RecipeBadges
+          source={current.source}
+          abv={r.estimatedAbv}
+          fromSaved={current.fromSaved}
+          model={current.model}
+          provider={current.provider}
+          shared={!!current.sharedId}
+        />
         <Text variant="display" as="h2" className="recipe-title__name">
           {r.name}
         </Text>

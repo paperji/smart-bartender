@@ -113,7 +113,7 @@ test('AI-2 레시피: 저장된 키에 보이지 않는 문자가 있으면 Gemi
   const r = await withFakeFetch(
     () => json({}),
     async (calls) => {
-      const res = await generateRecipe({ input, slots: defaultSlots(), aiMode: 'gemini', geminiKey: ZWSP_KEY });
+      const res = await generateRecipe({ input, slots: defaultSlots(), aiMode: 'ai', aiKey: ZWSP_KEY });
       assert.equal(calls.length, 0, '네트워크 요청 없음');
       return res;
     },
@@ -164,7 +164,7 @@ test('AI-3 레시피: 정지된 키 문구의 키 값이 fallbackReason·레시�
     for (const mode of ['normal', 'explore'] as const) {
       const r = await withFakeFetch(
         () => json(suspendedBody(key), 403),
-        () => generateRecipe({ input, slots: defaultSlots(), aiMode: 'gemini', geminiKey: key, mode }),
+        () => generateRecipe({ input, slots: defaultSlots(), aiMode: 'ai', aiKey: key, mode }),
       );
       assert.equal(r.fallbackCode, 'AUTH');
       assert.ok(r.fallbackReason && !r.fallbackReason.includes(key), `${mode}: fallbackReason 에 키 없음`);
@@ -351,28 +351,28 @@ test('AI-4 secrets: 다른 창의 키 저장·삭제·전체 지우기(storage �
   };
   try {
     await saveGeminiKey(FAKE_KEY);
-    assert.equal(useSettings.getState().geminiKeyHint, 'wxyz');
+    assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), 'wxyz');
     seen.length = 0;
     fire(GEMINI_KEY_STORAGE, null); // 다른 창에서 삭제
     await synced;
     assert.deepEqual(seen, [false]);
-    assert.equal(useSettings.getState().geminiKeyHint, null, '새로 고침 없이 힌트가 지워짐');
+    assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), null, '새로 고침 없이 힌트가 지워짐');
     assert.equal(await getGeminiKey(), null);
     fire(GEMINI_KEY_STORAGE, 'other-window-key-0000-abcd'); // 다른 창에서 저장
     await synced;
     assert.deepEqual(seen, [false, true]);
-    assert.equal(useSettings.getState().geminiKeyHint, 'abcd');
+    assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), 'abcd');
     fire('sb3.settings', '{}'); // 다른 저장 키 → 알림 없음
     assert.deepEqual(seen, [false, true]);
     fire(null, null); // localStorage.clear()
     await synced;
     assert.deepEqual(seen, [false, true, false]);
-    assert.equal(useSettings.getState().geminiKeyHint, null);
+    assert.equal((useSettings.getState().aiKeyHints.gemini ?? null), null);
   } finally {
     offSeen();
     offSync();
     await clearGeminiKey();
-    useSettings.getState().set({ geminiKeyHint: null });
+    useSettings.getState().set({ aiKeyHints: {} });
     if (prevLs === undefined) delete g.localStorage;
     else g.localStorage = prevLs;
     if (prevWin === undefined) delete g.window;

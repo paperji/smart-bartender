@@ -6,7 +6,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { Flavor, Recipe, RecipeSource, Strength, Suggestion } from '@/lib/types';
+import { isProviderId, type AiProviderId } from '@/lib/ai/providers';
+import type { IngredientMeta } from '@/lib/share/convert';
+import { CATEGORIES, type Category, type Flavor, type Recipe, type RecipeSource, type Strength, type Suggestion } from '@/lib/types';
 
 import { appStorage, STORAGE_KEYS } from './storage';
 
@@ -26,12 +28,30 @@ export interface HistoryEntry {
   feedbackAt?: number;
   moods: string[];
   strength: Strength;
+  /** 만든 AI 회사 (source 'direct' 일 때, v3.1) */
+  provider?: AiProviderId;
+  /** 모두의 레시피에서 불러와 만든 잔이면 그 공유 id (다시 공유하지 않음) */
+  sharedId?: string;
+  /** 만들 때 재료의 종류·도수 (공유할 때 씀) */
+  meta?: IngredientMeta[];
 }
 
 export interface FavoriteEntry {
   id: string;
   savedAt: number;
   recipe: Recipe;
+  /** 모두의 레시피에서 즐겨찾기했으면 그 공유 id (v3.1 — 펌프 번호가 달라도 같은 레시피로 봄, 만들면 사용 횟수) */
+  sharedId?: string;
+  /** 만든 AI 회사·출처 (다시 만들 때 이어받음) */
+  provider?: AiProviderId;
+  source?: RecipeSource;
+}
+
+/** 즐겨찾기에 함께 남길 출처 정보 */
+export interface FavoriteOrigin {
+  sharedId?: string;
+  provider?: AiProviderId;
+  source?: RecipeSource;
 }
 
 /** 레시피 화면에서 "다른 추천"을 누른(거절한) 레시피 */
@@ -49,7 +69,7 @@ interface HistoryState {
   add: (e: Omit<HistoryEntry, 'id' | 'createdAt' | 'feedback'> & { id?: string }) => string;
   setFeedback: (id: string, fb: Feedback) => void;
   remove: (id: string) => void;
-  toggleFavorite: (recipe: Recipe) => boolean;
+  toggleFavorite: (recipe: Recipe, origin?: FavoriteOrigin) => boolean;
   removeFavorite: (id: string) => void;
   addRejection: (recipe: Recipe) => void;
   clear: () => void;
@@ -121,6 +141,18 @@ function sanitizeEntry(raw: unknown, idx: number): HistoryEntry | null {
   };
   if (raw.uncertain === true) entry.uncertain = true;
   if (finite(raw.feedbackAt)) entry.feedbackAt = raw.feedbackAt;
+  if (isProviderId(raw.provider)) entry.provider = raw.provider;
+  if (typeof raw.sharedId === 'string' && raw.sharedId) entry.sharedId = raw.sharedId;
+  if (Array.isArray(raw.meta)) {
+    const meta = raw.meta
+      .filter((m): m is Record<string, unknown> => isObj(m) && typeof m.name === 'string' && finite(m.abv))
+      .map((m) => ({
+        name: m.name as string,
+        abv: m.abv as number,
+        category: CATEGORIES.includes(m.category as Category) ? (m.category as Category) : ('other' as Category),
+      }));
+    if (meta.length) entry.meta = meta;
+  }
   return entry;
 }
 
@@ -128,7 +160,11 @@ function sanitizeFavorite(raw: unknown, idx: number): FavoriteEntry | null {
   if (!isObj(raw)) return null;
   const recipe = sanitizeRecipe(raw.recipe);
   if (!recipe) return null;
-  return { id: typeof raw.id === 'string' && raw.id ? raw.id : `f-restored-${idx}`, savedAt: finite(raw.savedAt) ? raw.savedAt : 0, recipe };
+  const fav: FavoriteEntry = { id: typeof raw.id === 'string' && raw.id ? raw.id : `f-restored-${idx}`, savedAt: finite(raw.savedAt) ? raw.savedAt : 0, recipe };
+  if (typeof raw.sharedId === 'string' && raw.sharedId) fav.sharedId = raw.sharedId;
+  if (isProviderId(raw.provider)) fav.provider = raw.provider;
+  if (raw.source === 'direct' || raw.source === 'offline') fav.source = raw.source;
+  return fav;
 }
 
 function sanitizeRejection(raw: unknown, idx: number): RejectionEntry | null {
@@ -189,14 +225,20 @@ export const useHistory = create<HistoryState>()(
       setFeedback: (id, fb) =>
         set({ entries: get().entries.map((x) => (x.id === id ? { ...x, feedback: fb, feedbackAt: Date.now() } : x)) }),
       remove: (id) => set({ entries: get().entries.filter((x) => x.id !== id) }),
-      toggleFavorite: (recipe) => {
-        const key = recipeKey(recipe);
-        const exists = get().favorites.find((f) => recipeKey(f.recipe) === key);
+      toggleFavorite: (recipe, origin) => {
+        const exists = findFavorite(get().favorites, recipe, origin?.sharedId);
         if (exists) {
           set({ favorites: get().favorites.filter((f) => f.id !== exists.id) });
           return false;
         }
-        const fav: FavoriteEntry = { id: 'f' + Date.now().toString(36), savedAt: Date.now(), recipe };
+        const fav: FavoriteEntry = {
+          id: 'f' + Date.now().toString(36),
+          savedAt: Date.now(),
+          recipe,
+          ...(origin?.sharedId ? { sharedId: origin.sharedId } : {}),
+          ...(origin?.provider ? { provider: origin.provider } : {}),
+          ...(origin?.source ? { source: origin.source } : {}),
+        };
         set({ favorites: [fav, ...get().favorites].slice(0, 100) });
         return true;
       },
@@ -226,8 +268,18 @@ export const useHistory = create<HistoryState>()(
 /** AI 요청용 history (SPEC §3.1, 최신 기록부터 최대 10개) — 순수 함수는 lib/history-hints.ts */
 export { historyHints } from '@/lib/history-hints';
 
-export function isFavorite(favorites: FavoriteEntry[], recipe: Recipe | null | undefined) {
-  if (!recipe) return false;
+/** 같은 즐겨찾기 찾기 — 공유 레시피는 공유 id 로(펌프 번호가 달라도 같은 레시피), 아니면 레시피 키로 */
+export function findFavorite(favorites: FavoriteEntry[], recipe: Recipe | null | undefined, sharedId?: string): FavoriteEntry | undefined {
+  if (sharedId) {
+    const hit = favorites.find((f) => f.sharedId === sharedId);
+    if (hit) return hit;
+  }
+  if (!recipe) return undefined;
   const key = recipeKey(recipe);
-  return favorites.some((f) => recipeKey(f.recipe) === key);
+  // 공유 id 를 받았으면, 내용이 같아도 다른 공유 레시피의 즐겨찾기와는 섞지 않음 (공유 id 가 없는 즐겨찾기만)
+  return favorites.find((f) => recipeKey(f.recipe) === key && (!sharedId || !f.sharedId));
+}
+
+export function isFavorite(favorites: FavoriteEntry[], recipe: Recipe | null | undefined, sharedId?: string) {
+  return !!findFavorite(favorites, recipe, sharedId);
 }

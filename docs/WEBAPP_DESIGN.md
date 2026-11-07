@@ -56,13 +56,20 @@
 - **초점**: 모든 조작 요소는 `:focus-visible` 에 2px outline `--focus-color`(offset 2px). 입력칸처럼 감싸는 칸만 `--focus-ring`(box-shadow) — `outline:none` 은 대신 링을 그리는 곳에서만.
 - 모서리 16px(카드)·12px(입력)·999px(칩), 그림자 `0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05)`.
 - 글자: 본문 15px, 제목 22~28px 굵게, 숫자는 tabular-nums.
-- 레이아웃: **모바일 우선**. 폭 < 900px → 위 상단바 + 하단 탭바(바텐더·재료·기록·기기). 폭 ≥ 900px(PC) → 왼쪽 세로 내비게이션 + 본문 최대 폭 1120px. 홈·재료 편집의 2열은 **1080px 이상**(900~1079px 은 1열, 홈 요약 카드 고정도 1080px 이상).
+- 레이아웃: **모바일 우선**. 폭 < 900px → 위 상단바 + 하단 탭바(바텐더·공유·재료·기록·기기 — v3.1 에서 공유 추가). 폭 ≥ 900px(PC) → 왼쪽 세로 내비게이션 + 본문 최대 폭 1120px. 홈·재료 편집의 2열은 **1080px 이상**(900~1079px 은 1열, 홈 요약 카드 고정도 1080px 이상).
 - 360px 폭에서도 가로 스크롤 없음(상단바 기기 칩은 줄어들고 이름이 잘림 — 전체 문구는 aria-label·기기 화면).
 - 토스트: 모바일은 화면 아래(탭바·아래 버튼 줄 위), **모바일 제조 화면은 화면 위**(아래의 비상 정지·피드백·'기록 저장하고 닫기'를 가리지 않게), PC 는 아래 24px.
 - 터치 영역 최소 44px(세그먼트·칩·맛 단계 포함), 대비 WCAG AA, `prefers-reduced-motion` 존중. 다크 모드는 만들지 않음(밝은 톤 고정, `color-scheme: light`).
 - 창(Modal): 제목·설명을 `aria-labelledby`·`aria-describedby` 로 연결, 확인창·성인 확인은 `role="alertdialog"`.
 
 ## 4. AI — 사용자 본인 키(BYOK)
+> **v3.1 (2026-11-08)**: Gemini 하나에서 **8곳**으로 — Gemini·ChatGPT(OpenAI)·Claude(Anthropic)·Grok(xAI)·DeepSeek·Mistral·Groq·OpenRouter.
+> AI 방식 값은 `ai` | `offline`(예전 저장값 `gemini` 은 `ai` 로 읽음), 설정에 `aiProvider`·회사별 `aiModels`·`aiKeyHints`(예전 `geminiModel`·`geminiKeyHint` 는 Gemini 칸으로 옮김, zustand persist 버전은 1 그대로).
+> 회사 목록·기본 모델·발급 안내는 `src/lib/ai/providers.ts`, 요청은 `aiClient.ts`(OpenAI 호환 `chat/completions` — ChatGPT·Grok 은 `json_schema`, 나머지는 `json_object` + 프롬프트의 JSON 모양 /
+> Claude `POST /v1/messages` + `output_config.format`(모든 객체 `additionalProperties:false`) / Gemini 는 아래 그대로), 400·422 면 옵션을 줄여 최대 3번(합쳐서 25초).
+> 키 확인은 `keyCheck.ts`(각 회사 `GET /models`, OpenRouter 는 `GET /key`). 키 저장 이름 `sb.secret.<회사>Key`(Gemini 는 `sb.secret.geminiKey` 그대로).
+> 화면 문구는 "Gemini" 대신 "AI"·고른 AI 이름. 설정 › 키 발급 방법은 AI 를 고르면 그 AI 의 단계를 보여 줌. 모든 회사 API 가 브라우저·APK(`https://localhost`)·EXE(`app://bartender`)에서 CORS 허용(2026-11-07 확인), EXE CSP `connect-src` 에 8곳 추가.
+> **모두의 레시피**(공유 레시피): Supabase(무료, 서울) — 앱은 공개용 키로 RPC 만(`docs/shared-recipes.sql`), `src/lib/share/`·`src/screens/shared/`. 사용 횟수는 실제 기기 제조 시작 때 기기당 1번.
 - **서버 모드 제거.** AI 방식은 두 가지: `gemini`(사용자 키로 Gemini REST 직접 호출, 기존 `recommend.ts` 의 direct 경로) / `offline`(규칙기반). 키가 없으면 자동으로 offline.
 - 호출: `POST https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent`, 헤더 `x-goog-api-key`. 브라우저 CORS 허용 확인함(2026-11-07). 기존 JSON 스키마·프롬프트·앱 보정(SPEC §3.3) 그대로.
 - 기본 모델 `gemini-3.6-flash`(실측 8~11초). 설정에서 모델 목록(키로 `GET /v1beta/models` 조회, generateContent 지원하는 gemini 텍스트 모델만) 중 선택 가능.

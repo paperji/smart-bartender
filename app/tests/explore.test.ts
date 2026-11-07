@@ -359,7 +359,7 @@ test('generateRecipe: explore 모드 + 재료 있음 → 지금 재료 레시피
     throw new TypeError('fetch failed');
   }) as typeof fetch;
   const res = await withFetch(offline, () =>
-    generateRecipe({ input, slots: defaultSlots(), aiMode: 'gemini', geminiKey: 'test-key-not-real', timeoutMs: 3000, mode: 'explore' }),
+    generateRecipe({ input, slots: defaultSlots(), aiMode: 'ai', aiKey: 'test-key-not-real', timeoutMs: 3000, mode: 'explore' }),
   );
   assert.equal(res.source, 'offline');
   assert.ok(res.recipe && res.recipe.totalMl === 200);

@@ -3,7 +3,7 @@
  * WEB_URL·RELEASES_URL 은 GitHub Pages·릴리스를 만든 뒤 채움 (그 전에는 null → 화면에서 링크를 숨김)
  */
 
-export const APP_VERSION = '3.0.3';
+export const APP_VERSION = '3.1.0';
 export const APP_NAME = 'AI 스마트 바텐더';
 export const APP_SHORT_NAME = '바텐더';
 /** v2.1 설정 화면의 한 줄 소개 그대로 */

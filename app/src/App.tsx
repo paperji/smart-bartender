@@ -1,6 +1,6 @@
 /**
  * 앱 뼈대 — HashRouter + 화면 배치 + 전역 창(토스트·확인창·성인 확인·AI 로딩) + 시작 처리
- * 라우트(WEBAPP_DESIGN §6): /, /recipe, /brewing, /explore, /history, /ingredients, /ingredients/:pump, /device, /calibrate, /settings
+ * 라우트(WEBAPP_DESIGN §6): /, /recipe, /brewing, /explore, /shared, /history, /ingredients, /ingredients/:pump, /device, /calibrate, /settings
  * 숨은 화면: /ui (UI 키트 모아 보기)
  * 배치: 폭 < 900px → 위 상단바 + 하단 탭바(탭 화면에서만), 폭 ≥ 900px → 왼쪽 세로 내비게이션. 제조 화면(/brewing)은 전체 화면
  */
@@ -13,10 +13,10 @@ import { AppErrorBoundary, ScreenBoundary } from '@/components';
 import { UpdatePrompt } from '@/components/UpdatePrompt';
 import { registerJobEffects } from '@/lib/brew';
 import { deviceClient } from '@/lib/device/client';
-import { noteLocation, setNavigator } from '@/lib/nav';
+import { go, noteLocation, setNavigator } from '@/lib/nav';
 import { initNotifications } from '@/platform/notify';
 import { PlatformHost } from '@/platform/PlatformHost';
-import { onGeminiKeyChange } from '@/platform/secrets';
+import { onAiKeyChange } from '@/platform/secrets';
 import { BrewingScreen } from '@/screens/brewing/BrewingScreen';
 import { CalibrateScreen } from '@/screens/device/CalibrateScreen';
 import { DeviceScreen } from '@/screens/device/DeviceScreen';
@@ -27,9 +27,12 @@ import { IngredientEditScreen } from '@/screens/ingredients/IngredientEditScreen
 import { IngredientsScreen } from '@/screens/ingredients/IngredientsScreen';
 import { RecipeScreen } from '@/screens/recipe/RecipeScreen';
 import { SettingsScreen } from '@/screens/settings/SettingsScreen';
-import { useDevice } from '@/store/device';
-import { syncGeminiKeyHint, useSettings } from '@/store/settings';
+import { SharedScreen } from '@/screens/shared/SharedScreen';
+import { isBusy, useDevice } from '@/store/device';
+import { syncAiKeyHints, useSettings } from '@/store/settings';
 import { isLowStock, useSlots } from '@/store/slots';
+import { flushSharedUses } from '@/store/shared';
+import { STORAGE_KEYS } from '@/store/storage';
 import { AdultGateHost, AiLoadingHost, cx, DeviceChip, DialogHost, IconButton, ToastHost } from '@/ui';
 import { BrandMark } from '@/ui/BrandMark';
 import { GalleryScreen } from '@/ui/gallery/GalleryScreen';
@@ -58,24 +61,48 @@ function NavBridge() {
 
 /**
  * 시작 처리 (v2.1 루트 레이아웃과 같음): 작업 종료 처리 등록, 알림 준비, 키 힌트 맞추기, 데모 모드면 가상 기기 자동 연결
- * 다른 창(탭)에서 키를 저장·삭제하면 힌트를 다시 맞춤 — 설정 화면이 닫혀 있어도 'Gemini 사용 중' 표시가 바로 바뀌게
+ * 다른 창(탭)에서 키를 저장·삭제하면 힌트를 다시 맞춤 — 설정 화면이 닫혀 있어도 'AI 사용 중' 표시가 바로 바뀌게
  */
 function useAppBootstrap() {
   const demoMode = useSettings((s) => s.demoMode);
   useEffect(() => registerJobEffects(), []);
   useEffect(() => {
     initNotifications().catch(() => undefined);
-    syncGeminiKeyHint().catch(() => undefined);
+    syncAiKeyHints().catch(() => undefined);
+    flushSharedUses().catch(() => undefined);
   }, []);
   useEffect(
     () =>
-      onGeminiKeyChange(() => {
-        syncGeminiKeyHint().catch(() => undefined);
+      onAiKeyChange((provider) => {
+        // 다른 탭이 바꾼 설정(고른 AI·모델)을 먼저 읽고 힌트만 맞춤 — 이 탭의 옛 설정으로 덮어쓰지 않게
+        Promise.resolve(useSettings.persist.rehydrate())
+          .then(() => syncAiKeyHints(provider))
+          .catch(() => undefined);
       }),
     [],
   );
+  // 다른 탭에서 설정을 바꾸면 이 탭도 따라감 (이 탭이 나중에 무엇을 저장해도 옛 값으로 되돌리지 않게)
   useEffect(() => {
-    deviceClient.init(demoMode).catch((e) => console.warn('[device] init failed', e));
+    if (typeof window === 'undefined') return;
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEYS.settings) void useSettings.persist.rehydrate();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+  useEffect(() => {
+    const run = () => deviceClient.init(useSettings.getState().demoMode).catch((e) => console.warn('[device] init failed', e));
+    // 기기가 작업 중이면(다른 탭에서 데모 모드를 바꿔 이 탭이 따라 바뀐 경우 등) 끝난 뒤에 바꿈 — 진행 중 제조의 연결·비상 정지를 잃지 않게
+    if (!isBusy(useDevice.getState().job)) {
+      run();
+      return;
+    }
+    const unsub = useDevice.subscribe((s) => {
+      if (isBusy(s.job)) return;
+      unsub();
+      run();
+    });
+    return unsub;
   }, [demoMode]);
 }
 
@@ -125,7 +152,6 @@ function useTabbarFlag(show: boolean) {
 /** 화면 틀: 왼쪽 내비(PC) · 상단바 · 본문 · 하단 탭바(모바일 탭 화면) */
 function AppShell() {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const showTabbar = TAB_PATHS.has(pathname);
   useTabbarFlag(showTabbar);
   return (
@@ -159,7 +185,10 @@ function AppShell() {
           </div>
           <div className="sb-topbar__right">
             <DeviceChip compact />
-            <IconButton icon={SettingsIcon} label="앱 설정" className="sb-topbar__settings" onClick={() => navigate('/settings')} />
+            {/* 설정 화면에서는 숨김 — 같은 화면으로 또 이동하면 뒤로 가기를 누른 횟수만큼 눌러야 나가졌음. go() 도 같은 화면은 쌓지 않음 */}
+            {pathname === '/settings' ? null : (
+              <IconButton icon={SettingsIcon} label="앱 설정" className="sb-topbar__settings" onClick={() => go('/settings')} />
+            )}
           </div>
         </header>
         <main id="sb-main" className="sb-main" tabIndex={-1}>
@@ -234,6 +263,7 @@ export function AppRoutes() {
         <Route index element={<HomeScreen />} />
         <Route path="recipe" element={<RecipeScreen />} />
         <Route path="explore" element={<ExploreScreen />} />
+        <Route path="shared" element={<SharedScreen />} />
         <Route path="history" element={<HistoryScreen />} />
         <Route path="ingredients" element={<IngredientsScreen />} />
         <Route path="ingredients/:pump" element={<IngredientEditScreen />} />

@@ -84,7 +84,7 @@ export function resetNavStackForTest(): void {
  * dismissTo 가 이 화면을 넘어 더 뒤로 찾지 않는 탭 첫 화면 (appTabs TABS 와 같게).
  * v2.1 은 탭 묶음 위에 레시피·탐색·재료 편집 화면이 쌓였기 때문에, 탭 화면 앞의 기록까지 돌아가지 않음
  */
-const ROOT_PATHS = new Set(['/', '/ingredients', '/history', '/device']);
+const ROOT_PATHS = new Set(['/', '/shared', '/ingredients', '/history', '/device']);
 
 /**
  * v2.1 router.dismissTo(path): 앱 안 이전 기록에 path 가 있으면 그 화면까지 뒤로 돌아가고(사이 화면은 닫힘 — 기록이 겹치지 않게),

@@ -1,6 +1,6 @@
 /**
  * 앱 설정 (v2.1 src/app/settings.tsx → 밝은 톤, WEBAPP_DESIGN §4·§6)
- *  - AI: 추천 방식(Gemini 내 키 / 오프라인)·Gemini API 키 등록(키 확인·저장·삭제)·모델·키 발급 방법 → AiSection
+ *  - AI: 추천 방식(AI 내 키 / 오프라인)·AI 회사 고르기·API 키 등록(키 확인·저장·삭제)·모델·회사별 키 발급 방법 → AiSection
  *  - 기기 연결(데모 모드·자동 재연결·기억한 기기), 배출 모드(순차/동시), 성인 인증(만 19세) 상태·초기화, 데이터 초기화
  *  - 앱 정보(버전·실행 환경·내려받기·개인정보·오픈소스) → AppInfoSection
  * 배치: PC(≥900px) 2열 [AI | 기기·배출·성인·데이터·앱 정보], 모바일 1열(같은 순서)
@@ -14,7 +14,8 @@ import { clearDemoCal } from '@/store/demoCal';
 import { useDevice } from '@/store/device';
 import { useDraft, useSession } from '@/store/draft';
 import { useHistory } from '@/store/history';
-import { deleteGeminiKey, useSettings } from '@/store/settings';
+import { deleteAllAiKeys, useSettings } from '@/store/settings';
+import { useShared } from '@/store/shared';
 import { useSlots } from '@/store/slots';
 import { toast } from '@/store/toast';
 import { Badge, Button, Card, Columns, confirm, Divider, Page, PageHeader, Section, Segmented, Switch, Text } from '@/ui';
@@ -128,7 +129,7 @@ function DataSettings({ onReset }: { onReset: () => void }) {
     }
     const ok = await confirm(
       '데이터 초기화',
-      '재료 설정, 제조 기록·즐겨찾기·거절 기록, 설정, 기억한 기기, 데모 기기 유량, 저장된 API 키를 모두 지우고 처음 상태로 돌아가요. 되돌릴 수 없어요.',
+      '재료 설정, 제조 기록·즐겨찾기·거절 기록, 설정, 기억한 기기, 데모 기기 유량, 저장된 모든 AI 키를 지우고 처음 상태로 돌아가요. 되돌릴 수 없어요.\n모두의 레시피에 공유한 레시피는 그대로 남아요(모두의 레시피 › 내가 공유한 레시피에서 취소).',
       { confirmText: '모두 초기화', destructive: true },
     );
     if (!ok) return;
@@ -140,7 +141,8 @@ function DataSettings({ onReset }: { onReset: () => void }) {
     session.setExplore(null);
     session.setRejectStreak(0);
     session.setInstallTarget(null);
-    await deleteGeminiKey().catch(() => undefined);
+    await deleteAllAiKeys().catch(() => undefined);
+    useShared.getState().setNickname('');
     await clearDemoCal();
     useSettings.getState().reset();
     onReset();

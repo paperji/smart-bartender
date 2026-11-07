@@ -2,9 +2,10 @@
  * 기록 화면 카드 — 제조 기록 카드(HistoryCard) · 즐겨찾기 카드(FavoriteCard)
  * v2.1 (tabs)/history.tsx 의 HistoryCard·즐겨찾기 카드와 같은 내용·문구, 모양만 밝은 톤
  */
-import { Check, CircleHelp, CloudOff, Droplet, Hand, Repeat, Star, ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react';
+import { Check, CircleHelp, CloudOff, Droplet, Hand, Repeat, Share2, Sparkles, Star, ThumbsDown, ThumbsUp, Trash2, Users } from 'lucide-react';
 
 import { RecipeBar } from '@/components';
+import { providerLabel } from '@/lib/ai/providers';
 import { fmtDate, fmtMl } from '@/lib/format';
 import type { PumpSlot, Recipe } from '@/lib/types';
 import type { FavoriteEntry, HistoryEntry } from '@/store/history';
@@ -26,10 +27,14 @@ export interface HistoryCardProps {
   onRemake: () => void;
   onFav: () => void;
   onDelete: () => void;
+  /** 모두의 레시피에 올렸는지 (v3.1) */
+  shared?: boolean;
+  /** [공유] — 다 만든 잔이고, 공유 레시피로 만든 잔이 아닐 때만 */
+  onShare?: () => void;
 }
 
 /** 제조 기록 한 잔 — 시각·기분, 이름, 결과·도수·출처·피드백 배지, 즐겨찾기·삭제, 비율 막대, 재료 ml, 다시 만들기 */
-export function HistoryCard({ entry, slots, fav, onRemake, onFav, onDelete }: HistoryCardProps) {
+export function HistoryCard({ entry, slots, fav, onRemake, onFav, onDelete, shared, onShare }: HistoryCardProps) {
   const r = entry.recipe;
   const titleId = `history-entry-${entry.id}`;
   return (
@@ -51,7 +56,14 @@ export function HistoryCard({ entry, slots, fav, onRemake, onFav, onDelete }: Hi
             )}
             {entry.uncertain ? <Badge label="결과 확인 필요" tone="warning" icon={CircleHelp} /> : null}
             <Badge label={abvLabel(r)} tone={r.estimatedAbv > 0 ? 'danger' : 'neutral'} />
-            {entry.source === 'offline' ? <Badge label="오프라인 추천" tone="neutral" icon={CloudOff} /> : null}
+            {entry.sharedId ? (
+              <Badge label="모두의 레시피" tone="accent" icon={Users} />
+            ) : entry.source === 'offline' ? (
+              <Badge label="오프라인 추천" tone="neutral" icon={CloudOff} />
+            ) : entry.provider ? (
+              <Badge label={providerLabel(entry.provider)} tone="info" icon={Sparkles} />
+            ) : null}
+            {shared ? <Badge label="공유됨" tone="accent" icon={Share2} /> : null}
             {entry.feedback ? (
               <Badge
                 label={entry.feedback === 'like' ? '좋아요' : '별로예요'}
@@ -69,6 +81,15 @@ export function HistoryCard({ entry, slots, fav, onRemake, onFav, onDelete }: Hi
             className={cx('history-star', fav && 'is-on')}
             onClick={onFav}
           />
+          {onShare ? (
+            <IconButton
+              icon={Share2}
+              label={shared ? '공유됨 — 공유 취소' : '모두의 레시피에 공유'}
+              aria-pressed={!!shared}
+              className={cx('history-share', shared && 'is-on')}
+              onClick={onShare}
+            />
+          ) : null}
           <IconButton icon={Trash2} label="삭제" className="history-muted-btn" onClick={onDelete} />
         </div>
       </div>
