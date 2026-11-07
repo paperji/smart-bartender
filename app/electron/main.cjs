@@ -15,10 +15,13 @@
  */
 'use strict';
 
-const { app, BrowserWindow, Menu, Notification, ipcMain, protocol, session, shell } = require('electron');
+const { app, BrowserWindow, Menu, Notification, ipcMain, net, protocol, session, shell } = require('electron');
+const { spawn } = require('node:child_process');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+
+const updater = require('./updater.cjs');
 
 const SCHEME = 'app';
 const HOST = 'bartender';
@@ -39,9 +42,10 @@ const SMOKE_OUT = argValue('smoke-out');
 const DEV_URL = app.isPackaged ? null : process.env.SB_DEV_URL || argValue('dev-url');
 
 /**
- * 앱 화면(app://bartender 의 HTML)에 붙이는 콘텐츠 보안 정책 — 앱 파일·Gemini·Open-Meteo 만 (PKG-8)
+ * 앱 화면(app://bartender 의 HTML)에 붙이는 콘텐츠 보안 정책 — 앱 파일·Gemini·Open-Meteo·GitHub 릴리스 정보만 (PKG-8)
  *  - 스크립트: 앱 파일만 (인라인·eval 없음). 스타일: 앱 파일 + 인라인 style 속성(React)
- *  - 연결: 앱 파일 + Gemini(generativelanguage.googleapis.com) + 날씨(api.open-meteo.com). Web Bluetooth 는 CSP 대상 아님
+ *  - 연결: 앱 파일 + Gemini(generativelanguage.googleapis.com) + 날씨(api.open-meteo.com) + 새 버전 확인(api.github.com 릴리스 정보).
+ *    Web Bluetooth 는 CSP 대상 아님. 새 버전 파일은 화면이 아니라 메인 프로세스가 내려받음(updater.cjs)
  *  - 다른 사이트를 틀 안에 넣거나(frame-ancestors) 다른 곳으로 양식을 보내지 못하게
  * 개발 서버(DEV_URL)는 Vite 가 인라인 스크립트를 쓰므로 붙이지 않음
  */
@@ -51,7 +55,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://generativelanguage.googleapis.com https://api.open-meteo.com",
+  "connect-src 'self' https://generativelanguage.googleapis.com https://api.open-meteo.com https://api.github.com",
   "manifest-src 'self'",
   "worker-src 'self'",
   "object-src 'none'",
@@ -279,6 +283,33 @@ ipcMain.on('sb:ble-start', (e) => {
   // 새 requestDevice 는 앞 요청을 대신함 → 앞 요청의 callback 은 더 쓸 수 없음(남아 있으면 다음 "취소"가 예약되지 않음)
   bleCallback = null;
 });
+// ───────────────────────── 앱 업데이트 (src/lib/update.ts · updater.cjs) ─────────────────────────
+
+const updateIpc = updater.createUpdateIpc({
+  appVersion: () => app.getVersion(),
+  downloadsDir: () => app.getPath('downloads'),
+  portableDir: process.env.PORTABLE_EXECUTABLE_DIR,
+  portableFile: process.env.PORTABLE_EXECUTABLE_FILE,
+  fetchImpl: (u, o) => net.fetch(u, o),
+  spawnImpl: spawn,
+  send: (p) => {
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('sb:update-progress', p);
+  },
+  releaseLock: () => app.releaseSingleInstanceLock(),
+  relock: () => app.requestSingleInstanceLock(),
+  quit: () => app.quit(),
+});
+
+ipcMain.handle('sb:update-download', async (e, url, sha256, name) => {
+  if (!fromMain(e)) throw new Error('forbidden');
+  return updateIpc.download(url, sha256, name);
+});
+
+ipcMain.handle('sb:update-install', async (e, p) => {
+  if (!fromMain(e)) throw new Error('forbidden');
+  return updateIpc.install(p);
+});
+
 ipcMain.handle('sb:notify', (e, title, body) => {
   if (!fromMain(e)) return false;
   const win = mainWindow;

@@ -39,8 +39,10 @@ export interface ModalProps {
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 let openCount = 0;
+/** 열린 순서대로 쌓은 창 — Esc(안드로이드 뒤로 버튼도 Esc)·Tab 은 맨 위 창만 처리 (창이 겹쳐도 한 번에 하나씩 닫히게) */
+const stack: { prevFocus: HTMLElement | null }[] = [];
 
-/** 모달 창 — body 끝에 그림, 초점 가두기·Esc·스크롤 잠금·닫으면 이전 초점으로 복귀 */
+/** 모달 창 — body 끝에 그림, 초점 가두기·Esc(맨 위 창만)·스크롤 잠금·닫으면 이전 초점으로 복귀 */
 export function Modal({
   open,
   onClose,
@@ -67,7 +69,9 @@ export function Modal({
   useEffect(() => {
     if (!open) return;
     const prevFocus = document.activeElement as HTMLElement | null;
+    const token = { prevFocus };
     openCount++;
+    stack.push(token);
     document.body.classList.add('sb-modal-open');
     const panel = panelRef.current;
     const first =
@@ -77,7 +81,7 @@ export function Modal({
       panel;
     first?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (!panelRef.current) return;
+      if (!panelRef.current || stack[stack.length - 1] !== token) return;
       if (e.key === 'Escape' && onCloseRef.current) {
         e.stopPropagation();
         onCloseRef.current();
@@ -91,6 +95,12 @@ export function Modal({
       }
       const firstEl = items[0];
       const lastEl = items[items.length - 1];
+      // 초점이 있던 버튼이 사라졌으면(창 단계가 바뀜) 초점이 창 밖에 있음 → 창 안으로 되돌림
+      if (!panelRef.current.contains(document.activeElement)) {
+        e.preventDefault();
+        (e.shiftKey ? lastEl : firstEl).focus();
+        return;
+      }
       if (e.shiftKey && document.activeElement === firstEl) {
         e.preventDefault();
         lastEl.focus();
@@ -102,9 +112,17 @@ export function Modal({
     document.addEventListener('keydown', onKey, true);
     return () => {
       document.removeEventListener('keydown', onKey, true);
+      const wasTop = stack[stack.length - 1] === token;
+      const i = stack.indexOf(token);
+      if (i >= 0) stack.splice(i, 1);
+      // 아래 창이 먼저 닫힘: 바로 위 창이 돌아갈 곳이 이 창 안(곧 사라짐)이거나 이미 빠진 요소면 이 창이 돌아갈 곳을 넘겨줌
+      const above = !wasTop && i >= 0 ? stack[i] : undefined;
+      if (above && (!above.prevFocus?.isConnected || (panel && above.prevFocus && panel.contains(above.prevFocus)))) above.prevFocus = token.prevFocus;
       openCount = Math.max(0, openCount - 1);
       if (!openCount) document.body.classList.remove('sb-modal-open');
-      prevFocus?.focus?.();
+      // 맨 위 창이 닫힐 때만 이전 초점으로 (아래 창이 먼저 닫히면 위 창의 초점을 뺏지 않게)
+      const active = document.activeElement;
+      if (wasTop || !active || active === document.body || (panel && panel.contains(active))) token.prevFocus?.focus?.();
     };
   }, [open, initialFocus]);
 

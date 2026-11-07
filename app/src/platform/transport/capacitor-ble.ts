@@ -93,6 +93,27 @@ export function connectErrorText(raw: string): string {
   return raw;
 }
 
+/**
+ * 연결 요청이 첫 단계에서 바로 실패했을 때 다시 시도하는 횟수 (처음 1번 포함).
+ * 실제 기기 시험(2026-11-07, 갤럭시 S20 Ultra ↔ ESP32): 연결 요청을 보내도 기기가 첫 연결 패킷을 놓쳐
+ * 0.3초 만에 "Connection failed to be established"(HCI 0x3E) → 플러그인 'Connection failed with status 133' 이 종종 남.
+ * 바로 다시 연결하면 대부분 됨. 첫 시도 연결 비율: 펌웨어 2.1.1(이중 모드) 14번 중 7번, 2.1.2(BLE 전용) 26번 중 22번 —
+ * 같은 펌웨어도 시험할 때마다 달라 휴대폰 쪽 무선 상황(Wi-Fi·워치 연결 등) 영향이 큼. 4번이면 첫 시도 50% 여도 약 94%
+ */
+export const CONNECT_ATTEMPTS = 4;
+/** 다시 시도하기 전 쉬는 시간 (앞 연결 정리) */
+export const CONNECT_RETRY_DELAY_MS = 400;
+
+/**
+ * 다시 시도할 만한 연결 실패인지: GATT 133 등 연결 단계 실패만. 시간 초과(15초 — 전원·거리 문제라 다시 해도 같음)·
+ * 권한·블루투스 꺼짐·서비스 없음 같은 앱 문구(한국어)는 다시 시도하지 않음. 테스트용 export
+ */
+export function isRetryableConnectError(raw: string): boolean {
+  if (/[가-힣]/.test(raw)) return false;
+  if (/time(d)?\s*out/i.test(raw)) return false;
+  return /status\s*133|connection failed|failed to connect|gatt[_ ]?error|not connected|disconnected/i.test(raw);
+}
+
 /** 안드로이드 버전(API 레벨이 아니라 사용자 버전 숫자, 예 14) — 알 수 없으면 null */
 export function androidMajorVersion(ua: string | undefined = typeof navigator !== 'undefined' ? navigator.userAgent : undefined): number | null {
   const m = /Android (\d+)/i.exec(ua ?? '');
@@ -315,7 +336,18 @@ export class CapacitorBleTransport implements Transport {
       // 이전 연결이 남아 있으면 정리 (같은 기기에 다시 연결할 때 GATT 가 꼬이지 않게)
       await ble.disconnect(id).catch(() => undefined);
       // 플러그인 자체 제한(15초)이 먼저 끝나며 영어 오류('Connection timeout.')를 냄 → 아래 catch 에서 한국어로 바꿈
-      await withTimeout(ble.connect(id, this.onDisconnected, { timeout: 15000 }), 16000, CONNECT_TIMEOUT_TEXT);
+      // 연결 단계에서 바로 실패(GATT 133)하면 정리하고 다시 시도 (CONNECT_ATTEMPTS)
+      for (let attempt = 1; ; attempt++) {
+        try {
+          await withTimeout(ble.connect(id, this.onDisconnected, { timeout: 15000 }), 16000, CONNECT_TIMEOUT_TEXT);
+          break;
+        } catch (e) {
+          if (attempt >= CONNECT_ATTEMPTS || !isRetryableConnectError(errText(e)) || this.manualDisconnect) throw e;
+          await ble.disconnect(id).catch(() => undefined);
+          await new Promise((r) => setTimeout(r, CONNECT_RETRY_DELAY_MS));
+          if (this.manualDisconnect || this.deviceId !== id) throw e; // 그사이 사용자가 연결 취소·다른 기기 선택
+        }
+      }
       let mtu = 23;
       try {
         const m = await withTimeout(ble.getMtu(id), 3000, 'MTU timeout');

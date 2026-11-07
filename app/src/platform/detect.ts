@@ -35,6 +35,12 @@ export interface SbElectronBridge {
   cancelBle?: () => void;
   /** requestDevice 를 부르기 직전에 호출: 앞 요청의 "취소 예약"을 지움 (web-ble.ts) */
   bleRequestStart?: () => void;
+  /** 앱 업데이트: 새 portable EXE 내려받기(메인이 주소·SHA-256 확인) → 저장 경로 (platform/electron/updater.ts) */
+  updateDownload?: (url: string, sha256: string, name: string) => Promise<string>;
+  /** 내려받기 진행률 — 해제 함수 반환 */
+  onUpdateProgress?: (cb: (p: { loaded: number; total: number }) => void) => () => void;
+  /** 내려받은 새 EXE 를 켜고 이 앱을 닫음 */
+  updateInstall?: (path: string) => Promise<boolean>;
   /** Windows 알림(메인 프로세스) + 작업 표시줄 깜빡임. 알림을 띄웠으면 true */
   notify?: (title: string, body: string) => Promise<boolean>;
   [key: string]: unknown;

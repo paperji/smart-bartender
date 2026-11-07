@@ -64,6 +64,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Haptics -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- In-app update (AppUpdaterPlugin): open the system installer for a newer release APK of this app.
+         Android still asks the user to confirm ("Install"), and the first time to allow "install unknown apps" for this app. -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- Not requested: the backup "brew done" notification (scheduled at brew start so it shows even while
          the WebView is asleep in the background) uses an inexact alarm, which may arrive a few seconds late -->

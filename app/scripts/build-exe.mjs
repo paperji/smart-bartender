@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Windows portable EXE 만들기 (electron-builder) — scripts/build-exe.ps1 이 ASCII 경로 사본에서 부름
- *  1) .electron-stage/ 에 실행에 필요한 것만 모음: package.json(의존성 없음) + electron/{main,preload}.cjs + 아이콘 + dist/
+ *  1) .electron-stage/ 에 실행에 필요한 것만 모음: package.json(의존성 없음) + electron/{main,preload,updater}.cjs + 아이콘 + dist/
  *     → 앱 묶음(app.asar)에 node_modules 가 들어가지 않음 (웹 코드는 Vite 가 이미 dist 에 묶음)
  *     서비스 워커 파일(sw.js·workbox-*.js)은 EXE 에서 쓰지 않으므로 뺌
  *  2) electron-builder: win portable x64 → release/SmartBartender-<version>-portable.exe (+ release/win-unpacked)
@@ -38,7 +38,7 @@ cpSync(join(ROOT, 'dist'), join(STAGE, 'dist'), {
   filter: (src) => !/[\\/](sw\.js|workbox-[^\\/]*\.js|registerSW\.js)(\.map)?$/.test(src),
 });
 mkdirSync(join(STAGE, 'electron', 'icons'), { recursive: true });
-for (const f of ['main.cjs', 'preload.cjs']) cpSync(join(ROOT, 'electron', f), join(STAGE, 'electron', f));
+for (const f of ['main.cjs', 'preload.cjs', 'updater.cjs']) cpSync(join(ROOT, 'electron', f), join(STAGE, 'electron', f));
 for (const f of readdirSync(join(ROOT, 'electron', 'icons'))) cpSync(join(ROOT, 'electron', 'icons', f), join(STAGE, 'electron', 'icons', f));
 writeFileSync(
   join(STAGE, 'package.json'),
@@ -74,7 +74,7 @@ const artifacts = await build({
     nodeGypRebuild: false,
     buildDependenciesFromSource: false,
     directories: { output: OUT, buildResources: join(STAGE, 'electron', 'icons') },
-    files: ['package.json', 'electron/main.cjs', 'electron/preload.cjs', 'electron/icons/**/*', 'dist/**/*'],
+    files: ['package.json', 'electron/main.cjs', 'electron/preload.cjs', 'electron/updater.cjs', 'electron/icons/**/*', 'dist/**/*'],
     win: {
       target: [{ target: 'portable', arch: ['x64'] }],
       icon: join(STAGE, 'electron', 'icons', 'icon.ico'),

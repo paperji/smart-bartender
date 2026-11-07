@@ -105,11 +105,12 @@
 - APK 플러그인: `@capacitor-community/bluetooth-le`, `@capacitor/preferences`(키), `@capacitor/local-notifications`(알림 채널 "제조 알림"), `@capacitor/haptics`(진동), `@capacitor/app`(뒤로 버튼). 플러그인은 `capacitor/plugins.ts` 의 `pluginLoader` 로 `{ plugin }` 상자에 담아 받음 — Capacitor 플러그인 Proxy 는 thenable 이라 Promise 로 바로 돌려주면 끝나지 않음. 네이티브 응답이 없을 때를 대비해 키 저장소·알림 5초, 알림 띄우기 2.5초(넘으면 토스트), 알림 권한 확인 3초 제한. 첫 제조 알림 권한은 최대 1.5초만 기다리고 제조 시작. 앱이 백그라운드면 WebView JS 가 거의 멈추므로, 제조가 시작되면(ack) `ack 시각 + 예상 시간 + max(5초, 10%)` 에 OS 가 띄우는 **예비 알림**("제조가 끝났을 거예요")을 작업마다 1번 예약하고(`schedule.at`·`allowWhileIdle`), 실제 결과를 처리하면 같은 id 로 결과 알림을 띄워 바꾸거나 취소(`notify.ts` `scheduleReminder`·`notify({replaces})`·`cancelReminder`, `brew.ts`). 정확한 시각 알람 권한은 받지 않아 몇 초 늦게 뜰 수 있음. 백그라운드에서 연결이 끊긴 경우는 앱으로 돌아올 때 알림.
 - 안드로이드 뒤로 버튼(`capacitor/backButton.ts`): 열린 창 닫기(닫을 수 없는 창이면 무시) → 이전 화면 → 탭 첫 화면이면 바텐더 → 바텐더면 앱 내리기(종료 아님). 제조 중에는 "제조 중이에요. 멈추려면 비상 정지를 누르세요." 로 막음.
 - 화면 이동: `lib/nav.ts` 의 `dismissTo(path)` = v2.1 `router.dismissTo`(앞 기록에서 path 칸까지 뒤로, 탭 첫 화면·모르는 칸을 만나면 지금 자리를 바꿈). 탐색 "지금 재료로", 장착 후 저장, "한 잔 더", "다른 걸 원해요" 가 씀.
+- 앱 업데이트(APK·EXE, v3.0.3): `lib/update.ts` 가 GitHub 최신 릴리스를 확인하고 순서를 정함 → APK 는 앱 안 플러그인 `AppUpdaterPlugin.java`(이 저장소 릴리스 파일만 캐시에 받아 SHA-256 확인, `REQUEST_INSTALL_PACKAGES`, FileProvider 로 안드로이드 설치 창), EXE 는 메인 프로세스 `electron/updater.cjs`(받아서 SHA-256 확인, 새 EXE 실행 뒤 종료 — CSP `connect-src` 에 `api.github.com` 추가). 웹은 아래 서비스 워커가 자동 적용.
 - 웹 서비스 워커: 새 버전은 기기 작업·AI 추천·실제 기기 연결이 없을 때 적용(`platform/swUpdate.ts`). 제조 알림을 누르면 열린 앱 창으로(`public/sw-notify.js`).
 - 패키징: `capacitor.config.ts`(appId `kr.ac.anyang.hongdangmu.bartender`, appName "AI 스마트 바텐더", webDir `dist`), `electron/main.cjs`·`preload.cjs`, electron-builder portable. 안드로이드 빌드는 한글 경로 문제를 피해 ASCII 경로 사본에서 수행(`scripts/build-android.ps1`). 도구(JDK 21·Android SDK)는 `%USERPROFILE%\sb-tools\`.
   - APK 서명 키가 없으면 빌드가 멈춤(팀 드라이브 백업을 `app/android/keystore/` 에). 새 키는 맨 처음 릴리스 때만 `-NewKeystore`.
-  - EXE: 배포본(`app.isPackaged`)은 `--dev-url`·`SB_DEV_URL` 무시, html 응답에 CSP(스크립트는 앱 파일만, `connect-src` 는 Gemini·`api.open-meteo.com` 만) + `nosniff`, 권한 요청은 앱 주소에서 온 것만 허락. 외부 주소를 새로 쓰면 `electron/main.cjs` 의 `connect-src` 에 추가.
-- 산출물 이름: `release/SmartBartender-3.0.1.apk`, `release/SmartBartender-3.0.1-portable.exe`, 웹은 `dist/`. APK·EXE 는 깃이 아니라 GitHub Releases(`https://github.com/paperji/smart-bartender/releases/latest`)에 올림.
+  - EXE: 배포본(`app.isPackaged`)은 `--dev-url`·`SB_DEV_URL` 무시, html 응답에 CSP(스크립트는 앱 파일만, `connect-src` 는 Gemini·`api.open-meteo.com`·새 버전 확인용 `api.github.com` 만) + `nosniff`, 권한 요청은 앱 주소에서 온 것만 허락. 외부 주소를 새로 쓰면 `electron/main.cjs` 의 `connect-src` 에 추가.
+- 산출물 이름: `release/SmartBartender-3.0.3.apk`, `release/SmartBartender-3.0.3-portable.exe`, 웹은 `dist/`. APK·EXE 는 깃이 아니라 GitHub Releases(`https://github.com/paperji/smart-bartender/releases/latest`)에 올림.
 
 ## 8. 작업 규칙
 - 새 파일은 UTF-8(BOM 없음)·LF. legacy·firmware·backend·hardware 는 수정 금지(이 작업 범위 밖) — 필요하면 보고만.

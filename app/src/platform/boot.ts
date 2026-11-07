@@ -6,10 +6,14 @@
  *    (등록 자체는 main.tsx 가 canRegisterServiceWorker() 로 웹에서만 함)
  *  - 웹: "앱 설치"(beforeinstallprompt) 이벤트 붙잡기 (install.ts)
  */
+import { registerUpdater, startUpdateChecks } from '@/lib/update';
+
 import { installCapacitorBackends } from './capacitor/backends';
+import { capacitorUpdater } from './capacitor/updater';
 import { isCapacitor, isElectron, isWeb } from './detect';
 import { initPwaInstall } from './install';
 import { registerNotifyBackend, type NotifyBackend } from './notify';
+import { createElectronUpdater } from './electron/updater';
 
 let booted = false;
 
@@ -51,8 +55,15 @@ async function removeServiceWorkers(): Promise<void> {
 export function bootPlatform(): void {
   if (booted || typeof window === 'undefined') return;
   booted = true;
-  if (isCapacitor()) installCapacitorBackends();
-  else if (isElectron() && typeof window.sbElectron?.notify === 'function') registerNotifyBackend(electronNotifyBackend);
+  if (isCapacitor()) {
+    installCapacitorBackends();
+    registerUpdater(capacitorUpdater);
+  } else if (isElectron()) {
+    if (typeof window.sbElectron?.notify === 'function') registerNotifyBackend(electronNotifyBackend);
+    registerUpdater(createElectronUpdater());
+  }
+  // 앱 업데이트 확인 (APK·EXE — 웹은 등록된 구현이 없어 아무것도 안 함, src/lib/update.ts)
+  startUpdateChecks();
   if (!isWeb()) void removeServiceWorkers();
   initPwaInstall();
 }

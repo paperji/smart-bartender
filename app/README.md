@@ -97,8 +97,8 @@
 | 결과물 | 명령 | 나오는 곳 |
 |---|---|---|
 | 웹앱(PWA) | `npm run build` | `dist/` (HTTPS 로 올리면 "앱 설치" 가능) |
-| 안드로이드 APK | `npm run build:android` | `release/SmartBartender-3.0.1.apk` |
-| Windows EXE | `npm run build:exe` | `release/SmartBartender-3.0.1-portable.exe` |
+| 안드로이드 APK | `npm run build:android` | `release/SmartBartender-3.0.3.apk` |
+| Windows EXE | `npm run build:exe` | `release/SmartBartender-3.0.3-portable.exe` |
 
 ### 3-1. 준비물 (한 번만)
 
@@ -130,7 +130,7 @@ npm run build:android
 2. 타입 검사 → `vite build` → 비밀값 검사(dist)
 3. `npx cap sync android` (웹 파일을 `android/app/src/main/assets/public` 으로) → 다시 비밀값 검사
 4. `gradlew assembleRelease` — 릴리스 서명 키로 서명(아래)
-5. `release/SmartBartender-3.0.1.apk` 로 복사 → `apksigner verify`(서명 확인)·`aapt2 dump permissions`(권한 목록) 출력
+5. `release/SmartBartender-3.0.3.apk` 로 복사 → `apksigner verify`(서명 확인)·`aapt2 dump permissions`(권한 목록) 출력
 6. APK 를 임시 폴더에 풀어서 비밀값 검사 → Gradle 데몬 종료(`gradlew --stop`)
 
 옵션: `npm run build:android -- -SkipTypecheck` (다른 화면 작업 중 타입 오류가 있을 때 임시로), `-CleanInstall`, `-NewKeystore`(맨 처음 릴리스 때만 — 아래).
@@ -146,10 +146,12 @@ npm run build:android
 
 1. APK 파일을 휴대폰으로 옮겨요(GitHub Releases 에서 바로 내려받기·USB·카카오톡 나에게 보내기·구글 드라이브 등).
 2. 파일을 눌러 설치 → "출처를 알 수 없는 앱" 허용(그 앱—예: 내 파일·Chrome·카카오톡—에 대해서만) → 설치. Play 프로텍트 경고가 나오면 "무시하고 설치".
-3. PC 에 USB 디버깅으로 연결돼 있으면 `adb install -r release/SmartBartender-3.0.1.apk` 도 돼요.
+3. PC 에 USB 디버깅으로 연결돼 있으면 `adb install -r release/SmartBartender-3.0.3.apk` 도 돼요.
 4. 처음 연결할 때 "근처 기기" 권한(안드로이드 12 이상), 안드로이드 11 이하는 위치 권한을 허용해 주세요. 첫 제조 때 알림 권한을 물어봐요. 홈 화면 날씨 자동 채우기는 "대략적 위치"만 허용해도 돼요.
 
-**APK 안의 구성** — 앱 ID `kr.ac.anyang.hongdangmu.bartender`, 버전 3.0.1(versionCode 30001), 안드로이드 7.0(API 24) 이상, 대상 API 36.
+**연결이 가끔 첫 시도에 실패하면** — 실제 갤럭시 S20 Ultra(안드로이드 13) ↔ ESP32 시험에서 연결 요청을 보내도 기기가 첫 연결 패킷을 놓쳐 0.3초 만에 실패(안드로이드 GATT 133, HCI 0x3E)하는 일이 있었어요(첫 시도 연결: 펌웨어 2.1.1 이중 모드 14번 중 7번, 2.1.2 BLE 전용 26번 중 22번 — 같은 펌웨어도 시험할 때마다 달라 휴대폰 쪽 무선 상황 영향이 큼). 그래서 3.0.3 부터 앱이 이 오류면 0.4초 쉬고 **4번까지 자동으로 다시 시도**해요(15초 시간 초과는 다시 시도하지 않음). 연결이 끊긴 뒤의 자동 재연결은 원래부터 계속 다시 시도해요.
+
+**APK 안의 구성** — 앱 ID `kr.ac.anyang.hongdangmu.bartender`, 버전 3.0.3(versionCode 30003), 안드로이드 7.0(API 24) 이상, 대상 API 36.
 
 | 권한 | 왜 |
 |---|---|
@@ -157,7 +159,8 @@ npm run build:android
 | `BLUETOOTH`·`BLUETOOTH_ADMIN`·`ACCESS_FINE_LOCATION` (모두 API 30 까지만) | 안드로이드 11 이하 BLE 검색(운영체제가 위치 권한을 요구) |
 | `ACCESS_COARSE_LOCATION` (모든 버전) | 홈 화면 날씨 자동 채우기(대략적 위치, 누를 때만 물어봄). 블루투스와는 무관 |
 | `POST_NOTIFICATIONS`·`VIBRATE` | 제조 완료·중단·연결 끊김 알림과 진동 |
-| `INTERNET` | Gemini AI·날씨(Open-Meteo) |
+| `INTERNET` | Gemini AI·날씨(Open-Meteo)·새 버전 확인과 내려받기(GitHub 릴리스, 4-7) |
+| `REQUEST_INSTALL_PACKAGES` | 앱 업데이트 — 내려받은 새 APK 의 안드로이드 설치 창 띄우기(4-7). 처음 한 번 설정의 "이 출처 허용"을 켜야 하고, 설치는 늘 사용자가 "업데이트"(또는 "설치")를 눌러야 해요 |
 
 `SCHEDULE_EXACT_ALARM` 은 받지 않아요(예비 완료 알림은 정확한 시각 알람 없이 예약 — 몇 초 늦을 수 있음). 백업 허용은 껐어요(`allowBackup=false` — 휴대폰 백업에 AI 키가 실리지 않게).
 
@@ -178,17 +181,17 @@ npm run build:exe
 스크립트(`scripts/build-exe.ps1`)가 하는 일:
 
 1. 영문 경로로 복사 → `npm ci`(바뀌었을 때만) → 타입 검사 → `vite build` → 비밀값 검사
-2. `scripts/build-exe.mjs` — 실행에 필요한 것만 모아(`dist/` + `electron/main.cjs`·`preload.cjs`·아이콘, node_modules 없음) electron-builder 로 **portable x64** EXE 를 만듦
+2. `scripts/build-exe.mjs` — 실행에 필요한 것만 모아(`dist/` + `electron/main.cjs`·`preload.cjs`·`updater.cjs`·아이콘, node_modules 없음) electron-builder 로 **portable x64** EXE 를 만듦
 3. 묶음(`win-unpacked/resources/app.asar`)·dist 비밀값 검사
 4. 자동 점검: 창을 띄우지 않고 앱을 실행해(`SmartBartender.exe --smoke-test`) 화면이 그려지는지, `navigator.bluetooth`·보안 컨텍스트·`window.sbElectron` 이 있는지 확인 후 종료 (`-SkipSmoke` 로 건너뛰기)
-5. `release/SmartBartender-3.0.1-portable.exe` 로 복사
+5. `release/SmartBartender-3.0.3-portable.exe` 로 복사
 
 **사용** — 설치 없이 EXE 를 더블클릭하면 바로 열려요(처음엔 압축을 푸느라 몇 초 걸림). 설정·AI 키는 이 PC 의 `%APPDATA%\AI 스마트 바텐더` 에 저장돼요.
 - **코드 서명이 없어서** 처음 실행 때 Windows SmartScreen 이 "Windows의 PC 보호" 를 띄울 수 있어요 → "추가 정보" → "실행".
 - 블루투스: PC 에 블루투스(4.0 이상, BLE) 어댑터가 있어야 해요. "기기 선택"을 누르면 **앱 안의 기기 선택 창**에 주변 SmartBartender 가 나타나요(Electron 에는 브라우저 같은 선택 창이 없어서 앱이 직접 그림). 웹과 같이 연결할 때마다 골라야 해요. 선택 창은 "기기 선택"을 누르자마자 열려서 기기를 찾기 전에도 **취소**할 수 있고, 기기를 하나도 못 찾은 채 끝나면(PC 블루투스가 꺼져 있음·기기 전원 꺼짐·다른 휴대폰에 이미 연결됨) 그 안내를 띄워요(v3.0.1). 쓰는 중에 끊기면 자동으로 다시 연결하지만, 앱을 껐다 켜면 Electron 이 예전에 고른 기기를 기억하지 못해(navigator.bluetooth.getDevices 없음) 다시 골라야 해요.
 - 창 1200×820(최소 380×640), 메뉴 막대 없음. 단축키: F5·Ctrl+R 새로고침, Ctrl+＋/－/0 확대·축소, F12 개발자 도구. 바깥 링크(예: Google AI Studio 키 발급)는 기본 브라우저로 열려요.
 - 제조 알림은 Windows 알림 + 작업 표시줄 아이콘 깜빡임으로 알려 줘요.
-- 보안: 배포 EXE 는 `--dev-url`·`SB_DEV_URL` 을 무시하고, 화면(html)에 CSP 를 붙여요(스크립트는 앱 파일만, 외부 연결은 Gemini·`api.open-meteo.com` 만). 외부 연결 주소를 새로 쓰려면 `electron/main.cjs` 의 `connect-src` 에 추가하세요.
+- 보안: 배포 EXE 는 `--dev-url`·`SB_DEV_URL` 을 무시하고, 화면(html)에 CSP 를 붙여요(스크립트는 앱 파일만, 외부 연결은 Gemini·`api.open-meteo.com`·새 버전 확인용 `api.github.com` 만 — 새 EXE 파일은 화면이 아니라 메인 프로세스가 받음). 외부 연결 주소를 새로 쓰려면 `electron/main.cjs` 의 `connect-src` 에 추가하세요.
 
 **개발 중 EXE 창으로 보기**: `npm run electron:dev` (개발 서버를 띄우고 Electron 창으로 엶, 창을 닫으면 서버도 꺼짐), `npm run electron:dev -- --dist` (빌드한 `dist/` 를 EXE 와 같은 방식으로 엶).
 
@@ -204,11 +207,16 @@ npm run build:exe
 - `base: './'` + HashRouter(`#/…`)라 하위 경로·새로고침에서도 그대로 동작하고, 새 버전이 올라가면 서비스 워커가 자동으로 바꿔요(열려 있던 창은 기기 작업·AI 추천·실제 기기 연결이 없을 때 새로고침 한 번).
 
 **APK·EXE (사람이 직접)**
-1. 3-3·3-4 로 `release/SmartBartender-3.0.1.apk`, `release/SmartBartender-3.0.1-portable.exe` 를 만들어요(서명 키 백업 확인).
-2. `node scripts/check-no-secrets.mjs release/SmartBartender-3.0.1.apk release/SmartBartender-3.0.1-portable.exe` 로 한 번 더 검사해요.
-3. GitHub → **Releases → Draft a new release** → 태그 `v3.0.1` → 두 파일을 올리고 **Publish release**. 앱의 "APK·EXE 내려받기" 링크가 `releases/latest` 를 가리켜요.
-   (GitHub CLI 를 쓰면 `gh release create v3.0.1 release/SmartBartender-3.0.1.apk release/SmartBartender-3.0.1-portable.exe --title "v3.0.1"`.)
+1. 3-3·3-4 로 `release/SmartBartender-3.0.3.apk`, `release/SmartBartender-3.0.3-portable.exe` 를 만들어요(서명 키 백업 확인).
+2. `node scripts/check-no-secrets.mjs release/SmartBartender-3.0.3.apk release/SmartBartender-3.0.3-portable.exe` 로 한 번 더 검사해요.
+3. GitHub → **Releases → Draft a new release** → 태그 `v3.0.3` → 두 파일을 올리고 **Publish release**. 앱의 "APK·EXE 내려받기" 링크가 `releases/latest` 를 가리켜요.
+   (GitHub CLI 를 쓰면 `gh release create v3.0.3 release/SmartBartender-3.0.3.apk release/SmartBartender-3.0.3-portable.exe --title "v3.0.3"`.)
 4. 버전을 올릴 때는 `package.json` 의 `version`, `src/lib/appInfo.ts` 의 `APP_VERSION`, `android/app/build.gradle` 의 `versionCode`/`versionName` 을 함께 바꿔요(파일 이름도 바뀜).
+5. **앱 업데이트(4-7)가 새 버전을 찾게 하려면** 릴리스가 이 규칙을 지켜야 해요:
+   - 태그 `vX.Y.Z`(앱 버전과 같게), **초안·시험판(pre-release) 아님** — 앱은 `releases/latest` 만 봐요.
+   - 파일 이름 그대로 `SmartBartender-X.Y.Z.apk`, `SmartBartender-X.Y.Z-portable.exe` (GitHub 가 파일마다 SHA-256 을 적어 줌 — 앱이 이것과 비교).
+   - APK 는 **같은 서명 키**로(다르면 안드로이드가 덮어 설치를 거절), `versionCode` 는 늘 올려요.
+   - 릴리스 설명에 `## 바뀐 점` 제목과 그 아래 `- ` 글머리표를 두면 처음 3줄이 추천 창에 보여요.
 
 ---
 
@@ -261,6 +269,27 @@ npm run build:exe
 - 프라이밍(튜브 채우기): 기기 탭에서 펌프 버튼을 **길게 누르고 있는 동안** 펌프가 돌아요(최대 20초). 나온 양은 재료 잔량에서 자동으로 빼요.
 - 세척: 용기에 깨끗한 물 → 기기 탭 → 세척(펌프당 3/5/10초) → **세척 시작**. 끝나면 재료 탭에서 잔량을 다시 확인해 주세요(물로 세척하므로 자동 차감 안 함).
 - 모든 펌프를 바로 멈추려면 기기 탭의 **모든 펌프 즉시 정지**.
+
+
+### 4-7. 앱 업데이트 (APK·EXE — v3.0.3 부터)
+- 앱을 켤 때(그리고 다시 앞으로 올 때, 6시간에 1번까지) GitHub Releases 의 최신 버전을 확인해서 지금보다 새 버전이면 **"새 버전이 나왔어요"** 창을 띄워요.
+  설정 › 앱 정보의 **업데이트 확인**으로 언제든 직접 확인할 수 있어요(결과 "최신 버전이에요"·"이 기기용 파일이 아직 없어요"·"확인하지 못했어요"가 그 아래 보임).
+- **제조·세척·구동 중에는 어떤 업데이트 창도 띄우지 않고**(비상 정지 버튼을 가리지 않게) 업데이트도 시작·설치하지 않아요. 끝나면 다시 보여요.
+  다른 창(확인 창·성인 확인·기기 찾기 등)이 열려 있으면 업데이트 창은 그 창이 닫힌 뒤에 떠요(내려받기는 계속). 창이 겹쳐도 Esc·뒤로 버튼은 맨 위 창 하나만 닫아요.
+- **업데이트** → 앱이 새 파일을 내려받고, 릴리스에 적힌 **SHA-256 과 같은지 확인**한 뒤에만 설치해요. 이 저장소(`paperji/smart-bartender`)의 릴리스 파일만, 지금보다 높은 버전만 받아요.
+  내려받는 중에 창을 닫아도 계속 받고, 다 받으면 **"새 버전을 받아 두었어요 — 지금 설치"** 로 다시 물어봐요(그사이 제조를 시작했거나 다른 창이 열려 있으면 끝난 뒤에, 앱이 화면 뒤에 있었으면 돌아왔을 때).
+  내려받기는 데이터가 한동안(APK 90초·EXE 60초) 오지 않으면 시간 초과로 멈추고 **다시 시도**할 수 있어요. 실패 안내는 원인별(파일 없음·저장 공간 부족·백신 등이 파일 사용 중·인터넷).
+  - **안드로이드(APK)**: 안드로이드 설치 창에서 **"업데이트"(안드로이드 버전에 따라 "설치")를 눌러 주세요.** 안드로이드는 Play 스토어 밖 앱을 사용자 확인 없이 설치할 수 없어요.
+    처음 한 번은 설정 화면에서 이 앱의 **"이 출처 허용"** 을 켜야 해요. 앱이 그 화면을 열어 주고, 켜고 돌아오면 바로 이어서 진행해요
+    (그사이 안드로이드가 앱을 다시 켰어도 "설정 열기"를 누른 뒤 30분 안이면 고른 업데이트 정보로 인터넷 확인 없이 이어서. 창이 떠 있는데 이어지지 않으면 **"허용했어요, 계속"**).
+    앱은 받은 APK 가 **이 앱(같은 패키지)의 더 높은 버전**인지 확인한 뒤에만 설치 창을 띄우고, 안드로이드는 **같은 서명 키**로 만든 파일만 덮어 설치해요. 기록·설정은 그대로예요.
+  - **Windows(EXE)**: 새 EXE(`SmartBartender-X.Y.Z-portable.exe`)를 지금 EXE 와 같은 폴더(실제로 써 보고 안 되면 다운로드 폴더)에 받아 켜고, 새 EXE 가 실행된 뒤에 지금 창이 닫혀요. 기록·설정은 그대로예요.
+    **바탕화면 바로 가기·시작 메뉴 고정은 예전 EXE 를 가리키니** 새 EXE 로 다시 만들어 주세요(예전 EXE 를 다시 열면 곧바로 새 버전을 다시 알려 줘요). 예전 EXE 파일은 지워도 돼요.
+  - **웹·설치한 웹앱(PWA)**: 새 버전이 올라가면 다음에 열 때 자동으로 바뀌어요(제조 중이면 끝난 뒤).
+- **나중에** = 하루 동안 다시 묻지 않음(받아 둔 파일은 남겨 둠), **이 버전 건너뛰기** = 그 버전은 자동으로 다시 묻지 않음(직접 확인하면 다시 보임).
+- **3.0.2 이하**에는 이 기능이 없어서 3.0.3 은 한 번만 직접 받아 설치해야 해요(3-5). 그다음부터는 앱이 알려 줘요.
+- 코드: `src/lib/update.ts`(확인·순서), `src/components/UpdatePrompt.tsx`(창), `src/platform/capacitor/updater.ts` + `android/.../AppUpdaterPlugin.java`(APK),
+  `src/platform/electron/updater.ts` + `electron/updater.cjs`·`main.cjs`(EXE). 테스트 `tests/app-update.test.ts`.
 
 ---
 
@@ -338,7 +367,7 @@ app/
 ## 7. 검증 명령
 
 ```bash
-npm test             # 자동 테스트 (2026-11-07 기준 284개 통과) — 실제 Gemini·기기 호출 없음(가짜 fetch·가짜 BLE)
+npm test             # 자동 테스트 (2026-11-07 기준 323개 통과) — 실제 Gemini·기기 호출 없음(가짜 fetch·가짜 BLE)
                      #  보정 규칙 1~9(normalize) · 탐색·오프라인 후보·거절 회피(explore·offline) · 성인 확인 전 제안·NO_MIXER(adult-nomixer)
                      #  · 백엔드 JS 와 결과 비교(parity: ../backend/lib 를 직접 불러옴) · 프로토콜·데모 기기 = 펌웨어 규칙(device)
                      #  · 연결 끊김·재연결 뒤 status.last 판정(device-client) · 제조 결과 처리(brew-effects) · 화면 계산(recipe·brewing·explore·history·ingredients)
@@ -349,9 +378,12 @@ npm test             # 자동 테스트 (2026-11-07 기준 284개 통과) — �
                      #  · UI 접근성·글자 대비(ui-fixes) · 화면 CSS 색·초점·App 배선(integrate) · 리뷰 회귀(fixes)
                      #  · 실제 ESP32 연결 시험 뒤 고친 것(ble-hardware-fixes): 결과 줄을 놓치면 status 로 확인(jobOverdue)·반쪽 줄 뒤 이벤트 살리기(parseEvent)
                      #    ·EXE 검색 취소·못 찾음/블루투스 꺼짐 안내(web-ble)·메인의 취소 예약(main.cjs)
+                     #  · 앱 업데이트(app-update): 릴리스 검사·확인 간격·나중에/건너뛰기·제조 중 숨김·한 번만 내려받기·받아 둠·설치 허용 뒤 이어서
+                     #    ·창 겹침·화면 뒤·시간 초과·태그 규칙·버전 세 곳 일치
+                     #    ·EXE 메인(주소·버전 검사, SHA-256, 같은 파일 재사용·한 번만 받기, 권한 오류 시 다운로드 폴더, 파일 잠금 재시도, 실행 확인 뒤 종료)
 npm run typecheck    # tsc --noEmit (0 오류)
 npm run build        # 타입 검사 → dist/ → 키 검사
-node scripts/check-no-secrets.mjs release/SmartBartender-3.0.1.apk release/SmartBartender-3.0.1-portable.exe   # APK·EXE 를 만든 뒤
+node scripts/check-no-secrets.mjs release/SmartBartender-3.0.3.apk release/SmartBartender-3.0.3-portable.exe   # APK·EXE 를 만든 뒤
 node ../backend/test/local-test.js                                                                             # 기준 구현(백엔드) 테스트 68개
 ```
 

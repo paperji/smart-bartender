@@ -57,8 +57,8 @@
 |---|---|---|
 | 웹앱 | 위 웹 주소를 **Chrome·Edge** 로 열기 | Web Bluetooth — 연결할 때마다 브라우저 기기 선택 창. **아이폰(사파리)은 블루투스 불가**(데모·AI 추천만) |
 | 설치형 웹앱(PWA) | 웹앱에서 **설정 → 앱 정보 → 앱 설치** (또는 Chrome 메뉴 "앱 설치"·"홈 화면에 추가") | 웹앱과 같음. 인터넷 없이도 열림(AI·날씨만 인터넷 필요) |
-| 안드로이드 APK | Releases 의 `SmartBartender-3.0.1.apk` → 휴대폰에서 열어 설치("출처를 알 수 없는 앱" 허용) | 네이티브 BLE, 앱 안 검색 목록, 마지막 기기 자동 재연결 |
-| Windows EXE | Releases 의 `SmartBartender-3.0.1-portable.exe` → 더블클릭(설치 없음). SmartScreen 경고 → "추가 정보" → "실행" | PC 블루투스(4.0 이상) 어댑터 필요, 앱 안 기기 선택 창 |
+| 안드로이드 APK | Releases 의 `SmartBartender-3.0.3.apk` → 휴대폰에서 열어 설치("출처를 알 수 없는 앱" 허용) | 네이티브 BLE, 앱 안 검색 목록, 마지막 기기 자동 재연결 |
+| Windows EXE | Releases 의 `SmartBartender-3.0.3-portable.exe` → 더블클릭(설치 없음). SmartScreen 경고 → "추가 정보" → "실행" | PC 블루투스(4.0 이상) 어댑터 필요, 앱 안 기기 선택 창 |
 
 처음 켜면 데모 모드(가상 기기)가 켜져 있어요. 실제 기기는 **기기 탭 → 데모 모드 끄기 → 기기 검색(선택)** 으로 연결해요
 ([`app/README.md`](app/README.md) 4-2).
@@ -76,8 +76,8 @@ npm run dev            # http://localhost:5173 — 데모 기기(가상 ESP32)�
 npm test               # 자동 테스트 (실제 Gemini 호출 없음, 가짜 fetch)
 npm run typecheck      # 타입 검사
 npm run build          # 타입 검사 → vite build(dist/, PWA) → 키 검사(check-no-secrets)
-npm run build:android  # release/SmartBartender-3.0.1.apk  (Windows · JDK 21 · Android SDK — app/README.md 3-3)
-npm run build:exe      # release/SmartBartender-3.0.1-portable.exe (app/README.md 3-4)
+npm run build:android  # release/SmartBartender-3.0.3.apk  (Windows · JDK 21 · Android SDK — app/README.md 3-3)
+npm run build:exe      # release/SmartBartender-3.0.3-portable.exe (app/README.md 3-4)
 ```
 
 ---
@@ -89,7 +89,7 @@ npm run build:exe      # release/SmartBartender-3.0.1-portable.exe (app/README.m
 2. 그다음 `main` 에 `app/` 변경을 push 하거나, **Actions → "Deploy web app to GitHub Pages" → Run workflow** 를 눌러요.
    워크플로가 `npm ci` → `npm test` → `npm run build`(키 검사 포함) → 배포까지 해요. 빌드에는 API 키가 들어가지 않아요.
 3. **APK·EXE**: 팀 PC 에서 `npm run build:android`, `npm run build:exe` 로 만든 `app/release/` 의 두 파일을
-   GitHub **Releases**(예: 태그 `v3.0.1`)에 올려요. 깃에는 올리지 않아요(`.gitignore`).
+   GitHub **Releases**(예: 태그 `v3.0.3`)에 올려요. 깃에는 올리지 않아요(`.gitignore`).
    APK 서명 키(`app/android/keystore/`)는 커밋되지 않으니 **팀 드라이브에 따로 백업**하세요 — 잃어버리면 기존 앱 위에 업데이트 설치가 안 돼요.
 
 ---
@@ -98,8 +98,8 @@ npm run build:exe      # release/SmartBartender-3.0.1-portable.exe (app/README.m
 
 | 항목 | 검증된 것 | 아직 안 된 것 |
 |---|---|---|
-| 앱 v3.0.1 | `npm test` **284개** 통과(Windows 기준 — Linux CI 에서는 PowerShell 빌드 스크립트 시험 1개를 건너뜀)(가짜 Gemini·가짜 BLE, 앱↔백엔드 보정 규칙 비교 포함), `npm run typecheck` 0 오류, 웹·PWA 빌드와 키 검사 통과, APK(약 6MB)·EXE(약 108MB, 창 없이 실행 점검 통과) 빌드, **Windows 앱 ↔ 실제 ESP32** 연결·제조·비상 정지·재부팅 복구·검색 취소(2026-11-07) | 실제 **휴대폰(APK)** ↔ ESP32 연결 |
-| 펌웨어 v2.1.1 | PC 단위 테스트 **213/213**(펌프 4개 180 + 8개 11 + BLE 송신 링버퍼·연결 감지 22), 컴파일 경고 0, **실제 보드(ESP32-D0WD-V3)에 업로드**, PC 블루투스 자동 시험 **32/32**(`firmware/test/ble_e2e.py`) | 릴레이·펌프를 단 실물 구동, 캘리브레이션 실측 |
+| 앱 v3.0.3 | `npm test` **323개** 통과(Windows 기준 — Linux CI 에서는 PowerShell 빌드 스크립트 시험 1개를 건너뜀)(가짜 Gemini·가짜 BLE, 앱↔백엔드 보정 규칙 비교 포함), `npm run typecheck` 0 오류, 웹·PWA 빌드와 키 검사 통과, APK(약 6MB)·EXE(약 108MB, 창 없이 실행 점검 통과) 빌드, **Windows 앱·휴대폰 APK ↔ 실제 ESP32** 연결·제조·비상 정지·재부팅 뒤 자동 재연결(2026-11-07, 갤럭시 S20 Ultra(안드로이드 13)) | 휴대폰 첫 연결이 가끔 실패(앱이 자동으로 다시 시도) |
+| 펌웨어 v2.1.2 | PC 단위 테스트 **213/213**(펌프 4개 180 + 8개 11 + BLE 송신 링버퍼·연결 감지 22), 컴파일 경고 0, **실제 보드(ESP32-D0WD-V3)에 업로드**, PC 블루투스 자동 시험 **32/32**(`firmware/test/ble_e2e.py`) | 릴레이·펌프를 단 실물 구동, 캘리브레이션 실측 |
 | 백엔드(기준 구현) v2.1 | 로컬 테스트 **68/68**(가짜 Gemini 응답, 2026-11-07 다시 실행) | 배포하지 않음(앱이 쓰지 않음) |
 | 회로·BOM·가이드 | BOM 검증 **78/0**·엑셀 수식 오류 0(2026-11-07 다시 실행), 문서 간 교차 검증, 연결 36개 일치 | 실물 조립, 릴레이 3.3V 동작(A안/B안) 확인 |
 
@@ -114,7 +114,7 @@ npm run build:exe      # release/SmartBartender-3.0.1-portable.exe (app/README.m
 2. ~~저장소 공개 + 웹앱·릴리스 배포~~ → 2026-11-07 v3.0.0 공개. 고친 판(v3.0.1·펌웨어 2.1.1)은 저장소에 올리면 웹앱이 자동 배포되고, Releases 에 v3.0.1 APK·EXE 를 올려요(3장).
 3. **부품 주문**: `hardware/BOM.xlsx` → `추가구매_의뢰서용` 시트(학교 의뢰서 형식). 팀장 이름·연락처는 **제출 전에 직접 기입**(공개 저장소라 비워 둠).
    용기는 폭 95mm 이하를 먼저 고르세요(본체 폭이 정해짐).
-4. ~~펌웨어 업로드 + 시리얼·블루투스 테스트~~ → 2026-11-07 완료(펌웨어 2.1.1, PC 블루투스 32/32, Windows 앱 연결·제조 확인 — `docs/프로젝트_정리.md` 9장). 다시 할 때는 `firmware/README.md` 3~5장.
+4. ~~펌웨어 업로드 + 시리얼·블루투스 테스트~~ → 2026-11-07 완료(펌웨어 2.1.2, PC 블루투스 32/32, Windows 앱·휴대폰 APK 연결·제조 확인 — `docs/프로젝트_정리.md` 9장). 다시 할 때는 `firmware/README.md` 3~5장.
 5. **브레드보드 벤치 테스트**: 조립가이드 STEP 2. 여기서 **릴레이 A안(3.3V)/B안(5V)** 중 동작하는 쪽을 정해요.
 6. **조립**: 조립가이드 STEP 3~12 (전원부 → 전장 박스 → 외형 → 배관 → 최종 점검).
 7. **앱 설치·연결**: Releases 의 APK(안드로이드) 또는 Chrome 웹앱 → 기기 탭에서 연결(`app/README.md` 4-2).

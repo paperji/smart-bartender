@@ -39,6 +39,9 @@ async function until(cond: () => boolean, ms = 3000, step = 10) {
 function makeBle() {
   const ble: any = {
     mode: 'ok' as 'ok' | 'timeout' | 'gatt133',
+    /** 0 보다 크면 그 횟수만큼 GATT 133 으로 실패한 뒤 연결됨 (실제 갤럭시 ↔ ESP32 의 0x3E 흉내) */
+    failFirst: 0,
+    connectCalls: 0,
     notify: null as null | ((v: DataView) => void),
     initialize: async () => undefined,
     startEnabledNotifications: async () => undefined,
@@ -47,6 +50,12 @@ function makeBle() {
     disconnect: async () => undefined,
     stopLEScan: async () => undefined,
     connect: async () => {
+      ble.connectCalls++;
+      if (ble.failFirst > 0) {
+        ble.failFirst--;
+        await wait(5);
+        throw new Error('Connection failed with status 133');
+      }
       if (ble.mode === 'timeout') throw new Error('Connection timeout.'); // 플러그인 Device.kt 의 문구 (15초 뒤)
       if (ble.mode === 'gatt133') throw new Error('Connection failed with status 133');
       await wait(5);
@@ -142,6 +151,60 @@ test('DEV-2: 플러그인 연결 시간 초과·GATT 133 은 한국어 안내로
   }
   m.ble.mode = 'ok';
   await m.deviceClient.disconnect();
+});
+
+test('APK 연결 재시도: 연결 단계에서 바로 실패(GATT 133)하면 다시 시도해 연결 — 처음 2번 실패해도 됨', { timeout: 8000 }, async () => {
+  const m = await load();
+  await m.deviceClient.disconnect();
+  m.ble.mode = 'ok';
+  m.ble.failFirst = 2;
+  m.ble.connectCalls = 0;
+  await m.deviceClient.connect(ID, REAL_NAME);
+  assert.equal(m.ble.connectCalls, 3, '133 두 번 뒤 세 번째에 연결');
+  assert.equal(m.useDevice.getState().conn, 'connected');
+  assert.equal(m.useDevice.getState().lastError, null, '재시도로 연결되면 오류 안내 없음');
+  await m.deviceClient.disconnect();
+});
+
+test('APK 연결 재시도: 계속 133 이면 3번에서 멈추고 한국어 안내, 시간 초과는 다시 시도하지 않음', { timeout: 8000 }, async () => {
+  const m = await load();
+  const { CONNECT_FAILED_TEXT, CONNECT_TIMEOUT_TEXT, CONNECT_ATTEMPTS } = m.capBle;
+  await m.deviceClient.disconnect();
+  m.ble.mode = 'gatt133';
+  m.ble.connectCalls = 0;
+  await assert.rejects(m.deviceClient.connect(ID, REAL_NAME), (e: Error) => e.message === CONNECT_FAILED_TEXT);
+  assert.equal(m.ble.connectCalls, CONNECT_ATTEMPTS);
+  m.ble.mode = 'timeout';
+  m.ble.connectCalls = 0;
+  await assert.rejects(m.deviceClient.connect(ID, REAL_NAME), (e: Error) => e.message === CONNECT_TIMEOUT_TEXT);
+  assert.equal(m.ble.connectCalls, 1, '시간 초과(15초)는 다시 해도 같음 → 바로 안내');
+  m.ble.mode = 'ok';
+});
+
+test('연결 재시도 판단: GATT 133·연결 실패만 다시, 시간 초과·한국어 앱 문구는 그대로 / 웹은 NetworkError 만 다시', async () => {
+  const { isRetryableConnectError } = (await load()).capBle;
+  assert.equal(isRetryableConnectError('Connection failed with status 133'), true);
+  assert.equal(isRetryableConnectError('Disconnected'), true);
+  assert.equal(isRetryableConnectError('Connection timeout.'), false);
+  assert.equal(isRetryableConnectError('이 기기에는 SmartBartender 통신 서비스(NUS)가 없어요.'), false);
+  assert.equal(isRetryableConnectError('Bluetooth permission denied'), false);
+  const { gattConnectWithRetry, WEB_CONNECT_ATTEMPTS } = await import('../src/lib/transport/web-ble');
+  const mk = (fails: number, name = 'NetworkError') => {
+    const d: any = { calls: 0, gatt: { connect: async () => { d.calls++; if (d.calls <= fails) throw Object.assign(new Error('Connection attempt failed.'), { name }); return 'server'; } } };
+    return d;
+  };
+  const a = mk(2);
+  assert.equal(await gattConnectWithRetry(a), 'server');
+  assert.equal(a.calls, 3);
+  const b = mk(9);
+  await assert.rejects(gattConnectWithRetry(b), /Connection attempt failed/);
+  assert.equal(b.calls, WEB_CONNECT_ATTEMPTS);
+  const c = mk(9, 'SecurityError');
+  await assert.rejects(gattConnectWithRetry(c));
+  assert.equal(c.calls, 1, 'NetworkError 가 아니면 다시 시도하지 않음');
+  const d = mk(9);
+  await assert.rejects(gattConnectWithRetry(d, () => true));
+  assert.equal(d.calls, 1, '사용자가 연결을 끊었으면 그만둠');
 });
 
 test('DEV-2: connectErrorText — 영어 플러그인 문구만 바꾸고 앱의 한국어 문구는 그대로', async () => {

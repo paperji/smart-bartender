@@ -40,6 +40,29 @@ export const ELECTRON_NOT_FOUND_MESSAGE =
 export const ELECTRON_SCAN_LOST_MESSAGE =
   '기기 검색이 중간에 끝났어요. PC 의 블루투스가 켜져 있는지 확인하고 다시 "기기 선택"을 눌러 주세요.';
 
+/** gatt.connect() 이 연결 단계에서 바로 실패하면 다시 시도하는 횟수 (처음 1번 포함) — capacitor-ble.ts CONNECT_ATTEMPTS 와 같은 이유 */
+export const WEB_CONNECT_ATTEMPTS = 4;
+export const WEB_CONNECT_RETRY_DELAY_MS = 400;
+
+/**
+ * 안드로이드 Chrome 은 기기가 첫 연결 패킷을 놓치면(HCI 0x3E, 안드로이드 GATT 133) 'NetworkError: Connection attempt failed.' 로
+ * 바로 실패함 → 잠시 뒤 다시 시도. 사용자가 그사이 연결을 끊었으면(cancelled) 그만둠. 테스트용 export
+ */
+export async function gattConnectWithRetry(device: any, cancelled: () => boolean = () => false): Promise<any> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await device.gatt.connect();
+    } catch (e: any) {
+      // Chrome·Electron 은 연결 실패를 DOMException 'NetworkError' 로 줌 (권한·보안 오류 등 다른 이름은 다시 해도 같음)
+      const retryable = e?.name === 'NetworkError';
+      if (attempt >= WEB_CONNECT_ATTEMPTS || !retryable || cancelled()) throw e;
+      // 실패한 연결은 정리할 것이 없음 — disconnect() 를 부르면 'gattserverdisconnected' 가 와서 재연결 흐름과 겹칠 수 있어 부르지 않음
+      await new Promise((r) => setTimeout(r, WEB_CONNECT_RETRY_DELAY_MS));
+      if (cancelled()) throw e;
+    }
+  }
+}
+
 function electronBridge() {
   return typeof window !== 'undefined' ? window.sbElectron : undefined;
 }
@@ -222,7 +245,7 @@ export class WebBleTransport implements Transport {
     try {
       device.removeEventListener?.('gattserverdisconnected', this.onGattDisconnected);
       device.addEventListener('gattserverdisconnected', this.onGattDisconnected);
-      const server = await device.gatt.connect();
+      const server = await gattConnectWithRetry(device, () => this.manual);
       const service = await server.getPrimaryService(NUS_SERVICE);
       this.rx = await service.getCharacteristic(NUS_RX);
       this.tx = await service.getCharacteristic(NUS_TX);

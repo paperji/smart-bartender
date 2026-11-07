@@ -249,3 +249,12 @@
     display: none;
   }
 }
+
+/* 앱 업데이트 추천 창 (components/UpdatePrompt.tsx) — 릴리스 노트 "바뀐 점" 요약 */
+.update-notes {
+  margin: 0;
+  padding-left: 1.2em;
+  display: grid;
+  gap: 6px;
+  color: var(--text-2);
+}

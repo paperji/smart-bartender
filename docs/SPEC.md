@@ -112,7 +112,7 @@
 
 | ev | 예시 | 설명 |
 |---|---|---|
-| `info` | `{"ev":"info","fw":"2.1.1","name":"SmartBartender-A1B2","pumps":4,"cal":[20,20,20,20],"calSet":[0,1,0,0],"maxMl":500,"maxStepMl":300,"maxPumpMs":120000,"state":"idle"}` | hello 응답. `calSet`: 펌프별 캘리브레이션 저장 여부(1=NVS 저장값, 0=기본값) |
+| `info` | `{"ev":"info","fw":"2.1.2","name":"SmartBartender-A1B2","pumps":4,"cal":[20,20,20,20],"calSet":[0,1,0,0],"maxMl":500,"maxStepMl":300,"maxPumpMs":120000,"state":"idle"}` | hello 응답. `calSet`: 펌프별 캘리브레이션 저장 여부(1=NVS 저장값, 0=기본값) |
 | `status` | `{"ev":"status","state":"idle","job":null,"last":{"id":"r1","kind":"make","result":"done","dispensed":[{"p":1,"ml":45}]}}` / `{"ev":"status","state":"running","job":{"id":"r1","kind":"make","pct":42},"last":null}` | state: `idle` \| `running`. `last` = 부팅 후 **마지막으로 끝난 작업**(없으면 `null`). `result`: `done` \| `stopped`, stopped면 `reason` 포함. `dispensed`는 그 작업의 done/stopped 이벤트와 같은 값 |
 | `ack` | `{"ev":"ack","id":"r1","kind":"make","totalMs":5250}` | 명령 수락, 예상 소요시간 |
 | `progress` | `{"ev":"progress","id":"r1","p":1,"ml":45,"doneMl":22.4,"pct":31}` | 약 250ms 간격. `pct`=Σ나온 양/Σ목표량(완료 전 최대 99), `doneMl`=현재 펌프 누적. 병렬 모드는 켜진 펌프를 돌아가며 1개씩 |
@@ -231,6 +231,7 @@
    - 저장 위치: 웹·PWA·EXE = 그 브라우저/앱의 localStorage(`sb.secret.geminiKey`), APK = `@capacitor/preferences`(앱 전용 저장소, `allowBackup=false`). 키는 Google(Gemini) 외 어디에도 보내지 않고, 화면·알림·로그에 값을 남기지 않음.
    - 배포물(웹 dist·APK·EXE)에는 키를 넣지 않음. 개발용 테스트 키는 개발 서버(`npm run dev`)에서만 읽고 빌드가 키 모양을 검사해 실패시킴(`app/scripts/check-no-secrets.mjs`).
    - 첫 실행 안내: "AI 키를 등록하면 Gemini 가 레시피를 만들어요. 없어도 오프라인 추천으로 바로 쓸 수 있어요."
+8. **앱 업데이트**(v3.0.3): APK·EXE 는 앱을 켤 때(6시간에 1번까지) GitHub 최신 릴리스(`api.github.com/repos/paperji/smart-bartender/releases/latest`)를 확인해 더 높은 버전이고 이 플랫폼 파일과 SHA-256(`assets[].digest`)이 있으면 추천 → [업데이트] 시 이 저장소 릴리스 주소의 파일만 내려받아 SHA-256 이 같을 때만 설치 (APK = 받은 APK 가 같은 패키지의 더 높은 versionCode 인지 확인 → 안드로이드 설치 창에서 사용자가 "업데이트"(또는 "설치"), 처음 1번 설정의 "이 출처 허용" / EXE = 지금보다 높은 버전만, 새 EXE 가 실행된 뒤 지금 창 닫기). 기기 작업 중·다른 창이 열려 있을 때는 업데이트 창을 띄우지 않고, 기기 작업 중에는 시작·설치도 안 함(다 받았는데 창을 닫았거나·작업 중·다른 창·앱이 화면 뒤면 "받아 둠"으로 나중에 물어봄). 태그는 `vX.Y.Z` 만. [나중에] 하루, [이 버전 건너뛰기]. 웹·PWA 는 서비스 워커가 자동 적용.
 
 ---
 
@@ -282,3 +283,4 @@
 - v2.1 마무리 검토 반영 (2026-11-07): `id` 제어문자 → `?`(§2.3), 버튼 다시 만들기 id = `btn`+ms(§2.4), 술 이름 목록 확장(럼·진 문장 속 판정, 리큐어·샴페인·동동주 등), AI explore 카드에도 성향 제외·미장착 줄 도수 규칙(§5.4), 규칙 8 `addsSoftIngredient` 정의 명시.
 - v3.0 (2026-11-07): 앱을 웹앱(PWA)·안드로이드 APK(Capacitor)·Windows EXE(Electron) 한 소스(Vite + React)로 다시 만듦(`docs/WEBAPP_DESIGN.md`). AI 서버 모드 제거 → 사용자 본인 Gemini 키(BYOK)로 앱이 직접 호출(§0·§3 참고·§4-7), 키 없거나 실패 시 오프라인 추천. `backend/` 는 §3.3·§5.4 의 기준 구현(배포 안 함, 앱↔백엔드 parity 테스트). 펌웨어·BLE 프로토콜(§1·§2)·보정 규칙(§3.3)·탐색(§5.4)·v2.1 추가 요구사항(§5)은 그대로.
 - v3.0.1 · 펌웨어 2.1.1 (2026-11-07, 실제 ESP32 ↔ PC 블루투스·Windows 앱 연결 시험 뒤): 기기 송신 혼잡 처리(§2.2 — 맨 앞 줄 하나만 포기 + `\n` 줄 맞춤), 앱이 연결된 채 결과를 놓치면 `status` 로 확인(§2.4), Windows 앱 기기 선택 창을 검색 시작과 함께 열고 기기를 못 찾아도 취소 가능·못 찾음/블루투스 꺼짐 안내. 명령·이벤트 형식은 그대로(`info.fw` 만 `"2.1.1"`).
+- v3.0.3 · 펌웨어 2.1.2 (2026-11-07, 실제 갤럭시 S20 Ultra(안드로이드 13) ↔ ESP32 연결 시험 뒤): 앱이 연결 단계 실패(안드로이드 GATT 133 / HCI 0x3E — 기기가 첫 연결 패킷을 놓침)면 4번까지 자동으로 다시 연결(APK·웹), 펌웨어는 블루투스 컨트롤러를 BLE 전용으로 시작(`BLE_ONLY_CONTROLLER`). 프로토콜은 그대로(`info.fw` 만 `"2.1.2"`). 앱 업데이트 추천·내려받기·설치(§4-8) 추가(APK·EXE).

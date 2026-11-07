@@ -1,9 +1,9 @@
 /**
  * 설정 > 앱 정보 — 이름·버전·소개, 실행 환경(웹/설치한 웹앱/APK/EXE), v2.1 정보 줄(팀·소속·과목·통신),
  * 앱 설치(웹: 브라우저가 설치 가능하다고 알려 주면 [앱 설치] 버튼, 아니면 설치 방법 안내 — platform/install.ts),
- * 내려받기 링크(주소가 정해졌을 때만), 개인정보 안내, 오픈소스 라이선스 (lib/appInfo.ts)
+ * 업데이트 확인(APK·EXE — lib/update.ts), 내려받기 링크(주소가 정해졌을 때만), 개인정보 안내, 오픈소스 라이선스 (lib/appInfo.ts)
  */
-import { Bluetooth, Download, ExternalLink, FileText, Globe, HardDrive, Info, Lock, MapPin, Shield, Sparkles } from 'lucide-react';
+import { Bluetooth, Download, ExternalLink, FileText, Globe, HardDrive, Info, Lock, MapPin, RefreshCw, Shield, Sparkles } from 'lucide-react';
 import { Fragment, useState } from 'react';
 
 import {
@@ -15,6 +15,7 @@ import {
   RELEASES_URL,
   WEB_URL,
 } from '@/lib/appInfo';
+import { checkForUpdate, openUpdatePrompt, updaterAvailable, useUpdate } from '@/lib/update';
 import { isStandalonePwa, isWeb, PLATFORM_LABEL, platformKind } from '@/platform/detect';
 import { installHint, usePwaInstall } from '@/platform/install';
 import { toast } from '@/store/toast';
@@ -70,6 +71,40 @@ function InstallRow() {
   );
 }
 
+/**
+ * 업데이트 확인 줄 (APK·EXE 만 — src/lib/update.ts). 새 버전이 있으면 추천 창이 열리고, 없으면 "최신 버전이에요".
+ * 웹·PWA 는 새 버전이 자동으로 적용돼서 안내만
+ */
+function UpdateRow() {
+  const st = useUpdate();
+  if (!updaterAvailable()) {
+    return isWeb() ? <p className="settings-help">웹앱은 새 버전이 나오면 다음에 열 때 자동으로 바뀌어요.</p> : null;
+  }
+  // 새 버전을 알고 있으면(추천 창을 닫았어도) 다시 여는 버튼. 실패(error) 상태면 새로 확인하는 버튼도 (그사이 릴리스가 바뀌었을 수 있음)
+  const pending = !!st.info && st.status !== 'idle';
+  const canCheck = !pending || st.status === 'error';
+  return (
+    <div className="settings-install">
+      {pending ? (
+        <Button
+          icon={Download}
+          label={st.status === 'ready' ? `새 버전 v${st.info!.version} 설치` : `새 버전 v${st.info!.version} 업데이트`}
+          full
+          onClick={() => openUpdatePrompt()}
+        />
+      ) : null}
+      {canCheck ? (
+        <Button icon={RefreshCw} variant="secondary" label="업데이트 확인" full loading={st.checking} onClick={() => void checkForUpdate({ manual: true })} />
+      ) : null}
+      {canCheck && st.checkNote ? (
+        <p className="settings-help" role="status">
+          {st.checkNote}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 export function AppInfoSection() {
   const env = platformText();
   return (
@@ -95,6 +130,7 @@ export function AppInfoSection() {
             ))}
           </dl>
           <InstallRow />
+          <UpdateRow />
           {WEB_URL || RELEASES_URL ? (
             <>
               <Divider />
@@ -135,6 +171,14 @@ export function AppInfoSection() {
               <Bluetooth size={16} aria-hidden="true" />
               <span>기기와는 블루투스로만 주고받아요.</span>
             </li>
+            {updaterAvailable() ? (
+              <li>
+                <RefreshCw size={16} aria-hidden="true" />
+                <span>
+                  새 버전 확인·내려받기 때 <b>GitHub</b>(이 앱의 공개 저장소)에 접속해요. 내 기록·설정·키는 보내지 않아요.
+                </span>
+              </li>
+            ) : null}
           </ul>
         </Card>
 

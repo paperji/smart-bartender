@@ -10,6 +10,7 @@ import { HashRouter, Navigate, NavLink, Outlet, Route, Routes, useLocation, useN
 
 import { TAB_PATHS, TABS } from '@/appTabs';
 import { AppErrorBoundary, ScreenBoundary } from '@/components';
+import { UpdatePrompt } from '@/components/UpdatePrompt';
 import { registerJobEffects } from '@/lib/brew';
 import { deviceClient } from '@/lib/device/client';
 import { noteLocation, setNavigator } from '@/lib/nav';
@@ -210,6 +211,7 @@ function Hosts() {
       <DialogHost />
       <ToastHost />
       <PlatformHost />
+      <UpdatePrompt />
     </>
   );
 }

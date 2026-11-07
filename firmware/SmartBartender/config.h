@@ -11,7 +11,8 @@
 #include <stdint.h>
 
 // ===================== 1. 기본 정보 =====================
-#define FW_VERSION          "2.1.1"            // 펌웨어 버전 (info 이벤트의 fw). 2.1.1: BLE 혼잡 시 4초까지 다시 보내고 줄 하나만 포기 + 줄 맞춤 (TxRing.h)
+#define FW_VERSION          "2.1.2"            // 펌웨어 버전 (info 이벤트의 fw). 2.1.1: BLE 혼잡 시 4초까지 다시 보내고 줄 하나만 포기 + 줄 맞춤 (TxRing.h)
+                                               // 2.1.2: 블루투스 컨트롤러 BLE 전용 (갤럭시 첫 연결 실패 줄임, BLE_ONLY_CONTROLLER)
 #define DEVICE_NAME_PREFIX  "SmartBartender"   // 광고 이름 = 접두어 + "-" + MAC 하위 2바이트 (예: SmartBartender-A1B2)
 
 // ===================== 2. 펌프 개수 / 핀맵 (SPEC §1) =====================
@@ -105,6 +106,11 @@ static const uint8_t PUMP_PINS[MAX_PUMPS] = {26, 27, 32, 33, 25, 13, 18, 19};
 #define NUS_TX_UUID       "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"  // 기기 → 앱 (Notify)
 
 #define BLE_MTU_WANTED   247    // 기기 쪽 최대 MTU. 안드로이드 앱이 247 을 요청하면 그대로 협상됨
+// 블루투스 컨트롤러를 BLE 전용으로 시작 (1 = BLE 전용, 0 = 코어 기본값인 클래식+BLE 이중 모드).
+//   클래식 블루투스는 쓰지 않음. 이중 모드에서 갤럭시 휴대폰의 첫 연결이 자주 실패(0x3E)해서 비교 시험 (README 7-9)
+#ifndef BLE_ONLY_CONTROLLER
+#define BLE_ONLY_CONTROLLER 1
+#endif
 #define NOTIFY_GAP_MS    10UL   // 알림(notify) 조각 사이 최소 간격 — BLE 송신 버퍼 넘침 방지
 #define NOTIFY_RETRY_MS  30UL   // 혼잡(ERROR_GATT)으로 notify 가 실패하면 다시 보내기까지 쉬는 시간: 30 → 60 → 120 → 240ms
 #define NOTIFY_GIVEUP_MS 4000UL // 이 시간 동안 한 번도 못 보내면 맨 앞 줄 하나만 포기 (TxRing.h). 진짜 끊김은 연결 끊김으로 따로 처리

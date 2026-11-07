@@ -226,7 +226,7 @@ test('PKG-8: 배포 EXE 는 SB_DEV_URL 을 무시하고 app://bartender 를 엶,
   assert.deepEqual(dev.loaded, ['http://localhost:5173/']);
 });
 
-test('PKG-8: 앱 HTML 응답에 CSP(스크립트는 앱 파일만, 연결은 Gemini·Open-Meteo 만), 다른 출처의 권한 요청은 거절', async () => {
+test('PKG-8: 앱 HTML 응답에 CSP(스크립트는 앱 파일만, 연결은 Gemini·Open-Meteo·새 버전 확인(api.github.com) 만), 다른 출처의 권한 요청은 거절', async () => {
   const { handlers, permission } = await loadMain({ isPackaged: true });
   const asked = (url: string) => {
     let ok: boolean | null = null;
@@ -241,7 +241,7 @@ test('PKG-8: 앱 HTML 응답에 CSP(스크립트는 앱 파일만, 연결은 Gem
   const csp = res.headers.get('content-security-policy') ?? '';
   assert.match(csp, /default-src 'self'/);
   assert.match(csp, /script-src 'self'(;|$)/);
-  assert.match(csp, /connect-src 'self' https:\/\/generativelanguage\.googleapis\.com https:\/\/api\.open-meteo\.com/);
+  assert.match(csp, /(^|; )connect-src 'self' https:\/\/generativelanguage\.googleapis\.com https:\/\/api\.open-meteo\.com https:\/\/api\.github\.com(;|$)/);
   assert.match(csp, /object-src 'none'/);
   const traversal = await handlers.app({ url: 'app://bartender/..%2F..%2Fpackage.json' });
   assert.ok(traversal.status === 403 || traversal.status === 404, `dist 밖 파일은 막음 (${traversal.status})`);

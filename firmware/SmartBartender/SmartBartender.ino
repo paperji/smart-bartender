@@ -1,6 +1,6 @@
 /*
  * =====================================================================
- *  AI 스마트 바텐더 v2 — ESP32 펌웨어  (버전 2.1.1, docs/SPEC.md v2.1)
+ *  AI 스마트 바텐더 v2 — ESP32 펌웨어  (버전 2.1.2, docs/SPEC.md v2.1)
  *  팀 홍당무 · 안양대학교 정보전기전자공학과 캡스톤디자인 Ⅱ (2026/2학기)
  *  과제: 사용자의 감정 및 취향 분석 기반 AI 맞춤형 음료 및 칵테일 배합 메이커
  * =====================================================================
@@ -56,6 +56,7 @@
 #include "freertos/queue.h"
 #include "driver/gpio.h"
 #include "esp_mac.h"
+#include "esp_bt.h"
 #include "esp_system.h"
 #include "nvs.h"
 #include "nvs_flash.h"
@@ -365,6 +366,13 @@ static void clearBleCccdStore() {
 }
 
 static void setupBle() {
+#if BLE_ONLY_CONTROLLER && defined(CONFIG_BLUEDROID_ENABLED) && defined(CONFIG_IDF_TARGET_ESP32)
+  // 블루투스 컨트롤러를 BLE 전용으로 먼저 켬 (Arduino 코어 기본은 클래식+BLE 이중 모드).
+  // 클래식 블루투스는 쓰지 않으므로 그 메모리를 돌려주고, 컨트롤러가 클래식과 시간을 나누지 않게 함.
+  // BLEDevice::init 은 이미 켜진 컨트롤러를 그대로 씀. (config.h BLE_ONLY_CONTROLLER, README 7-9)
+  esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT);
+  if (!btStartMode(BT_MODE_BLE)) Serial.println(F("# [경고] BLE 전용 컨트롤러 시작 실패 — 기본 모드로 시작합니다"));
+#endif
   BLEDevice::init(gDeviceName);
   BLEDevice::setMTU(BLE_MTU_WANTED);
 #if defined(CONFIG_BLUEDROID_ENABLED) && defined(CONFIG_IDF_TARGET_ESP32)

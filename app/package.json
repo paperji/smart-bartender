@@ -1,6 +1,6 @@
 {
   "name": "smart-bartender-app",
-  "version": "3.0.1",
+  "version": "3.0.3",
   "private": true,
   "type": "module",
   "description": "AI 스마트 바텐더 v3.0 — 웹앱(PWA) 하나로 PC·안드로이드 (Vite + React)",
