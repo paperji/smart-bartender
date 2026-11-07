@@ -97,8 +97,8 @@
 | 결과물 | 명령 | 나오는 곳 |
 |---|---|---|
 | 웹앱(PWA) | `npm run build` | `dist/` (HTTPS 로 올리면 "앱 설치" 가능) |
-| 안드로이드 APK | `npm run build:android` | `release/SmartBartender-3.0.0.apk` |
-| Windows EXE | `npm run build:exe` | `release/SmartBartender-3.0.0-portable.exe` |
+| 안드로이드 APK | `npm run build:android` | `release/SmartBartender-3.0.1.apk` |
+| Windows EXE | `npm run build:exe` | `release/SmartBartender-3.0.1-portable.exe` |
 
 ### 3-1. 준비물 (한 번만)
 
@@ -130,7 +130,7 @@ npm run build:android
 2. 타입 검사 → `vite build` → 비밀값 검사(dist)
 3. `npx cap sync android` (웹 파일을 `android/app/src/main/assets/public` 으로) → 다시 비밀값 검사
 4. `gradlew assembleRelease` — 릴리스 서명 키로 서명(아래)
-5. `release/SmartBartender-3.0.0.apk` 로 복사 → `apksigner verify`(서명 확인)·`aapt2 dump permissions`(권한 목록) 출력
+5. `release/SmartBartender-3.0.1.apk` 로 복사 → `apksigner verify`(서명 확인)·`aapt2 dump permissions`(권한 목록) 출력
 6. APK 를 임시 폴더에 풀어서 비밀값 검사 → Gradle 데몬 종료(`gradlew --stop`)
 
 옵션: `npm run build:android -- -SkipTypecheck` (다른 화면 작업 중 타입 오류가 있을 때 임시로), `-CleanInstall`, `-NewKeystore`(맨 처음 릴리스 때만 — 아래).
@@ -146,10 +146,10 @@ npm run build:android
 
 1. APK 파일을 휴대폰으로 옮겨요(GitHub Releases 에서 바로 내려받기·USB·카카오톡 나에게 보내기·구글 드라이브 등).
 2. 파일을 눌러 설치 → "출처를 알 수 없는 앱" 허용(그 앱—예: 내 파일·Chrome·카카오톡—에 대해서만) → 설치. Play 프로텍트 경고가 나오면 "무시하고 설치".
-3. PC 에 USB 디버깅으로 연결돼 있으면 `adb install -r release/SmartBartender-3.0.0.apk` 도 돼요.
+3. PC 에 USB 디버깅으로 연결돼 있으면 `adb install -r release/SmartBartender-3.0.1.apk` 도 돼요.
 4. 처음 연결할 때 "근처 기기" 권한(안드로이드 12 이상), 안드로이드 11 이하는 위치 권한을 허용해 주세요. 첫 제조 때 알림 권한을 물어봐요. 홈 화면 날씨 자동 채우기는 "대략적 위치"만 허용해도 돼요.
 
-**APK 안의 구성** — 앱 ID `kr.ac.anyang.hongdangmu.bartender`, 버전 3.0.0(versionCode 30000), 안드로이드 7.0(API 24) 이상, 대상 API 36.
+**APK 안의 구성** — 앱 ID `kr.ac.anyang.hongdangmu.bartender`, 버전 3.0.1(versionCode 30001), 안드로이드 7.0(API 24) 이상, 대상 API 36.
 
 | 권한 | 왜 |
 |---|---|
@@ -181,11 +181,11 @@ npm run build:exe
 2. `scripts/build-exe.mjs` — 실행에 필요한 것만 모아(`dist/` + `electron/main.cjs`·`preload.cjs`·아이콘, node_modules 없음) electron-builder 로 **portable x64** EXE 를 만듦
 3. 묶음(`win-unpacked/resources/app.asar`)·dist 비밀값 검사
 4. 자동 점검: 창을 띄우지 않고 앱을 실행해(`SmartBartender.exe --smoke-test`) 화면이 그려지는지, `navigator.bluetooth`·보안 컨텍스트·`window.sbElectron` 이 있는지 확인 후 종료 (`-SkipSmoke` 로 건너뛰기)
-5. `release/SmartBartender-3.0.0-portable.exe` 로 복사
+5. `release/SmartBartender-3.0.1-portable.exe` 로 복사
 
 **사용** — 설치 없이 EXE 를 더블클릭하면 바로 열려요(처음엔 압축을 푸느라 몇 초 걸림). 설정·AI 키는 이 PC 의 `%APPDATA%\AI 스마트 바텐더` 에 저장돼요.
 - **코드 서명이 없어서** 처음 실행 때 Windows SmartScreen 이 "Windows의 PC 보호" 를 띄울 수 있어요 → "추가 정보" → "실행".
-- 블루투스: PC 에 블루투스(4.0 이상, BLE) 어댑터가 있어야 해요. "기기 선택"을 누르면 **앱 안의 기기 선택 창**에 주변 SmartBartender 가 나타나요(Electron 에는 브라우저 같은 선택 창이 없어서 앱이 직접 그림). 웹과 같이 연결할 때마다 골라야 해요. 쓰는 중에 끊기면 자동으로 다시 연결하지만, 앱을 껐다 켜면 Electron 이 예전에 고른 기기를 기억하지 못해(navigator.bluetooth.getDevices 없음) 다시 골라야 해요.
+- 블루투스: PC 에 블루투스(4.0 이상, BLE) 어댑터가 있어야 해요. "기기 선택"을 누르면 **앱 안의 기기 선택 창**에 주변 SmartBartender 가 나타나요(Electron 에는 브라우저 같은 선택 창이 없어서 앱이 직접 그림). 웹과 같이 연결할 때마다 골라야 해요. 선택 창은 "기기 선택"을 누르자마자 열려서 기기를 찾기 전에도 **취소**할 수 있고, 기기를 하나도 못 찾은 채 끝나면(PC 블루투스가 꺼져 있음·기기 전원 꺼짐·다른 휴대폰에 이미 연결됨) 그 안내를 띄워요(v3.0.1). 쓰는 중에 끊기면 자동으로 다시 연결하지만, 앱을 껐다 켜면 Electron 이 예전에 고른 기기를 기억하지 못해(navigator.bluetooth.getDevices 없음) 다시 골라야 해요.
 - 창 1200×820(최소 380×640), 메뉴 막대 없음. 단축키: F5·Ctrl+R 새로고침, Ctrl+＋/－/0 확대·축소, F12 개발자 도구. 바깥 링크(예: Google AI Studio 키 발급)는 기본 브라우저로 열려요.
 - 제조 알림은 Windows 알림 + 작업 표시줄 아이콘 깜빡임으로 알려 줘요.
 - 보안: 배포 EXE 는 `--dev-url`·`SB_DEV_URL` 을 무시하고, 화면(html)에 CSP 를 붙여요(스크립트는 앱 파일만, 외부 연결은 Gemini·`api.open-meteo.com` 만). 외부 연결 주소를 새로 쓰려면 `electron/main.cjs` 의 `connect-src` 에 추가하세요.
@@ -204,10 +204,10 @@ npm run build:exe
 - `base: './'` + HashRouter(`#/…`)라 하위 경로·새로고침에서도 그대로 동작하고, 새 버전이 올라가면 서비스 워커가 자동으로 바꿔요(열려 있던 창은 기기 작업·AI 추천·실제 기기 연결이 없을 때 새로고침 한 번).
 
 **APK·EXE (사람이 직접)**
-1. 3-3·3-4 로 `release/SmartBartender-3.0.0.apk`, `release/SmartBartender-3.0.0-portable.exe` 를 만들어요(서명 키 백업 확인).
-2. `node scripts/check-no-secrets.mjs release/SmartBartender-3.0.0.apk release/SmartBartender-3.0.0-portable.exe` 로 한 번 더 검사해요.
-3. GitHub → **Releases → Draft a new release** → 태그 `v3.0.0` → 두 파일을 올리고 **Publish release**. 앱의 "APK·EXE 내려받기" 링크가 `releases/latest` 를 가리켜요.
-   (GitHub CLI 를 쓰면 `gh release create v3.0.0 release/SmartBartender-3.0.0.apk release/SmartBartender-3.0.0-portable.exe --title "v3.0.0"`.)
+1. 3-3·3-4 로 `release/SmartBartender-3.0.1.apk`, `release/SmartBartender-3.0.1-portable.exe` 를 만들어요(서명 키 백업 확인).
+2. `node scripts/check-no-secrets.mjs release/SmartBartender-3.0.1.apk release/SmartBartender-3.0.1-portable.exe` 로 한 번 더 검사해요.
+3. GitHub → **Releases → Draft a new release** → 태그 `v3.0.1` → 두 파일을 올리고 **Publish release**. 앱의 "APK·EXE 내려받기" 링크가 `releases/latest` 를 가리켜요.
+   (GitHub CLI 를 쓰면 `gh release create v3.0.1 release/SmartBartender-3.0.1.apk release/SmartBartender-3.0.1-portable.exe --title "v3.0.1"`.)
 4. 버전을 올릴 때는 `package.json` 의 `version`, `src/lib/appInfo.ts` 의 `APP_VERSION`, `android/app/build.gradle` 의 `versionCode`/`versionName` 을 함께 바꿔요(파일 이름도 바뀜).
 
 ---
@@ -338,7 +338,7 @@ app/
 ## 7. 검증 명령
 
 ```bash
-npm test             # 자동 테스트 (2026-11-07 기준 267개 통과) — 실제 Gemini·기기 호출 없음(가짜 fetch·가짜 BLE)
+npm test             # 자동 테스트 (2026-11-07 기준 284개 통과) — 실제 Gemini·기기 호출 없음(가짜 fetch·가짜 BLE)
                      #  보정 규칙 1~9(normalize) · 탐색·오프라인 후보·거절 회피(explore·offline) · 성인 확인 전 제안·NO_MIXER(adult-nomixer)
                      #  · 백엔드 JS 와 결과 비교(parity: ../backend/lib 를 직접 불러옴) · 프로토콜·데모 기기 = 펌웨어 규칙(device)
                      #  · 연결 끊김·재연결 뒤 status.last 판정(device-client) · 제조 결과 처리(brew-effects) · 화면 계산(recipe·brewing·explore·history·ingredients)
@@ -347,9 +347,11 @@ npm test             # 자동 테스트 (2026-11-07 기준 267개 통과) — �
                      #  · APK 플러그인·뒤로 버튼·키 저장 시간 제한(platform-capacitor) · 기기 문구·연결 오류(platform-device)
                      #  · 첫 제조 알림 권한(platform-brew-notify) · 백그라운드 예비 완료 알림(brew-reminder) · 서명 키·SW·EXE 보안(platform-packaging)
                      #  · UI 접근성·글자 대비(ui-fixes) · 화면 CSS 색·초점·App 배선(integrate) · 리뷰 회귀(fixes)
+                     #  · 실제 ESP32 연결 시험 뒤 고친 것(ble-hardware-fixes): 결과 줄을 놓치면 status 로 확인(jobOverdue)·반쪽 줄 뒤 이벤트 살리기(parseEvent)
+                     #    ·EXE 검색 취소·못 찾음/블루투스 꺼짐 안내(web-ble)·메인의 취소 예약(main.cjs)
 npm run typecheck    # tsc --noEmit (0 오류)
 npm run build        # 타입 검사 → dist/ → 키 검사
-node scripts/check-no-secrets.mjs release/SmartBartender-3.0.0.apk release/SmartBartender-3.0.0-portable.exe   # APK·EXE 를 만든 뒤
+node scripts/check-no-secrets.mjs release/SmartBartender-3.0.1.apk release/SmartBartender-3.0.1-portable.exe   # APK·EXE 를 만든 뒤
 node ../backend/test/local-test.js                                                                             # 기준 구현(백엔드) 테스트 68개
 ```
 

@@ -35,6 +35,8 @@ contextBridge.exposeInMainWorld('sbElectron', {
   onBleRequestEnd: (cb) => subscribe('sb:ble-end', () => cb()),
   chooseBleDevice: (deviceId) => ipcRenderer.send('sb:ble-choose', String(deviceId || '')),
   cancelBle: () => ipcRenderer.send('sb:ble-cancel'),
+  /** requestDevice 직전: 앞 요청의 "취소 예약"을 지움 */
+  bleRequestStart: () => ipcRenderer.send('sb:ble-start'),
   /** Windows 알림 + 작업 표시줄 깜빡임 → 띄웠으면 true */
   notify: (title, body) => ipcRenderer.invoke('sb:notify', String(title || ''), String(body || '')),
 });

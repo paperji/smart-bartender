@@ -184,12 +184,9 @@ const KNOWN_EVENTS = new Set([
   'error',
 ]);
 
-/** 한 줄(JSON)을 이벤트로 파싱. 형식이 틀리면 null */
-export function parseEvent(line: string): DeviceEvent | null {
-  const trimmed = line.trim();
-  if (!trimmed || trimmed[0] !== '{') return null;
+function parseEventText(text: string): DeviceEvent | null {
   try {
-    const obj = JSON.parse(trimmed);
+    const obj = JSON.parse(text);
     if (obj && typeof obj === 'object' && typeof obj.ev === 'string' && KNOWN_EVENTS.has(obj.ev)) {
       return obj as DeviceEvent;
     }
@@ -197,6 +194,25 @@ export function parseEvent(line: string): DeviceEvent | null {
   } catch {
     return null;
   }
+}
+
+/** 이벤트 줄은 늘 이 글자로 시작 (펌웨어·가상 기기 모두 ev 가 첫 키). 중첩 객체(job·last·dispensed)에는 ev 키가 없음 */
+const EVENT_HEAD = '{"ev":';
+
+/**
+ * 한 줄(JSON)을 이벤트로 파싱. 형식이 틀리면 null.
+ * 줄 맞춤: 블루투스가 몹시 혼잡할 때 예전 펌웨어(v2.1.0)는 보내던 줄의 나머지를 줄바꿈 없이 버려서,
+ * 앱에 남은 반쪽 줄 뒤에 다음 줄이 그대로 붙어 옴 ("{"ev":"status",...반쪽{"ev":"done",...}").
+ * 통째로는 JSON 이 아니면, 줄 안의 마지막 '{"ev":' 부터 다시 읽어 붙어 온 온전한 이벤트(예: done)를 살림.
+ * (펌웨어 v2.1.1 은 반쪽 줄을 '\n' 으로 먼저 끝내 주므로 이런 줄이 생기지 않음 — TxRing.h)
+ */
+export function parseEvent(line: string): DeviceEvent | null {
+  const trimmed = line.trim();
+  if (!trimmed || trimmed[0] !== '{') return null;
+  const whole = parseEventText(trimmed);
+  if (whole) return whole;
+  const at = trimmed.lastIndexOf(EVENT_HEAD);
+  return at > 0 ? parseEventText(trimmed.slice(at)) : null;
 }
 
 const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);

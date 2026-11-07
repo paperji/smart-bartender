@@ -1,4 +1,4 @@
-// host_test.cpp / host_test_8.cpp 공통 도우미: 가짜 하드웨어(FakeHal), 결과 표 출력, UTF-8 검사 등.
+// host_test.cpp / host_test_8.cpp / host_test_tx.cpp 공통 도우미: 가짜 하드웨어(FakeHal), 결과 표 출력, UTF-8·엄격한 JSON 검사 등.
 // Shared helpers for the host tests (fake clock/relays, markdown result rows, strict UTF-8 check).
 // PUMP_COUNT 를 바꿔 시험하려면 이 파일을 include 하기 전에 #define PUMP_COUNT 를 둡니다(host_test_8.cpp).
 #pragma once

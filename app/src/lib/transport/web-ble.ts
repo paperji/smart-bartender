@@ -24,6 +24,35 @@ function getBluetooth(): any | null {
   return (navigator as any).bluetooth ?? null;
 }
 
+/**
+ * Windows 앱(EXE, Electron) 기기 선택 창과 주고받는 화면 안 이벤트 (platform/electron/BlePickerHost.tsx)
+ *  - BLE_SCAN_EVENT {phase:'start'|'end'}: 검색(requestDevice) 시작·끝 → 선택 창을 바로 열고("찾는 중", 취소 버튼) 끝나면 닫음
+ *  - BLE_SCAN_CANCEL_EVENT: 선택 창의 "취소" → 기기를 하나도 못 찾아 Electron 이 아무 응답을 안 줘도 검색을 바로 끝냄
+ */
+export const BLE_SCAN_EVENT = 'sb-ble-scan';
+export const BLE_SCAN_CANCEL_EVENT = 'sb-ble-scan-cancel';
+export type BleScanPhase = 'start' | 'end';
+
+/** Electron 이 기기를 하나도 못 찾았거나(광고 안 함) PC 블루투스가 꺼져 있을 때의 안내 */
+export const ELECTRON_NOT_FOUND_MESSAGE =
+  '기기를 찾지 못했어요. PC 의 블루투스가 켜져 있는지, 칵테일 메이커 전원이 켜져 있는지 확인해 주세요. 다른 휴대폰·PC 에 이미 연결돼 있으면 그쪽 연결을 먼저 끊어 주세요.';
+/** 목록을 보여 준 뒤 사용자가 고르기 전에 Electron 이 검색을 끝냄(검색 중 PC 블루투스가 꺼짐 등) */
+export const ELECTRON_SCAN_LOST_MESSAGE =
+  '기기 검색이 중간에 끝났어요. PC 의 블루투스가 켜져 있는지 확인하고 다시 "기기 선택"을 눌러 주세요.';
+
+function electronBridge() {
+  return typeof window !== 'undefined' ? window.sbElectron : undefined;
+}
+
+function emitScanPhase(phase: BleScanPhase) {
+  if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
+  try {
+    window.dispatchEvent(new CustomEvent<{ phase: BleScanPhase }>(BLE_SCAN_EVENT, { detail: { phase } }));
+  } catch {
+    /* CustomEvent 미지원 환경 */
+  }
+}
+
 export class WebBleTransport implements Transport {
   readonly kind = 'web' as const;
   private lines = new Emitter<[string]>();
@@ -36,6 +65,10 @@ export class WebBleTransport implements Transport {
   private connected = false;
   private manual = false;
   private writeChain: Promise<void> = Promise.resolve();
+  /** 진행 중인 검색을 끝내는 함수 (stopScan·선택 창의 취소) */
+  private endScan: (() => void) | null = null;
+  /** 진행 중인 검색이 완전히 끝나면(정리까지) 풀리는 약속 */
+  private scanDone: Promise<void> | null = null;
 
   async availability(): Promise<Availability> {
     // 보안 주소(https·localhost)가 아니면 Chrome·Edge 도 navigator.bluetooth 자체를 숨김 → 브라우저 탓이 아니라 주소 탓임을 먼저 안내 (DEV-4)
@@ -61,13 +94,47 @@ export class WebBleTransport implements Transport {
     return { ok: true };
   }
 
-  /** 웹에서는 브라우저의 기기 선택 창이 "검색" 역할을 합니다 */
+  /**
+   * 웹에서는 브라우저의 기기 선택 창이 "검색" 역할을 합니다.
+   * Windows 앱(EXE)은 Electron 에 선택 창이 없어 앱 안 선택 창(BlePickerHost)을 씀. 이때 Electron 은 기기를 하나라도
+   * 찾아야 알려 주므로(못 찾으면 몇 분 동안 아무 응답 없음), 검색 시작과 함께 선택 창을 열고 "취소"·"검색 중지"로
+   * 바로 끝낼 수 있게 함. 기기 목록을 한 번도 못 받은 채 끝나면(못 찾음·PC 블루투스 꺼짐) 안내 오류를 냄.
+   */
   async scan(onFound: (d: FoundDevice) => void, opts?: ScanOptions): Promise<void> {
     const bt = getBluetooth();
     if (!bt) throw new Error('Web Bluetooth 미지원 브라우저입니다');
+    // 앞 검색이 남아 있으면 끝내고 정리까지 기다림 (앞 검색의 '끝' 알림이 새 선택 창을 닫지 않게)
+    if (this.endScan) {
+      this.endScan();
+      await this.scanDone?.catch(() => undefined);
+    }
+    let markDone!: () => void;
+    this.scanDone = new Promise<void>((r) => {
+      markDone = r;
+    });
+    const electron = electronBridge();
+    let userCancelled = false;
+    let sawList = false;
+    let resolveEnd!: () => void;
+    const ended = new Promise<'ended'>((r) => {
+      resolveEnd = () => r('ended');
+    });
+    const end = () => {
+      userCancelled = true;
+      resolveEnd();
+    };
+    this.endScan = end;
+    const offList = electron?.onBleDevices?.(() => {
+      sawList = true;
+    });
+    // 선택 창의 "취소" (선택 창이 cancelBle 을 이미 불렀음)
+    const onCancel = () => end();
+    if (electron && typeof window !== 'undefined') window.addEventListener(BLE_SCAN_CANCEL_EVENT, onCancel);
     this.states.emit('scanning', undefined);
     try {
-      const device: BtDevice = await bt.requestDevice(
+      electron?.bleRequestStart?.();
+      if (electron) emitScanPhase('start');
+      const req: Promise<BtDevice> = bt.requestDevice(
         opts?.includeAll
           ? { acceptAllDevices: true, optionalServices: [NUS_SERVICE] }
           : {
@@ -75,19 +142,42 @@ export class WebBleTransport implements Transport {
               optionalServices: [NUS_SERVICE],
             },
       );
-      this.devices.set(device.id, device);
-      onFound({ id: device.id, name: device.name || 'SmartBartender', likely: true });
+      req.catch(() => undefined); // 검색을 먼저 끝낸 뒤 늦게 거부돼도 "처리 안 된 거부"가 되지 않게
+      const r = await Promise.race([req, ended]);
+      if (r !== 'ended') {
+        const device: BtDevice = r;
+        this.devices.set(device.id, device);
+        onFound({ id: device.id, name: device.name || 'SmartBartender', likely: true });
+      }
     } catch (e: any) {
-      // 사용자가 선택 창을 닫으면 NotFoundError → 조용히 종료
       if (e?.name !== 'NotFoundError') {
         this.states.emit(this.connected ? 'connected' : 'idle', undefined);
         throw new Error('기기 선택 창을 열지 못했어요: ' + (e?.message ?? String(e)));
       }
+      // 웹: 사용자가 브라우저 선택 창을 닫으면 NotFoundError → 조용히 종료 (못 찾음·블루투스 꺼짐은 브라우저 창이 직접 안내).
+      // EXE: 사용자가 닫는 길(취소·Esc·X·검색 중지)은 모두 end() 로 먼저 끝나므로 여기 온 NotFoundError 는 Electron 이 스스로
+      // 끝낸 것(못 찾음·PC 블루투스 꺼짐·권한 없음) → 안내
+      if (electron && !userCancelled) {
+        this.states.emit(this.connected ? 'connected' : 'idle', undefined);
+        throw new Error(sawList ? ELECTRON_SCAN_LOST_MESSAGE : ELECTRON_NOT_FOUND_MESSAGE);
+      }
+    } finally {
+      offList?.();
+      if (electron && typeof window !== 'undefined') window.removeEventListener(BLE_SCAN_CANCEL_EVENT, onCancel);
+      if (this.endScan === end) this.endScan = null;
+      if (electron) emitScanPhase('end');
+      markDone();
     }
     this.states.emit(this.connected ? 'connected' : 'idle', undefined);
   }
 
-  async stopScan(): Promise<void> {}
+  /** 검색 중지: 진행 중인 기기 선택을 끝냄 (EXE 는 앱 안 선택 창도 닫힘) */
+  async stopScan(): Promise<void> {
+    const end = this.endScan;
+    if (!end) return;
+    electronBridge()?.cancelBle?.();
+    end();
+  }
 
   private onValue = (event: any) => {
     const dv: DataView = event?.target?.value;

@@ -109,7 +109,7 @@
 - 패키징: `capacitor.config.ts`(appId `kr.ac.anyang.hongdangmu.bartender`, appName "AI 스마트 바텐더", webDir `dist`), `electron/main.cjs`·`preload.cjs`, electron-builder portable. 안드로이드 빌드는 한글 경로 문제를 피해 ASCII 경로 사본에서 수행(`scripts/build-android.ps1`). 도구(JDK 21·Android SDK)는 `%USERPROFILE%\sb-tools\`.
   - APK 서명 키가 없으면 빌드가 멈춤(팀 드라이브 백업을 `app/android/keystore/` 에). 새 키는 맨 처음 릴리스 때만 `-NewKeystore`.
   - EXE: 배포본(`app.isPackaged`)은 `--dev-url`·`SB_DEV_URL` 무시, html 응답에 CSP(스크립트는 앱 파일만, `connect-src` 는 Gemini·`api.open-meteo.com` 만) + `nosniff`, 권한 요청은 앱 주소에서 온 것만 허락. 외부 주소를 새로 쓰면 `electron/main.cjs` 의 `connect-src` 에 추가.
-- 산출물 이름: `release/SmartBartender-3.0.0.apk`, `release/SmartBartender-3.0.0-portable.exe`, 웹은 `dist/`. APK·EXE 는 깃이 아니라 GitHub Releases(`https://github.com/paperji/smart-bartender/releases/latest`)에 올림.
+- 산출물 이름: `release/SmartBartender-3.0.1.apk`, `release/SmartBartender-3.0.1-portable.exe`, 웹은 `dist/`. APK·EXE 는 깃이 아니라 GitHub Releases(`https://github.com/paperji/smart-bartender/releases/latest`)에 올림.
 
 ## 8. 작업 규칙
 - 새 파일은 UTF-8(BOM 없음)·LF. legacy·firmware·backend·hardware 는 수정 금지(이 작업 범위 밖) — 필요하면 보고만.

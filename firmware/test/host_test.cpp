@@ -78,8 +78,8 @@ int main() {
 
   // ---------- A. basic commands ----------
   sendLine("{\"cmd\":\"hello\"}");
-  row("hello→info (v2.1 필드)", "{\"cmd\":\"hello\"}", "info: fw 2.1.0, calSet, maxPumpMs 120000",
-      lastEv(), lastEv() == "{\"ev\":\"info\",\"fw\":\"2.1.0\",\"name\":\"SmartBartender-A1B2\",\"pumps\":4,\"cal\":[20,20,20,20],\"calSet\":[0,0,0,0],\"maxMl\":500,\"maxStepMl\":300,\"maxPumpMs\":120000,\"state\":\"idle\"}");
+  row("hello→info (v2.1 필드)", "{\"cmd\":\"hello\"}", "info: fw 2.1.1, calSet, maxPumpMs 120000",
+      lastEv(), lastEv() == "{\"ev\":\"info\",\"fw\":\"2.1.1\",\"name\":\"SmartBartender-A1B2\",\"pumps\":4,\"cal\":[20,20,20,20],\"calSet\":[0,0,0,0],\"maxMl\":500,\"maxStepMl\":300,\"maxPumpMs\":120000,\"state\":\"idle\"}");
   sendLine("{\"cmd\":\"status\"}");
   row("status(idle) 부팅 직후 last null", "{\"cmd\":\"status\"}", "status idle job:null last:null", lastEv(), lastEv() == "{\"ev\":\"status\",\"state\":\"idle\",\"job\":null,\"last\":null}");
   sendLine("{\"cmd\":\"ping\"}");

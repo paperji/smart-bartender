@@ -3,12 +3,15 @@
  * Electron 에는 Chrome 같은 기기 선택 창이 없어서, requestDevice() 를 부르면 메인 프로세스가 select-bluetooth-device 로
  * 찾은 기기 목록을 보내 줌(electron/main.cjs → preload 의 onBleDevices) → 이 창에서 고르면 chooseBleDevice(id),
  * 닫으면 cancelBle() (→ requestDevice 는 NotFoundError 로 조용히 끝남, web-ble.ts 와 같은 흐름).
+ * 검색을 시작하면(web-ble.ts 의 BLE_SCAN_EVENT 'start') 기기를 찾기 전이라도 바로 열어 "찾는 중"·취소 버튼을 보여 줌
+ * (Electron 은 기기를 하나도 못 찾으면 몇 분 동안 아무 목록도 보내지 않음). 취소하면 BLE_SCAN_CANCEL_EVENT 로 검색도 끝냄.
  * 웹·APK 에서는 아무것도 그리지 않음 (window.sbElectron 이 없음).
  */
 import { Bluetooth, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { DEVICE_NAME_PREFIX } from '@/lib/protocol';
+import { BLE_SCAN_CANCEL_EVENT, BLE_SCAN_EVENT, type BleScanPhase } from '@/lib/transport/web-ble';
 import { Badge, Button, Card, ListRow, Modal, Row, Spinner, Stack, Text } from '@/ui';
 
 import type { ElectronBleDevice } from '../detect';
@@ -35,24 +38,38 @@ export function BlePickerHost() {
 
   useEffect(() => {
     if (!bridge?.onBleDevices) return;
+    const openNow = () => {
+      if (openRef.current) return;
+      openRef.current = true;
+      setOpen(true);
+      setSlow(false);
+      if (slowTimer.current) clearTimeout(slowTimer.current);
+      slowTimer.current = setTimeout(() => setSlow(true), SLOW_MS);
+    };
     const offList = bridge.onBleDevices((list) => {
       // 이름 있는 SmartBartender 를 위로
       const sorted = [...list].sort(
         (a, b) => Number(b.deviceName.startsWith(DEVICE_NAME_PREFIX)) - Number(a.deviceName.startsWith(DEVICE_NAME_PREFIX)),
       );
       setDevices(sorted);
-      if (!openRef.current) {
-        openRef.current = true;
-        setOpen(true);
-        setSlow(false);
-        if (slowTimer.current) clearTimeout(slowTimer.current);
-        slowTimer.current = setTimeout(() => setSlow(true), SLOW_MS);
-      }
+      openNow();
     });
     const offEnd = bridge.onBleRequestEnd?.(() => close());
+    // 검색 시작·끝 (web-ble.ts): 기기를 찾기 전부터 "찾는 중"·취소 버튼을 보여 줌
+    const onPhase = (e: Event) => {
+      const phase = (e as CustomEvent<{ phase?: BleScanPhase }>).detail?.phase;
+      if (phase === 'start') {
+        setDevices([]);
+        openNow();
+      } else if (phase === 'end') {
+        close();
+      }
+    };
+    window.addEventListener(BLE_SCAN_EVENT, onPhase);
     return () => {
       offList();
       offEnd?.();
+      window.removeEventListener(BLE_SCAN_EVENT, onPhase);
       if (slowTimer.current) clearTimeout(slowTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,6 +83,8 @@ export function BlePickerHost() {
   };
   const cancel = () => {
     bridge.cancelBle?.();
+    // 기기를 하나도 못 찾았으면 Electron 이 요청을 끝내 주지 않으므로 검색(web-ble.ts)에도 직접 알림
+    window.dispatchEvent(new Event(BLE_SCAN_CANCEL_EVENT));
     close();
   };
 
@@ -73,6 +92,8 @@ export function BlePickerHost() {
     <Modal
       open={open}
       onClose={cancel}
+      // 검색을 누르자마자 열리므로 "기기 선택" 두 번 누르기의 두 번째가 바깥(배경)을 눌러 취소되지 않게 — 닫기는 취소·Esc·X
+      closeOnBackdrop={false}
       size="sm"
       title="연결할 기기 선택"
       description="칵테일 메이커(SmartBartender)를 골라 주세요."

@@ -32,7 +32,9 @@ export const APK_BLE_NOTES = [
 /** Windows 앱(EXE) 연결 안내 — 브라우저가 아니라 앱 안 기기 선택 창(platform/electron/BlePickerHost) */
 export const EXE_BLE_NOTES = [
   'Windows 앱은 PC 블루투스로 기기에 연결해요. (블루투스 저전력(BLE)을 지원하는 어댑터가 필요해요)',
+  'PC 의 블루투스를 먼저 켜 주세요. (Windows 설정 › 블루투스 및 장치)',
   '연결할 때마다 앱 안의 기기 선택 창에서 SmartBartender 를 골라 주세요.',
+  '기기는 한 번에 한 대에만 연결돼요. 휴대폰 앱에 연결돼 있으면 목록에 나타나지 않으니 먼저 끊어 주세요.',
   '제조 중에는 화면을 켜 둔 채로 두세요. (앱이 화면 꺼짐을 막아 줘요)',
 ];
 

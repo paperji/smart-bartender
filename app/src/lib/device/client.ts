@@ -83,6 +83,32 @@ const DEAD_AFTER_PINGS = 3;
 const RECONNECT_DELAYS = [1000, 2000, 3000, 5000, 8000, 10000, 15000, 20000, 30000, 30000];
 /** 재연결 후 idle 판정: 예상 소요시간보다 이만큼 이상 일찍 idle 이면 정상 완료가 아님 */
 const EARLY_IDLE_MARGIN_MS = 1000;
+/** 끝날 시각(ack + totalMs)이 이만큼 지나도 done/stopped 가 없으면, 또는 기기 줄이 이만큼 안 오면 status 로 직접 확인 */
+export const OVERDUE_GRACE_MS = 3000;
+/** 정지(stop) 명령을 보내고 이만큼 지나도 stopped 가 없으면 status 로 확인 */
+export const STOP_CONFIRM_MS = 1500;
+
+/**
+ * 연결이 살아 있는데 결과(done/stopped)를 놓쳤을 수 있는 작업인지 — status 로 직접 확인할 대상 (ping 주기 5초마다, 정지 직후 1번).
+ * 블루투스가 몹시 혼잡하면 기기가 알림 줄을 끝내 못 보내고 버릴 수 있음(펌웨어 TxRing.h, 4초 재시도 뒤 1줄 포기).
+ * 연결은 끊기지 않으므로 재연결 뒤 확인(onConnected 의 status)이 일어나지 않아 제조 화면이 99% 에 머묾 → 여기서 막음.
+ *  - running + 정지 명령을 보낸 지 STOP_CONFIRM_MS 가 지남 (stopped 를 놓침 — 끝날 시각까지 기다리지 않음)
+ *  - running + 기기 줄(ack·progress·step·status running)이 OVERDUE_GRACE_MS 넘게 없음 (lastLineAt): 작업 중이면 250ms 마다 progress 가 옴.
+ *    물리 버튼으로 멈춘 뒤 stopped 를 놓친 경우도 여기서 잡힘
+ *  - running + ack: 끝날 시각 + OVERDUE_GRACE_MS 가 지남
+ *  - running, ack 없음(재연결 뒤 status running·progress 로 되살린 작업): 끝날 시각을 모르므로 확인한 뒤 OVERDUE_GRACE_MS 부터 계속
+ *  - pending + uncertain(명령은 보냈지만 ack 를 못 받음): 계속 (startJob 이 보낸 첫 status 의 응답도 놓쳤을 수 있음)
+ * 기기가 아직 작업 중이면 status running 이 와서 진행률만 맞춰짐(해 없음). idle 이면 status.last 로 실제 결과가 확정됨.
+ */
+export function jobOverdue(job: JobState | null, now: number, lastLineAt: number | null = null): boolean {
+  if (!job) return false;
+  if (job.status === 'pending') return !!job.uncertain;
+  if (job.status !== 'running') return false;
+  if (job.stopSentAt != null && now > job.stopSentAt + STOP_CONFIRM_MS) return true;
+  if (lastLineAt != null && now > lastLineAt + OVERDUE_GRACE_MS) return true;
+  if (job.ackAt != null) return now > job.ackAt + Math.max(0, job.totalMs) + OVERDUE_GRACE_MS;
+  return job.runningSeenAt != null && now > job.runningSeenAt + OVERDUE_GRACE_MS;
+}
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
 
@@ -165,12 +191,15 @@ function needsCheck(job: JobState | null): job is JobState {
  * status.last 가 이 작업의 결과인지 (SPEC §2.4 ②)
  *  - id·kind 가 같아야 함. make 는 id 가 매번 다르므로(r+시각) 이것으로 충분
  *    (BUTTON_REPEAT_LAST 다시 만들기는 같은 id 를 다시 쓰지만, 확정된 작업은 아래 조건으로 고치지 않음)
- *  - run/clean 은 id 가 늘 'run'/'clean' 이라 예전 작업과 구분되지 않음 → 기기가 이 작업을 받은 것이 확인된(ack) 경우만
+ *  - run/clean 은 id 가 늘 'run'/'clean' 이라 예전 작업과 구분되지 않음 → 기기가 이 작업을 받은 것이 확인된 경우만
+ *    (ack 를 받았거나, ack 는 놓쳤지만 status running·progress 로 기기가 이 작업을 하는 것을 본 경우 — runningSeenAt)
  *  - 고칠 대상: 진행 중·확인 중(pending)이거나, 결과를 모른 채 정리한(uncertain) 작업. 실제 이벤트로 확정된 결과는 건드리지 않음
  */
 function lastMatchesJob(job: JobState, last: StatusLast): boolean {
   if (last.id !== job.id || last.kind !== job.kind) return false;
-  if (job.kind !== 'make' && job.ackAt == null) return false;
+  // run/clean: ack 를 받았거나, ack 는 놓쳤어도 기기가 이 작업을 하는 것을 확인했을 때(runningSeenAt)만
+  // (기기는 한 번에 한 작업 — 확인한 뒤 idle 이면 last 는 바로 이 작업의 결과)
+  if (job.kind !== 'make' && job.ackAt == null && job.runningSeenAt == null) return false;
   return isBusy(job) || !!job.uncertain;
 }
 
@@ -187,6 +216,8 @@ class DeviceClient {
   private initialized = false;
   /** 직전 ping 타이머 실행 시각 — 간격이 크게 벌어졌으면 타이머가 멈춰 있었음(백그라운드·화면 꺼짐) */
   private lastTickAt: number | null = null;
+  /** 진행 중 작업에 대해 기기 줄(ack·progress·step·status running)을 마지막으로 받은 시각 — jobOverdue 의 "조용함" 판단 */
+  private lastJobLineAt: number | null = null;
   /** 응답(수신 줄) 없이 보낸 ping 수 */
   private unansweredPings = 0;
   /** 마지막 pong 으로 계산한 기기 부팅 시각(앱 시계 ms) — 재연결 뒤 재부팅 판단용 */
@@ -545,6 +576,7 @@ class DeviceClient {
       // → 그동안 ping 을 못 보냈으니 응답이 없던 게 아님. 시계를 다시 시작하고 ping 만 보냄
       this.unansweredPings = 0;
       setDevice({ lastSeenAt: now });
+      this.pollOverdueJob(st.job, now);
       this.sendPing();
       return;
     }
@@ -552,7 +584,13 @@ class DeviceClient {
       this.dropDeadLink();
       return;
     }
+    this.pollOverdueJob(st.job, now);
     this.sendPing();
+  }
+
+  /** 결과를 놓쳤을 수 있는 작업이면 status 로 기기에 직접 물어봄 (jobOverdue) */
+  private pollOverdueJob(job: JobState | null, now: number) {
+    if (jobOverdue(job, now, this.lastJobLineAt)) this.send({ cmd: 'status' }).catch(() => undefined);
   }
 
   private sendPing() {
@@ -668,6 +706,7 @@ class DeviceClient {
     };
     // 새 작업을 시작하면 화면을 닫아 둔 예전 작업의 결과 확인은 버림 (기기는 한 번에 한 작업 — 그 결과는 이미 지나감)
     this.pendingCheck = null;
+    this.lastJobLineAt = null;
     setDevice({ job });
     return job;
   }
@@ -760,8 +799,21 @@ class DeviceClient {
     return this.startJob({ cmd: 'clean', ms: msInt }, 'clean', 'clean', steps);
   }
 
-  /** 비상 정지 — 연결 상태와 상관없이 최대한 빨리 전송 */
+  /**
+   * 비상 정지 — 연결 상태와 상관없이 최대한 빨리 전송.
+   * 진행 중 작업이 있으면 보낸 시각을 남기고, STOP_CONFIRM_MS 뒤에도 stopped 가 없으면 status 로 확인
+   * (혼잡으로 stopped 줄을 놓쳐도 끝날 시각까지 "제조 중"으로 남지 않게)
+   */
   async stop() {
+    const j = useDevice.getState().job;
+    if (j && j.status === 'running') {
+      patchJob({ stopSentAt: Date.now() });
+      const key = j.localKey;
+      setTimeout(() => {
+        const cur = useDevice.getState().job;
+        if (cur && cur.localKey === key && this.isConnected) this.pollOverdueJob(cur, Date.now());
+      }, STOP_CONFIRM_MS + 100);
+    }
     await this.transport?.write(encodeCommand({ cmd: 'stop' }));
   }
 
@@ -1016,7 +1068,14 @@ class DeviceClient {
       case 'status': {
         const job = st.job;
         if (e.state === 'running' && e.job) {
+          this.lastJobLineAt = Date.now();
           if (!job || job.id !== e.job.id || !isBusy(job)) {
+            // 앱이 진행 중으로 알던 작업과 다른 작업을 기기가 하고 있음(그 사이 끝나고 버튼 다시 만들기 등) →
+            // 알던 작업의 결과는 status.last 에 있으면 먼저 그것으로 확정 (그냥 덮어쓰면 기록·잔량 차감이 빠짐)
+            if (job && isBusy(job) && job.id !== e.job.id) {
+              const last = parseStatusLast(e.last);
+              if (last && lastMatchesJob(job, last)) this.resolveFromLast(job, last, false);
+            }
             // 재연결했더니 기기가 작업 중 → 진행 상황 표시
             // (앱이 "시작 못 함/결과 모름"으로 정리했던 같은 작업이면 — 화면을 닫아 둔 작업(pendingCheck) 포함 —
             //  펌프 목록·시간을 유지한 채 되살림. 결과가 확정된 작업과 id 만 같으면(다시 만들기) 새 작업)
@@ -1054,6 +1113,7 @@ class DeviceClient {
         break;
       }
       case 'ack': {
+        this.lastJobLineAt = Date.now();
         const j = st.job;
         if (j && (j.id === e.id || j.kind === e.kind) && j.status === 'pending') {
           patchJob({ status: 'running', totalMs: e.totalMs, ackAt: Date.now(), id: e.id, uncertain: undefined, error: undefined });
@@ -1072,6 +1132,7 @@ class DeviceClient {
         break;
       }
       case 'progress': {
+        this.lastJobLineAt = Date.now();
         if (isRevivable(st.job) && st.job.id === e.id) setDevice({ job: revived(st.job) });
         else if (!st.job) {
           // 화면을 닫아 둔 "결과 모름" 작업이 아직 진행 중 → 되살림 (진행 화면이 다시 열림)
@@ -1094,6 +1155,7 @@ class DeviceClient {
         break;
       }
       case 'step':
+        this.lastJobLineAt = Date.now();
         patchJob((j) => ({
           pumps: j.pumps.some((p) => p.p === e.p)
             ? j.pumps.map((p) => (p.p === e.p ? { ...p, done: e.ml, target: e.ml, finished: true } : p))

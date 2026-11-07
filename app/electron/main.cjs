@@ -142,6 +142,11 @@ function openExternalSafe(u) {
 let mainWindow = null;
 /** select-bluetooth-device 의 대기 중 callback (requestDevice 1건당 1개) */
 let bleCallback = null;
+/**
+ * 기기를 하나도 못 찾은 채(대기 중 callback 없음) 화면이 취소함 → 이 요청에서 나중에 기기를 찾으면
+ * 선택 창을 띄우지 않고 바로 취소 (Electron 은 기기를 찾기 전에는 요청을 끝낼 방법이 없음). 새 요청(sb:ble-start)에서 지움
+ */
+let bleCancelPending = false;
 
 function finishBle(deviceId) {
   const cb = bleCallback;
@@ -196,6 +201,17 @@ function createWindow() {
   // Web Bluetooth 기기 선택 (목록은 찾을 때마다 다시 옴 → 화면의 선택 창이 갱신)
   win.webContents.on('select-bluetooth-device', (event, devices, callback) => {
     event.preventDefault();
+    if (bleCancelPending) {
+      // 화면이 이미 취소한 요청 → 선택 창 없이 끝냄
+      bleCancelPending = false;
+      bleCallback = null;
+      try {
+        callback('');
+      } catch {
+        /* 이미 끝난 요청 */
+      }
+      return;
+    }
     bleCallback = callback;
     const list = (devices || []).map((d) => ({ deviceId: String(d.deviceId), deviceName: String(d.deviceName || '') }));
     if (SMOKE) smoke.bleEvents++;
@@ -253,7 +269,15 @@ ipcMain.on('sb:ble-choose', (e, id) => {
   if (fromMain(e)) finishBle(typeof id === 'string' ? id : '');
 });
 ipcMain.on('sb:ble-cancel', (e) => {
-  if (fromMain(e)) finishBle('');
+  if (!fromMain(e)) return;
+  if (bleCallback) finishBle('');
+  else bleCancelPending = true; // 아직 기기를 못 찾음 → 찾는 즉시 취소
+});
+ipcMain.on('sb:ble-start', (e) => {
+  if (!fromMain(e)) return;
+  bleCancelPending = false;
+  // 새 requestDevice 는 앞 요청을 대신함 → 앞 요청의 callback 은 더 쓸 수 없음(남아 있으면 다음 "취소"가 예약되지 않음)
+  bleCallback = null;
 });
 ipcMain.handle('sb:notify', (e, title, body) => {
   if (!fromMain(e)) return false;

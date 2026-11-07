@@ -190,7 +190,7 @@ const Icon = categoryIcon(slot.category);
 |---|---|
 | `APP_NAME` | `'AI 스마트 바텐더'` |
 | `APP_SHORT_NAME` | `'바텐더'` |
-| `APP_VERSION` | `'3.0.0'` |
+| `APP_VERSION` | `'3.0.1'` |
 | `APP_DESCRIPTION` | v2.1 한 줄 소개 ("사용자의 감정 및 취향 분석 기반 AI 맞춤형 음료 및 칵테일 배합 메이커") |
 | `WEB_URL` | `string \| null` — 웹앱 주소(GitHub Pages 만든 뒤 채움). `null` 이면 링크 숨기기 |
 | `RELEASES_URL` | `string \| null` — APK·EXE 내려받기(GitHub Releases). `null` 이면 숨기기 |

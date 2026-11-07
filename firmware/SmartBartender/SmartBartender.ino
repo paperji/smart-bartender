@@ -1,6 +1,6 @@
 /*
  * =====================================================================
- *  AI 스마트 바텐더 v2 — ESP32 펌웨어  (버전 2.1.0, docs/SPEC.md v2.1)
+ *  AI 스마트 바텐더 v2 — ESP32 펌웨어  (버전 2.1.1, docs/SPEC.md v2.1)
  *  팀 홍당무 · 안양대학교 정보전기전자공학과 캡스톤디자인 Ⅱ (2026/2학기)
  *  과제: 사용자의 감정 및 취향 분석 기반 AI 맞춤형 음료 및 칵테일 배합 메이커
  * =====================================================================
@@ -14,6 +14,7 @@
  *  [파일 구성]
  *   - config.h         : 핀 번호, 펌프 개수, 안전 한계값 등 "설정" (여기만 고치면 됨)
  *   - BartenderCore.h  : 명령 해석·검증·펌프 상태머신 (하드웨어와 무관한 "두뇌", PC 에서 단위 테스트 가능)
+ *   - TxRing.h         : BLE 송신 링버퍼 — 블루투스 혼잡 시 다시 보내기·줄 단위 포기 (PC 에서 단위 테스트 가능)
  *   - SmartBartender.ino (이 파일) : ESP32 "몸통" — BLE, USB 시리얼, 릴레이 GPIO, 플래시(NVS), LED, 부저, 버튼
  *   - WatchdogRelayOff.cpp : 워치독이 걸리는 순간 릴레이를 즉시 끄는 안전 장치 (워치독 인터럽트 훅)
  *
@@ -61,6 +62,7 @@
 
 #include "config.h"
 #include "BartenderCore.h"
+#include "TxRing.h"
 
 // =====================================================================
 //  전역 상태
@@ -73,6 +75,7 @@ static BLECharacteristic* gTxChar = nullptr;      // 기기 → 앱 (Notify)
 static BLE2902* gTxCccd = nullptr;                // TX 의 "알림 켜기" 스위치(CCCD). 앱이 구독하면 1
 #endif
 static volatile bool gConnected = false;          // BT 태스크가 쓰고 loop 가 읽음
+static volatile uint32_t gConnGen = 0;            // 연결될 때마다 +1 (loop 가 두 번 도는 사이에 끊겼다 다시 연결돼도 알아챔)
 static volatile uint16_t gMtu = 23;               // 협상된 MTU (기본 23 → 한 번에 20바이트)
 static volatile bool gNeedAdvertise = false;      // BT 태스크: 연결 끊김 → loop 에 광고 재시작 요청
 static volatile uint32_t gRxDropped = 0;          // 큐가 꽉 차서 버린 메시지 수(정상이면 0)
@@ -102,11 +105,8 @@ static RxMsg gLoopIn;                 // loop 전용(큐에서 꺼낸 메시지)
 static sb::LineAssembler gSerialAsm;  // loop 전용(USB 시리얼 입력 조립)
 
 // ---- BLE 송신 링버퍼 (loop 전용) ----
-//  이벤트 줄을 모아 두었다가 (MTU-3) 바이트씩 잘라 10ms 간격으로 notify → BLE 송신 버퍼 넘침 방지
-static uint8_t gTxRing[TX_RING_SIZE];
-static size_t gTxHead = 0, gTxTail = 0, gTxUsed = 0;
-static uint32_t gNextNotifyAt = 0;
-static uint8_t gNotifyRetry = 0;
+//  이벤트 줄을 모아 두었다가 (MTU-3) 바이트씩 잘라 10ms 간격으로 notify → BLE 송신 버퍼 넘침 방지 (TxRing.h)
+static sb::TxRing gTx;
 
 // ---- 유량값 저장(NVS) ----
 static Preferences gPrefs;
@@ -134,77 +134,27 @@ static uint32_t gBtnPressedAt = 0;
 static bool gBtnConsumed = false;   // 이번 누름이 이미 처리(정지/길게 누름)되었는가
 
 // =====================================================================
-//  BLE 송신 링버퍼
+//  BLE 송신 (TxRing.h 의 drain 이 조각을 고르고, 여기서는 실제 notify 와 결과 변환만)
 // =====================================================================
-static void txClear() { gTxHead = gTxTail = gTxUsed = 0; gNotifyRetry = 0; }
-
-// 한 줄 + '\n' 을 통째로 넣음. 공간이 부족하면 넣지 않음(줄이 중간에 잘리는 일이 없게)
-static bool txPush(const char* s, size_t n) {
-  if (n + 1 > TX_RING_SIZE - gTxUsed) return false;
-  for (size_t i = 0; i <= n; i++) {
-    gTxRing[gTxHead] = (i < n) ? (uint8_t)s[i] : (uint8_t)'\n';
-    gTxHead = (gTxHead + 1) % TX_RING_SIZE;
-  }
-  gTxUsed += n + 1;
-  return true;
-}
-
-static size_t txPeek(uint8_t* out, size_t maxLen) {
-  size_t n = gTxUsed < maxLen ? gTxUsed : maxLen;
-  size_t t = gTxTail;
-  for (size_t i = 0; i < n; i++) { out[i] = gTxRing[t]; t = (t + 1) % TX_RING_SIZE; }
-  return n;
-}
-
-static void txConsume(size_t n) {
-  if (n > gTxUsed) n = gTxUsed;
-  gTxTail = (gTxTail + n) % TX_RING_SIZE;
-  gTxUsed -= n;
-}
-
-// 현재 줄의 나머지를 '\n' 까지 버림 (전송 실패가 반복될 때)
-static void txDropLine() {
-  while (gTxUsed > 0) {
-    uint8_t c = gTxRing[gTxTail];
-    txConsume(1);
-    if (c == '\n') break;
-  }
-}
-
 // loop() 에서 호출: 대기 중인 데이터를 (MTU-3) 바이트 조각으로 notify
 static void txDrain(uint32_t now) {
-  if (!gConnected) { if (gTxUsed) txClear(); return; }
-  if (gTxUsed == 0 || (int32_t)(now - gNextNotifyAt) < 0) return;
-
-  static uint8_t chunk[244];                       // MTU 247 - 3
-  size_t maxChunk = (gMtu > 3) ? (size_t)(gMtu - 3) : 20;
-  if (maxChunk > sizeof(chunk)) maxChunk = sizeof(chunk);
-  const size_t n = txPeek(chunk, maxChunk);
-
-  gNotifyStatus = -1;
-  gTxChar->setValue(chunk, n);
-  gTxChar->notify();                               // 결과는 TxCallbacks::onStatus 가 gNotifyStatus 에 기록
-  gNextNotifyAt = now + NOTIFY_GAP_MS;
-
-  switch (gNotifyStatus) {
-    case BLECharacteristicCallbacks::Status::ERROR_GATT:     // 일시적 송신 실패(혼잡) → 잠시 후 같은 조각 재시도
-      gNextNotifyAt = now + 30;
-      if (++gNotifyRetry > 10) {                    // 계속 실패하면 이 줄은 포기
-        txConsume(n);
-        if (chunk[n - 1] != '\n') txDropLine();
-        gNotifyRetry = 0;
-      }
-      break;
-    case BLECharacteristicCallbacks::Status::ERROR_NOTIFY_DISABLED:   // 앱이 아직 알림 구독(Notify ON) 전
-    case BLECharacteristicCallbacks::Status::ERROR_NO_CLIENT:
-    case BLECharacteristicCallbacks::Status::ERROR_NO_SUBSCRIBER:
-      txClear();                                    // 받을 사람이 없으므로 버림
-      break;
-    default:                                        // 성공(SUCCESS_NOTIFY) 또는 상태 미보고 → 보낸 것으로 처리
-      txConsume(n);
-      gNotifyRetry = 0;
-      break;
-  }
+  if (!gConnected) { if (!gTx.idle()) gTx.clear(); return; }
+  const size_t maxChunk = (gMtu > 3) ? (size_t)(gMtu - 3) : 20;
+  gTx.drain(now, maxChunk, [](const uint8_t* data, size_t n) -> sb::TxResult {
+    gNotifyStatus = -1;
+    gTxChar->setValue((uint8_t*)data, n);
+    gTxChar->notify();                             // 결과는 TxCallbacks::onStatus 가 gNotifyStatus 에 기록
+    switch (gNotifyStatus) {
+      case BLECharacteristicCallbacks::Status::ERROR_GATT:              // 일시적 송신 실패(혼잡) → 잠시 후 다시
+        return sb::TxResult::Congested;
+      case BLECharacteristicCallbacks::Status::ERROR_NOTIFY_DISABLED:   // 앱이 아직 알림 구독(Notify ON) 전
+      case BLECharacteristicCallbacks::Status::ERROR_NO_CLIENT:
+      case BLECharacteristicCallbacks::Status::ERROR_NO_SUBSCRIBER:
+        return sb::TxResult::NoSubscriber;                              // 받을 사람이 없으므로 버림
+      default:                                                          // 성공(SUCCESS_NOTIFY) 또는 상태 미보고 → 보낸 것으로 처리
+        return sb::TxResult::Sent;
+    }
+  });
 }
 
 // =====================================================================
@@ -264,8 +214,8 @@ class EspHal : public sb::Hal {
     Serial.write((const uint8_t*)json, len);
     Serial.write('\n');
     if (!gConnected || !bleSubscribed()) return;
-    if (droppable && gTxUsed > TX_RING_SIZE / 4) return;   // 알림 폭주 방지: 밀려 있으면 progress 는 생략
-    if (!txPush(json, len)) Serial.println(F("# [경고] BLE 송신 버퍼가 가득 차 이벤트 1개를 버렸습니다"));
+    if (droppable && gTx.used() > TX_RING_SIZE / 4) return;   // 알림 폭주 방지: 밀려 있으면 progress 는 생략
+    if (!gTx.push(json, len)) Serial.println(F("# [경고] BLE 송신 버퍼가 가득 차 이벤트 1개를 버렸습니다"));
   }
 
   // 유량값 1개를 NVS 에 저장. 이미 같은 값이 저장돼 있으면 플래시에 다시 쓰지 않음(플래시 수명 보호).
@@ -299,6 +249,7 @@ class ServerCallbacks : public BLEServerCallbacks {
     // BT 태스크 안에서 처리하므로 앱의 첫 구독 요청보다 항상 먼저 실행됩니다(순서 보장).
     if (gTxCccd) gTxCccd->setNotifications(false);
 #endif
+    gConnGen = gConnGen + 1;
     gConnected = true;
   }
   void onDisconnect(BLEServer* s) override {
@@ -526,14 +477,18 @@ static void updateLed(uint32_t now) {
 
 // 연결/해제 감지(로그, 송신 버퍼 정리) + 연결이 끊기면 0.5초 뒤 광고 재시작(실패하면 2초마다 재시도)
 static void updateConnection(uint32_t now) {
-  static bool was = false;
+  static sb::LinkWatch link;
+  // connected 를 먼저, 연결 번호를 나중에 읽음 (TxRing.h 의 LinkWatch 설명).
+  // loop 가 두 번 도는 사이에 끊겼다가 다시 연결된 경우도 새 연결(RECONNECTED)로 봄
+  // → 예전 연결에 보내려던 반쪽 줄·줄바꿈이 새 연결로 새어 나가지 않게
   const bool is = gConnected;
-  if (is != was) {
-    was = is;
-    txClear();
-    gNextNotifyAt = now + 200;   // 연결 직후 앱이 알림 구독할 시간을 조금 줌
-    if (is) Serial.println(F("# BLE 연결됨"));
-    else Serial.println(F("# BLE 연결 끊김 (진행 중인 제조는 끝까지 계속합니다)"));
+  const uint32_t gen = gConnGen;
+  const sb::LinkWatch::Change ch = link.update(is, gen);
+  if (ch != sb::LinkWatch::NONE) {
+    gTx.clear();
+    gTx.holdUntil(now + 200);    // 연결 직후 앱이 알림 구독할 시간을 조금 줌
+    if (ch != sb::LinkWatch::CONNECTED) Serial.println(F("# BLE 연결 끊김 (진행 중인 제조는 끝까지 계속합니다)"));
+    if (ch != sb::LinkWatch::DISCONNECTED) Serial.println(F("# BLE 연결됨"));
   }
   if (gNeedAdvertise) {          // BT 태스크의 요청을 loop 전용 예약으로 옮김
     gNeedAdvertise = false;

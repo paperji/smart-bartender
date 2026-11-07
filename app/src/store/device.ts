@@ -48,6 +48,8 @@ export interface JobState {
   uncertain?: boolean;
   /** run 작업의 용도 — prime(프라이밍: 실제 재료가 나오므로 잔량 차감) */
   purpose?: 'prime';
+  /** 앱이 진행 중인 작업에 정지(stop) 명령을 보낸 시각 — stopped 를 놓쳤으면 곧바로 status 로 확인 (client.ts jobOverdue) */
+  stopSentAt?: number;
   /** 데모 기기 전용: 가상 펌프의 실제 추출량 */
   simActualMl?: number;
 }

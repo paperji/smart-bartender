@@ -28,8 +28,13 @@ export interface SbElectronBridge {
   onBleRequestEnd?: (cb: () => void) => () => void;
   /** 이 기기로 연결 */
   chooseBleDevice?: (deviceId: string) => void;
-  /** 선택 취소 → requestDevice 가 NotFoundError 로 끝남 */
+  /**
+   * 선택 취소 → requestDevice 가 NotFoundError 로 끝남.
+   * 아직 기기를 하나도 못 찾은 때(메인에 대기 중인 요청이 없음)는 "취소 예약" — 나중에 기기를 찾아도 선택 창을 띄우지 않고 끝냄
+   */
   cancelBle?: () => void;
+  /** requestDevice 를 부르기 직전에 호출: 앞 요청의 "취소 예약"을 지움 (web-ble.ts) */
+  bleRequestStart?: () => void;
   /** Windows 알림(메인 프로세스) + 작업 표시줄 깜빡임. 알림을 띄웠으면 true */
   notify?: (title: string, body: string) => Promise<boolean>;
   [key: string]: unknown;
