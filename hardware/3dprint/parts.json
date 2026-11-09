@@ -1,0 +1,93 @@
+[
+ {
+  "file": "01_corner_bracket.stl",
+  "qty": 14,
+  "desc": "모서리 브래킷(L자 꺾쇠 대체, M3 너트 홈 2개) — 필요 12 + 예비 2",
+  "size_mm": [
+   26.0,
+   26.0,
+   16.0
+  ],
+  "volume_cm3": 3.9,
+  "genus": 2,
+  "tris": 548
+ },
+ {
+  "file": "02_nozzle_block.stl",
+  "qty": 1,
+  "desc": "노즐 블록(노즐 판 M1 + 걸이 M2 일체형, 튜브 칸막이·펌프 번호 점·접착 날개)",
+  "size_mm": [
+   80.0,
+   60.0,
+   25.0
+  ],
+  "volume_cm3": 35.23,
+  "genus": 4,
+  "tris": 2840
+ },
+ {
+  "file": "03_front_bezel.stl",
+  "qty": 1,
+  "desc": "앞면 조작부 베젤(버튼·LED 둘레, 앞판 상부 F 바깥에 붙임)",
+  "size_mm": [
+   100.0,
+   40.0,
+   3.0
+  ],
+  "volume_cm3": 10.77,
+  "genus": 2,
+  "tris": 2804
+ },
+ {
+  "file": "04_grommet_20.stl",
+  "qty": 2,
+  "desc": "그로밋(선반 D 의 Ø20 구멍, 5mm 판, 옆 트임)",
+  "size_mm": [
+   28.0,
+   27.9,
+   9.0
+  ],
+  "volume_cm3": 1.92,
+  "genus": 0,
+  "tris": 1680
+ },
+ {
+  "file": "05_grommet_12.stl",
+  "qty": 1,
+  "desc": "그로밋(뒤판 G 의 Ø12 구멍, 어댑터 선, 옆 트임)",
+  "size_mm": [
+   18.0,
+   17.8,
+   9.0
+  ],
+  "volume_cm3": 0.77,
+  "genus": 0,
+  "tris": 1588
+ },
+ {
+  "file": "06_lid_corner_cap.stl",
+  "qty": 4,
+  "desc": "상판 모서리 캡(상판 C 네 모서리, C 에만 접착)",
+  "size_mm": [
+   25.0,
+   25.0,
+   13.0
+  ],
+  "volume_cm3": 2.92,
+  "genus": 0,
+  "tris": 312
+ },
+ {
+  "file": "07_divider_bushing.stl",
+  "qty": 1,
+  "desc": "칸막이 E 튜브 부싱(Ø25 구멍, 튜브 4가닥 2×2, 번호 점)",
+  "size_mm": [
+   32.0,
+   32.0,
+   6.9
+  ],
+  "volume_cm3": 2.85,
+  "genus": 4,
+  "tris": 2700
+ }
+]

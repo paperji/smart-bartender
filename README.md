@@ -44,7 +44,8 @@
 | `firmware/` | ESP32 펌웨어 v2.1.0(Arduino IDE), PC 단위 테스트 | [`firmware/README.md`](firmware/README.md) |
 | `hardware/circuit/` | 회로도(정식 회로도 + 초보자용 실물 배선도), 연결표 ①~㊱ | `hardware/circuit/회로도.html` |
 | `hardware/BOM.xlsx` / `BOM.md` | 전체 부품표, **추가 구매 의뢰서용 시트**, 예산 | `hardware/BOM.md` |
-| `hardware/guide/` | 초보자용 조립 가이드(STEP 1~12, 그림 15장, 체크박스) | `hardware/guide/조립가이드.html` |
+| `hardware/guide/` | 초보자용 조립 가이드(STEP 1~12, 그림 17장, 체크박스, 부록 D 3D 프린팅 부품) | `hardware/guide/조립가이드.html` |
+| `hardware/3dprint/` | 3D 프린팅 부품 7종(모서리 브래킷·노즐 블록·앞면 베젤·그로밋·상판 캡·튜브 부싱) STL·모델 코드·출력 조건 | `hardware/3dprint/README.md` |
 | `hardware/research/` | 부품 사양 조사, 재단표(포맥스 외형) | `parts_research.md` |
 | `backend/` | SPEC §3.3 보정 규칙의 **기준 구현**(Node). 앱은 쓰지 않음, 앱↔백엔드 결과 비교 테스트용 | [`backend/README.md`](backend/README.md) |
 | `legacy/app-expo-v2.1/` | 이전 앱 v2.1(Expo / React Native) — 참고용 보관, 고치거나 배포하지 않음 | `legacy/app-expo-v2.1/README.md` |
