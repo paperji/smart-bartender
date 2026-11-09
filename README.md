@@ -43,7 +43,8 @@
 | `docs/프로젝트_정리.md` | 과제 자료 정리(진행 이력, 구매 부품, 발견한 문제점, 진행 결과) | — |
 | `firmware/` | ESP32 펌웨어 v2.1.0(Arduino IDE), PC 단위 테스트 | [`firmware/README.md`](firmware/README.md) |
 | `hardware/circuit/` | 회로도(정식 회로도 + 초보자용 실물 배선도), 연결표 ①~㊱ | `hardware/circuit/회로도.html` |
-| `hardware/BOM.xlsx` / `BOM.md` | 전체 부품표, **추가 구매 의뢰서용 시트**, 예산 | `hardware/BOM.md` |
+| `hardware/BOM.xlsx` / `BOM.md` | (2026-11-06 원본, 비교용) 전체 부품표, 추가 구매 의뢰서용 시트, 예산 | `hardware/BOM.md` |
+| `hardware/BOM_납땜기준.xlsx` / `BOM_무납땜기준.xlsx` (+ `.md`) | 2026-11-10 최신화 BOM 두 벌 — 출력 부품·새 용기·이미 결제한 돈 반영. 납땜 기준(학교 공구 대여) / 무납땜 기준(레버 커넥터·선 달린 스위치·퓨즈홀더) | [`BOM_납땜기준.md`](hardware/BOM_납땜기준.md) · [`BOM_무납땜기준.md`](hardware/BOM_무납땜기준.md) |
 | `hardware/guide/` | 초보자용 조립 가이드(STEP 1~12, 그림 17장, 체크박스, 부록 D 3D 프린팅 부품) | `hardware/guide/조립가이드.html` |
 | `hardware/3dprint/` | 3D 프린팅 부품 7종(모서리 브래킷·노즐 블록·앞면 베젤·그로밋·상판 캡·튜브 부싱) STL·모델 코드·출력 조건 | `hardware/3dprint/README.md` |
 | `hardware/research/` | 부품 사양 조사, 재단표(포맥스 외형) | `parts_research.md` |
@@ -119,7 +120,7 @@ npm run build:exe      # release/SmartBartender-3.1.0-portable.exe (app/README.m
 
 1. **예전 키 정리**: 예전(v2.1)에 쓰던 Gemini 키는 Google AI Studio 에서 **삭제(폐기)**해요. 예전 Vercel 서버 프로젝트는 그대로 둬도 되고(앱이 쓰지 않음), 키를 폐기하면 그 서버는 AI 를 부르지 못해요.
 2. ~~저장소 공개 + 웹앱·릴리스 배포~~ → 2026-11-07 v3.0.0 공개. 고친 판(v3.0.1·펌웨어 2.1.1)은 저장소에 올리면 웹앱이 자동 배포되고, Releases 에 v3.0.1 APK·EXE 를 올려요(3장).
-3. **부품 주문**: `hardware/BOM.xlsx` → `추가구매_의뢰서용` 시트(학교 의뢰서 형식). 팀장 이름·연락처는 **제출 전에 직접 기입**(공개 저장소라 비워 둠).
+3. **부품 주문**: `hardware/BOM_납땜기준.xlsx` 또는 `BOM_무납땜기준.xlsx`(2026-11-10 최신) → `추가구매_의뢰서용` 시트(학교 의뢰서 형식). 원본 `BOM.xlsx`(2026-11-06)는 비교용으로 남겨 둠. 팀장 이름·연락처는 **제출 전에 직접 기입**(공개 저장소라 비워 둠).
    용기는 폭 95mm 이하를 먼저 고르세요(본체 폭이 정해짐).
 4. ~~펌웨어 업로드 + 시리얼·블루투스 테스트~~ → 2026-11-07 완료(펌웨어 2.1.2, PC 블루투스 32/32, Windows 앱·휴대폰 APK 연결·제조 확인 — `docs/프로젝트_정리.md` 9장). 다시 할 때는 `firmware/README.md` 3~5장.
 5. **브레드보드 벤치 테스트**: 조립가이드 STEP 2. 여기서 **릴레이 A안(3.3V)/B안(5V)** 중 동작하는 쪽을 정해요.
