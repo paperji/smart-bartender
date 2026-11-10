@@ -84,7 +84,7 @@ h2#toc + ul > li{break-inside:avoid}
 <div id="toolbar"><span id="cnt" style="margin-right:auto;font-size:13px;color:#52606d;align-self:center"></span>
 <button id="breset" type="button">체크 초기화</button><button id="bprint" type="button">인쇄 / PDF 저장 (A4)</button></div>
 <h1 id="h1">사용자의 감정 및 취향 분석 기반 AI 맞춤형 음료 및 칵테일 배합 메이커 — 초보자용 제작(조립) 가이드</h1>
-<blockquote class="note"><p>팀 <strong>홍당무</strong> · 안양대학교 정보전기전자공학과 캡스톤디자인Ⅱ (2026/2학기) · 작성 2026-11-06 · <strong>SPEC v2.1 반영</strong> · 앱 v3.0 반영 2026-11-07 · <strong>3D 프린팅 부품 반영 2026-11-10</strong><br>목표: 2학기 <strong>졸업작품 시제품</strong> · <strong>기말 시연(발표)</strong> · 졸업논문·특허용 실험 데이터<br>앱 화면 이름: "AI 스마트 바텐더" · 하드웨어 v2</p>
+<blockquote class="note"><p>팀 <strong>홍당무</strong> · 안양대학교 정보전기전자공학과 캡스톤디자인Ⅱ (2026/2학기) · 작성 2026-11-06 · <strong>SPEC v2.1 반영</strong> · 앱 v3.0 반영 2026-11-07 · <strong>3D 프린팅 부품 반영 2026-11-10</strong><br><strong>최신판(2026-11-10)</strong>: <a href="제작가이드_납땜기준.md">제작가이드_납땜기준.md</a> · <a href="제작가이드_무납땜기준.md">제작가이드_무납땜기준.md</a> — 970ml 용기·주문한 3D 출력 부품·최신 BOM 기준. 이 문서는 예전 판(출력 부품이 없을 때의 대안 방법 참고용)입니다.<br>목표: 2학기 <strong>졸업작품 시제품</strong> · <strong>기말 시연(발표)</strong> · 졸업논문·특허용 실험 데이터<br>앱 화면 이름: "AI 스마트 바텐더" · 하드웨어 v2</p>
 <p><strong>기준 문서</strong> (이 가이드와 숫자가 다르면 아래 문서가 우선입니다)</p>
 <ul><li>시스템 명세: <code>../../docs/SPEC.md</code> (v3.0 — 핀맵 · BLE 프로토콜은 v2.1 그대로 · 앱 동작)</li><li>부품 목록(BOM): <code>../BOM.md</code>, <code>../BOM.xlsx</code>, <code>../research/canonical_bom.json</code> (부품 번호 <strong>P01~P69</strong>)</li><li>부품 조사·재단표: <code>../research/parts_research.md</code></li><li>회로도·실물 배선도: <code>../circuit/회로도.html</code> (<code>../circuit/schematic.svg</code>, <code>../circuit/wiring.svg</code>)</li><li>3D 프린팅 부품(출력 부품 01~07): <code>../3dprint/</code> (STL·모델 코드·출력 조건) — <a href="#appD">부록 D</a></li><li>펌웨어 설명서: <code>../../firmware/README.md</code>, 앱 설명서: <code>../../app/README.md</code></li><li>앱 v3.0 받기: 웹앱 <a href="https://paperji.github.io/smart-bartender/">https://paperji.github.io/smart-bartender/</a> (Chrome·Edge) · 안드로이드 APK / Windows EXE <a href="https://github.com/paperji/smart-bartender/releases/latest">https://github.com/paperji/smart-bartender/releases/latest</a></li></ul></blockquote>
 <h2 id="howto">이 가이드 읽는 법</h2>
@@ -1298,7 +1298,7 @@ h2#toc + ul > li{break-inside:avoid}
 <rect x="860.00" y="500.00" width="300.00" height="101.00" rx="6" fill="#f1f8ff" stroke="#1c7ed6" stroke-width="1.2"/>
 <text x="870.00" y="520.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#1c7ed6">B안 (A안이 안 켜질 때) — 전원 모두 뺀 뒤</text>
 <text x="870.00" y="537.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">① VCC ← 3V3 선(주황)을 뽑아 치움</text>
-<text x="870.00" y="554.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">② +5V 선(빨강)을 JD-VCC → VCC 핀으로</text>
+<text x="870.00" y="554.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">② +5V선(빨강): JD-VCC → 입력 헤더 VCC</text>
 <text x="870.00" y="572.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">③ 점퍼 캡 끼움(JD-VCC 핀엔 캡만)</text>
 <text x="870.00" y="589.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">B안에서는 VCC를 3V3에 연결 금지!</text>
 <line x1="60.00" y1="836.00" x2="86.00" y2="836.00" stroke="#e8590c" stroke-width="4" stroke-linecap="round"/>
@@ -2242,7 +2242,7 @@ h2#toc + ul > li{break-inside:avoid}
 </defs>
 <rect x="0" y="0" width="1230" height="640" fill="#ffffff"/>
 <text x="24.00" y="34.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">패널 재단 배치도 — 포맥스 5T 600×900 판 3장</text>
-<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">직접 자를 때만 사용(맞춤 재단 주문 시에는 재단표 치수 그대로 주문). 칼날 여유 5mm, 괄호 좌표 = 판 왼쪽 위 기준.</text>
+<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">직접 자를 때만 사용(맞춤 재단 주문 시에는 재단표 치수 그대로 주문). 칼날 여유 5mm. 치수는 부록 B 재단표를 따릅니다.</text>
 <text x="40.00" y="94.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">판 1  (600 × 900)</text>
 <rect x="40.00" y="108.00" width="300.00" height="450.00" fill="#fbfbf8" stroke="#1f2933" stroke-width="1.4"/>
 <rect x="40.00" y="108.00" width="210.00" height="130.00" fill="#e6eef6" stroke="#3e4c59" stroke-width="1"/>

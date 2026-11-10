@@ -11,7 +11,7 @@
 </defs>
 <rect x="0" y="0" width="1230" height="640" fill="#ffffff"/>
 <text x="24.00" y="34.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">패널 재단 배치도 — 포맥스 5T 600×900 판 3장</text>
-<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">직접 자를 때만 사용(맞춤 재단 주문 시에는 재단표 치수 그대로 주문). 칼날 여유 5mm, 괄호 좌표 = 판 왼쪽 위 기준.</text>
+<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">직접 자를 때만 사용(맞춤 재단 주문 시에는 재단표 치수 그대로 주문). 칼날 여유 5mm. 치수는 부록 B 재단표를 따릅니다.</text>
 <text x="40.00" y="94.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">판 1  (600 × 900)</text>
 <rect x="40.00" y="108.00" width="300.00" height="450.00" fill="#fbfbf8" stroke="#1f2933" stroke-width="1.4"/>
 <rect x="40.00" y="108.00" width="210.00" height="130.00" fill="#e6eef6" stroke="#3e4c59" stroke-width="1"/>

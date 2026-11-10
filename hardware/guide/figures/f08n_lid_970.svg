@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 640" width="1140" height="640" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif">
+<defs>
+<marker id="arrK" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/></marker>
+<marker id="arrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52606d"/></marker>
+<marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f80c9"/></marker>
+<marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+<marker id="arrY" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a6d00"/></marker>
+<marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/></marker>
+<marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c92a2a"/></marker>
+</defs>
+<rect x="0" y="0" width="1140" height="640" fill="#ffffff"/>
+<text x="24.0" y="34.0" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">용기 뚜껑 가공 상세 — 다이소 직사각 저장 용기 970ml (무납땜 기준, 용기 1~4 모두 같음)</text>
+<text x="24.0" y="56.0" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">뚜껑 + 펌프 + 튜브 + 전선이 한 덩어리(&quot;펌프 모듈&quot;)가 됩니다. 돌림 뚜껑이라 뚜껑을 손으로 잡고 용기 몸통을 돌려 여닫습니다.</text>
+<text x="40.0" y="92.0" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">(가) 뚜껑 위에서 본 모습 (예: 약 Ø70 — 실제 뚜껑에 맞춰 구멍 간격만 지킴)</text>
+<circle cx="190.0" cy="290.0" r="105.0" fill="#eef1f4" stroke="#1f2933" stroke-width="1.8"/>
+<line x1="288.0" y1="290.0" x2="295.0" y2="290.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="287.5" y1="300.2" x2="294.4" y2="301.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="285.9" y1="310.4" x2="292.7" y2="311.8" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="283.2" y1="320.3" x2="289.9" y2="322.4" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="279.5" y1="329.9" x2="285.9" y2="332.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="274.9" y1="339.0" x2="280.9" y2="342.5" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="269.3" y1="347.6" x2="274.9" y2="351.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="262.8" y1="355.6" x2="268.0" y2="360.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="255.6" y1="362.8" x2="260.3" y2="368.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="247.6" y1="369.3" x2="251.7" y2="374.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="239.0" y1="374.9" x2="242.5" y2="380.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="229.9" y1="379.5" x2="232.7" y2="385.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="220.3" y1="383.2" x2="222.4" y2="389.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="210.4" y1="385.9" x2="211.8" y2="392.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="200.2" y1="387.5" x2="201.0" y2="394.4" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="190.0" y1="388.0" x2="190.0" y2="395.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="179.8" y1="387.5" x2="179.0" y2="394.4" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="169.6" y1="385.9" x2="168.2" y2="392.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="159.7" y1="383.2" x2="157.6" y2="389.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="150.1" y1="379.5" x2="147.3" y2="385.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="141.0" y1="374.9" x2="137.5" y2="380.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="132.4" y1="369.3" x2="128.3" y2="374.9" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="124.4" y1="362.8" x2="119.7" y2="368.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="117.2" y1="355.6" x2="112.0" y2="360.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="110.7" y1="347.6" x2="105.1" y2="351.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="105.1" y1="339.0" x2="99.1" y2="342.5" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="100.5" y1="329.9" x2="94.1" y2="332.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="96.8" y1="320.3" x2="90.1" y2="322.4" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="94.1" y1="310.4" x2="87.3" y2="311.8" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="92.5" y1="300.2" x2="85.6" y2="301.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="92.0" y1="290.0" x2="85.0" y2="290.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="92.5" y1="279.8" x2="85.6" y2="279.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="94.1" y1="269.6" x2="87.3" y2="268.2" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="96.8" y1="259.7" x2="90.1" y2="257.6" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="100.5" y1="250.1" x2="94.1" y2="247.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="105.1" y1="241.0" x2="99.1" y2="237.5" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="110.7" y1="232.4" x2="105.1" y2="228.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="117.2" y1="224.4" x2="112.0" y2="219.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="124.4" y1="217.2" x2="119.7" y2="212.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="132.4" y1="210.7" x2="128.3" y2="205.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="141.0" y1="205.1" x2="137.5" y2="199.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="150.1" y1="200.5" x2="147.3" y2="194.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="159.7" y1="196.8" x2="157.6" y2="190.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="169.6" y1="194.1" x2="168.2" y2="187.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="179.8" y1="192.5" x2="179.0" y2="185.6" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="190.0" y1="192.0" x2="190.0" y2="185.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="200.2" y1="192.5" x2="201.0" y2="185.6" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="210.4" y1="194.1" x2="211.8" y2="187.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="220.3" y1="196.8" x2="222.4" y2="190.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="229.9" y1="200.5" x2="232.7" y2="194.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="239.0" y1="205.1" x2="242.5" y2="199.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="247.6" y1="210.7" x2="251.7" y2="205.1" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="255.6" y1="217.2" x2="260.3" y2="212.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="262.8" y1="224.4" x2="268.0" y2="219.7" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="269.3" y1="232.4" x2="274.9" y2="228.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="274.9" y1="241.0" x2="280.9" y2="237.5" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="279.5" y1="250.1" x2="285.9" y2="247.3" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="283.2" y1="259.7" x2="289.9" y2="257.6" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="285.9" y1="269.6" x2="292.7" y2="268.2" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<line x1="287.5" y1="279.8" x2="294.4" y2="279.0" stroke="#8a96a3" stroke-width="1" stroke-linecap="round"/>
+<circle cx="190.0" cy="290.0" r="86.0" fill="none" stroke="#8a96a3" stroke-width="1" stroke-dasharray="5 3"/>
+<circle cx="160.0" cy="290.0" r="10.5" fill="#ffffff" stroke="#1f2933" stroke-width="1.6"/>
+<circle cx="160.0" cy="290.0" r="7.5" fill="#5aa9e6" stroke="none" stroke-width="1.5"/>
+<circle cx="220.0" cy="290.0" r="7.5" fill="#ffffff" stroke="#1f2933" stroke-width="1.6"/>
+<circle cx="218.0" cy="290.0" r="1.8" fill="#d64545" stroke="none" stroke-width="1.5"/>
+<circle cx="222.0" cy="290.0" r="1.8" fill="#222222" stroke="none" stroke-width="1.5"/>
+<circle cx="137.0" cy="237.0" r="4.5" fill="#ffffff" stroke="#1f2933" stroke-width="1.4"/>
+<line x1="160.0" y1="264.0" x2="220.0" y2="264.0" stroke="#6b7785" stroke-width="0.9" stroke-linecap="round"/>
+<line x1="160.0" y1="276.0" x2="160.0" y2="258.0" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="220.0" y1="276.0" x2="220.0" y2="258.0" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="190.0" y="259.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">20</text>
+<line x1="116.0" y1="216.0" x2="134.0" y2="234.0" stroke="#6b7785" stroke-width="0.9" stroke-linecap="round"/>
+<text x="104.0" y="214.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">10</text>
+<rect x="178.0" y="340.0" width="24.0" height="20.0" rx="3" fill="#fff3bf" stroke="#c9a227" stroke-width="1"/>
+<text x="190.0" y="355.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1f2933">1</text>
+<line x1="152.0" y1="296.0" x2="330.0" y2="350.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="152.0" cy="296.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="334.0" y="354.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">Ø7 튜브 구멍 (펌프 출수구 쪽)</text>
+<line x1="226.0" y1="294.0" x2="330.0" y2="300.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="226.0" cy="294.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="334.0" y="304.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">Ø5 전선 구멍 (펌프 리드 빨강·검정)</text>
+<line x1="140.0" y1="234.0" x2="330.0" y2="170.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="140.0" cy="234.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="334.0" y="174.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">Ø3 공기 구멍 (진공 방지 — 막지 않음)</text>
+<line x1="250.0" y1="230.0" x2="330.0" y2="215.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="250.0" cy="230.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="334.0" y="219.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">점선 = 평평한 부분 (구멍은 이 안에)</text>
+<line x1="202.0" y1="352.0" x2="330.0" y2="395.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="202.0" cy="352.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="334.0" y="399.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">← 번호 스티커 (몸통과 같은 번호)</text>
+<rect x="40.0" y="440.0" width="520.0" height="180.0" rx="8" fill="#f8fafc" stroke="#cbd2d9" stroke-width="1.2"/>
+<text x="52.0" y="462.0" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">돌림 뚜껑 여닫기</text>
+<text x="52.0" y="484.0" font-size="13" text-anchor="start" font-weight="normal" fill="#1f2933">• 뚜껑은 손으로 잡고 가만히, 용기 몸통을 돌립니다.</text>
+<text x="52.0" y="504.0" font-size="13" text-anchor="start" font-weight="normal" fill="#1f2933">  (뚜껑을 돌리면 위의 전선·튜브가 꼬이고 이음이 당겨짐)</text>
+<text x="52.0" y="524.0" font-size="13" text-anchor="start" font-weight="normal" fill="#1f2933">• 몸통(PET)은 60℃까지만 — 뜨거운 물·솔·연마분 금지</text>
+<text x="52.0" y="544.0" font-size="13" text-anchor="start" font-weight="normal" fill="#1f2933">• 재료를 채울 때는 몸통을 돌려 열고 펌프 모듈째 들어 올림</text>
+<text x="52.0" y="564.0" font-size="13" text-anchor="start" font-weight="normal" fill="#1f2933">• 좁은 80mm 쪽이 좌우가 되게 본체에 넣음</text>
+<text x="600.0" y="92.0" font-size="14" text-anchor="start" font-weight="bold" fill="#1f2933">(나) 옆에서 자른 모습 (비례 예시)</text>
+<rect x="630.0" y="314.0" width="136.0" height="238.0" rx="12" fill="#ffffff" stroke="#1f2933" stroke-width="1.8"/>
+<rect x="631.0" y="420.0" width="134.0" height="131.0" rx="10" fill="#cfe8fb" stroke="none" stroke-width="1.5"/>
+<line x1="630.0" y1="420.0" x2="766.0" y2="420.0" stroke="#2f80c9" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="6 3"/>
+<text x="636.0" y="414.0" font-size="12" text-anchor="start" font-weight="normal" fill="#2f80c9" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">액면</text>
+<line x1="630.0" y1="500.0" x2="766.0" y2="500.0" stroke="#6b7785" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3"/>
+<text x="760.0" y="494.0" font-size="11" text-anchor="end" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">최소 30mm</text>
+<rect x="640.0" y="302.0" width="116.0" height="14.0" rx="0" fill="#ffffff" stroke="#1f2933" stroke-width="1.6"/>
+<rect x="634.0" y="282.0" width="128.0" height="22.0" rx="3" fill="#eef1f4" stroke="#1f2933" stroke-width="1.8"/>
+<text x="626.0" y="276.0" font-size="12" text-anchor="end" font-weight="normal" fill="#52606d" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">돌림 뚜껑(PP)</text>
+<rect x="664.0" y="281.0" width="8.0" height="24.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1.5"/>
+<rect x="706.0" y="281.0" width="8.0" height="24.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1.5"/>
+<rect x="746.0" y="281.0" width="8.0" height="24.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1.5"/>
+<rect x="652.0" y="508.0" width="74.0" height="38.0" rx="8" fill="#9aa5b1" stroke="#1f2933" stroke-width="1.4"/>
+<text x="689.0" y="532.0" font-size="12" text-anchor="middle" font-weight="bold" fill="#ffffff">펌프</text>
+<rect x="662.0" y="496.0" width="12.0" height="14.0" rx="0" fill="#9aa5b1" stroke="#1f2933" stroke-width="1.2"/>
+<polyline points="668.0,496.0 668.0,168.0 684.0,150.0 800.0,150.0" fill="none" stroke="#5aa9e6" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="806.0" y="154.0" font-size="12" text-anchor="start" font-weight="normal" fill="#2f80c9" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">→ 체크밸브로 (내경5 튜브)</text>
+<polyline points="726.0,522.0 740.0,522.0 740.0,380.0 707.0,330.0 707.0,276.0" fill="none" stroke="#d64545" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="726.0,534.0 748.0,534.0 748.0,380.0 713.0,332.0 713.0,276.0" fill="none" stroke="#222222" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="716.0" y1="294.0" x2="800.0" y2="334.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="716.0" cy="294.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="804.0" y="338.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">Ø5 구멍: 다 끼운 뒤 글루건으로 막기</text>
+<line x1="750.0" y1="290.0" x2="800.0" y2="300.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="750.0" cy="290.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="804.0" y="304.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">공기 구멍 Ø3 (막지 않음)</text>
+<polyline points="707.0,276.0 707.0,244.0" fill="none" stroke="#d64545" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="713.0,276.0 713.0,244.0" fill="none" stroke="#222222" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="684.0" y="198.0" width="62.0" height="46.0" rx="8" fill="#3b3b3b" stroke="#1f2933" stroke-width="1.2"/>
+<text x="715.0" y="216.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#ffffff">PCT-413 ×2</text>
+<text x="715.0" y="233.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#ffffff">+ 다이오드</text>
+<rect x="752.0" y="206.0" width="9.0" height="24.0" rx="2" fill="#ffffff" stroke="#1f2933" stroke-width="1"/>
+<polyline points="746.0,214.0 1000.0,214.0" fill="none" stroke="#d64545" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="746.0,222.0 1000.0,222.0" fill="none" stroke="#222222" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="676.0" y1="246.0" x2="676.0" y2="280.0" stroke="#6b7785" stroke-width="0.8" stroke-linecap="round"/>
+<text x="672.0" y="266.0" font-size="11" text-anchor="end" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">1~2cm</text>
+<text x="806.0" y="206.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">→ 전장 박스로 (AWG20 연장선 약 70cm)</text>
+<line x1="686.0" y1="200.0" x2="800.0" y2="116.0" stroke="#52606d" stroke-width="1" stroke-linecap="round"/>
+<circle cx="686.0" cy="200.0" r="2.4" fill="#52606d" stroke="none" stroke-width="1.5"/>
+<text x="804.0" y="120.3" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">레버 커넥터 덩어리: 절연테이프로 감고</text>
+<text x="804.0" y="134.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">케이블타이로 연장선에 묶음 (그림 9)</text>
+<text x="804.0" y="250.0" font-size="12" text-anchor="start" font-weight="bold" fill="#c92a2a" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">⚠ 방수 아님 — 뚜껑 안쪽에 두지 않고,</text>
+<text x="804.0" y="268.0" font-size="12" text-anchor="start" font-weight="bold" fill="#c92a2a" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">   위로 액체를 붓지 않음</text>
+<line x1="596.0" y1="282.0" x2="596.0" y2="552.0" stroke="#6b7785" stroke-width="0.9" stroke-linecap="round"/>
+<line x1="590.0" y1="282.0" x2="602.0" y2="282.0" stroke="#6b7785" stroke-width="0.9" stroke-linecap="round"/>
+<line x1="590.0" y1="552.0" x2="602.0" y2="552.0" stroke="#6b7785" stroke-width="0.9" stroke-linecap="round"/>
+<text x="590.0" y="440.0" font-size="12" text-anchor="end" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">약 150</text>
+<text x="590.0" y="456.0" font-size="11" text-anchor="end" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">(뚜껑 포함)</text>
+<line x1="630.0" y1="566.0" x2="766.0" y2="566.0" stroke="#6b7785" stroke-width="0.9" stroke-linecap="round"/>
+<text x="698.0" y="582.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#6b7785" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">80 (좌우)</text>
+<rect x="820.0" y="400.0" width="300.0" height="196.0" rx="8" fill="#f8fafc" stroke="#cbd2d9" stroke-width="1.2"/>
+<text x="832.0" y="422.0" font-size="12" text-anchor="start" font-weight="bold" fill="#1f2933">가공 순서</text>
+<text x="832.0" y="444.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">1) 펌프를 바닥에 눕히고 출수구 위치를 뚜껑에 표시</text>
+<text x="832.0" y="462.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">2) Ø7 · Ø5(20mm 옆) · Ø3(가장자리 10mm 안) 연필 표시</text>
+<text x="832.0" y="480.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">3) Ø7·Ø5 송곳 → 스텝드릴, Ø3은 Ø3 드릴 날 (천천히)</text>
+<text x="832.0" y="498.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">4) 거스러미 정리, 튜브·전선을 넣어 맞춤 확인</text>
+<text x="832.0" y="516.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">5) 펌프 리드를 안쪽 → 바깥으로 Ø5 통과 (위로 3cm 이상)</text>
+<text x="832.0" y="534.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">6) 레버 커넥터로 이음 (STEP3 절차 4~9, 그림 9)</text>
+<text x="832.0" y="552.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1f2933">7) Ø5 둘레 글루건 — Ø3 공기 구멍은 막지 않음</text>
+</svg>

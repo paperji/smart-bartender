@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 720" width="1180" height="720" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif">
+<defs>
+<marker id="dimA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9 z" fill="#6b7785"/></marker>
+<marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f80c9"/></marker>
+<marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker>
+<marker id="arrK" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/></marker>
+<marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f9e44"/></marker>
+<marker id="arrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52606d"/></marker>
+<marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c92a2a"/></marker>
+</defs>
+<rect x="0" y="0" width="1180" height="720" fill="#ffffff"/>
+<text x="24.00" y="34.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="20" text-anchor="start" font-weight="bold" fill="#1f2933">시스템 구성도 — 무엇이 어떻게 연결되나</text>
+<text x="24.00" y="56.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#52606d">앱이 내 API 키로 고른 AI(Gemini 등 8곳)에게 레시피를 받아 블루투스로 기기에 보내면, ESP32가 펌프를 정해진 시간만큼 켜서 음료를 따릅니다.</text>
+<rect x="30.00" y="96.00" width="250.00" height="324.00" rx="10" fill="#f3f0ff" stroke="#7048e8" stroke-width="1.6"/>
+<text x="155.00" y="120.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1f2933">앱 v3.1 (웹·APK·EXE)</text>
+<text x="155.00" y="142.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="normal" fill="#52606d">재료(펌프 1~4) 저장·수정</text>
+<text x="155.00" y="159.50" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="normal" fill="#52606d">기분·맛·도수·날씨·상황 입력</text>
+<text x="155.00" y="177.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="normal" fill="#52606d">레시피 확인·ml 조정</text>
+<text x="155.00" y="194.50" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="normal" fill="#52606d">제조 진행·비상정지</text>
+<text x="155.00" y="212.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="normal" fill="#52606d">캘리브레이션·세척</text>
+<text x="155.00" y="229.50" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="normal" fill="#52606d">기록·즐겨찾기</text>
+<rect x="440.00" y="96.00" width="230.00" height="92.00" rx="10" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.6"/>
+<text x="555.00" y="120.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1f2933">AI API (Gemini 등 8곳)</text>
+<text x="555.00" y="142.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">입력 + 장착 재료 → 레시피 JSON</text>
+<text x="555.00" y="159.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">앱이 결과를 다시 검증·보정</text>
+<rect x="830.00" y="96.00" width="230.00" height="92.00" rx="10" fill="#f8f9fa" stroke="#52606d" stroke-width="1.6"/>
+<text x="945.00" y="120.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1f2933">내 API 키 (BYOK)</text>
+<text x="945.00" y="142.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">앱 설정에서 직접 등록</text>
+<text x="945.00" y="159.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">그 기기에만 저장 · 고른 AI 회사에만 전송</text>
+<line x1="280.00" y1="128.00" x2="438.00" y2="128.00" stroke="#1c7ed6" stroke-width="2" stroke-linecap="round" marker-end="url(#arrK)"/>
+<text x="359.00" y="120.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#1c7ed6" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">① HTTPS 요청</text>
+<line x1="438.00" y1="162.00" x2="282.00" y2="162.00" stroke="#1c7ed6" stroke-width="2" stroke-linecap="round" marker-end="url(#arrK)"/>
+<text x="359.00" y="182.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#1c7ed6" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">② 레시피 응답</text>
+<path d="M828,142 L672,142" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#52606d" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrS)"/>
+<text x="750.00" y="134.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">요청에 키 사용</text>
+<text x="555.00" y="212.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#52606d">키가 없거나 AI가 실패하면 앱 안의 규칙 기반(오프라인) 추천으로 자동 대체</text>
+<text x="555.00" y="230.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">팀이 운영하는 AI 서버는 없음 (앱이 고른 AI를 직접 호출)</text>
+<rect x="440.00" y="290.00" width="230.00" height="130.00" rx="10" fill="#ebfbee" stroke="#2f9e44" stroke-width="1.6"/>
+<text x="555.00" y="314.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1f2933">ESP32 DevKitC (U1)</text>
+<text x="555.00" y="336.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">펌웨어 v2 (Arduino)</text>
+<text x="555.00" y="353.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">ml ÷ 유량 = 구동 시간 계산</text>
+<text x="555.00" y="370.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">유량값은 플래시에 저장</text>
+<line x1="280.00" y1="330.00" x2="438.00" y2="330.00" stroke="#7048e8" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrK)"/>
+<line x1="438.00" y1="384.00" x2="282.00" y2="384.00" stroke="#7048e8" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrK)"/>
+<text x="359.00" y="318.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#7048e8" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">③ 블루투스(BLE)</text>
+<text x="359.00" y="350.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#7048e8" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">제조 명령 JSON</text>
+<text x="359.00" y="404.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#7048e8" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">④ 진행률·완료 알림</text>
+<rect x="760.00" y="290.00" width="180.00" height="130.00" rx="10" fill="#fff9db" stroke="#d99a00" stroke-width="1.6"/>
+<text x="850.00" y="314.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1f2933">4채널 릴레이 (K1~K4)</text>
+<text x="850.00" y="336.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">LOW 신호 = 켜짐</text>
+<text x="850.00" y="353.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">펌프 전원 ON/OFF</text>
+<line x1="670.00" y1="340.00" x2="758.00" y2="340.00" stroke="#2f9e44" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arrG)"/>
+<text x="714.00" y="330.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#2f9e44" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">GPIO</text>
+<text x="714.00" y="362.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="10.5" text-anchor="middle" font-weight="normal" fill="#2f9e44" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">26·27·32·33</text>
+<rect x="1010.00" y="290.00" width="150.00" height="130.00" rx="10" fill="#e3fafc" stroke="#0c8599" stroke-width="1.6"/>
+<text x="1085.00" y="314.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#1f2933">수중펌프 ×4</text>
+<text x="1085.00" y="336.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">M1~M4 (P09)</text>
+<text x="1085.00" y="353.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">다이오드 D1~D4</text>
+<line x1="940.00" y1="355.00" x2="1008.00" y2="355.00" stroke="#d64545" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arrR)"/>
+<text x="974.00" y="345.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#d64545" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">5V</text>
+<rect x="590.00" y="454.00" width="100.00" height="44.00" rx="8" fill="#e1f0fd" stroke="#2f80c9" stroke-width="1.4"/>
+<text x="640.00" y="481.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#2f80c9">용기 1~4</text>
+<rect x="710.00" y="454.00" width="100.00" height="44.00" rx="8" fill="#e1f0fd" stroke="#2f80c9" stroke-width="1.4"/>
+<text x="760.00" y="481.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#2f80c9">실리콘 튜브</text>
+<line x1="692.00" y1="476.00" x2="708.00" y2="476.00" stroke="#2f80c9" stroke-width="2" stroke-linecap="round" marker-end="url(#arrB)"/>
+<rect x="830.00" y="454.00" width="100.00" height="44.00" rx="8" fill="#e1f0fd" stroke="#2f80c9" stroke-width="1.4"/>
+<text x="880.00" y="481.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#2f80c9">체크밸브</text>
+<line x1="812.00" y1="476.00" x2="828.00" y2="476.00" stroke="#2f80c9" stroke-width="2" stroke-linecap="round" marker-end="url(#arrB)"/>
+<rect x="950.00" y="454.00" width="100.00" height="44.00" rx="8" fill="#e1f0fd" stroke="#2f80c9" stroke-width="1.4"/>
+<text x="1000.00" y="481.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#2f80c9">노즐</text>
+<line x1="932.00" y1="476.00" x2="948.00" y2="476.00" stroke="#2f80c9" stroke-width="2" stroke-linecap="round" marker-end="url(#arrB)"/>
+<rect x="1065.00" y="454.00" width="70.00" height="44.00" rx="8" fill="#e1f0fd" stroke="#2f80c9" stroke-width="1.4"/>
+<text x="1100.00" y="481.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12.5" text-anchor="middle" font-weight="bold" fill="#2f80c9">잔</text>
+<line x1="1052.00" y1="476.00" x2="1063.00" y2="476.00" stroke="#2f80c9" stroke-width="2" stroke-linecap="round" marker-end="url(#arrB)"/>
+<text x="640.00" y="516.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#52606d">용기 칸 (액체)</text>
+<text x="1050.00" y="516.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="middle" font-weight="normal" fill="#52606d">잔 칸</text>
+<text x="1085.00" y="440.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#0c8599" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">(펌프는 각 용기 안에 잠김)</text>
+<rect x="28.00" y="594.00" width="116.00" height="52.00" rx="8" fill="#fff5f5" stroke="#d64545" stroke-width="1.4"/>
+<text x="86.00" y="617.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#d64545">5V 4A 어댑터</text>
+<text x="86.00" y="635.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">P11</text>
+<rect x="158.00" y="594.00" width="116.00" height="52.00" rx="8" fill="#fff5f5" stroke="#d64545" stroke-width="1.4"/>
+<text x="216.00" y="617.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#d64545">스위치 SW1</text>
+<text x="216.00" y="635.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">P13</text>
+<line x1="145.00" y1="620.00" x2="156.00" y2="620.00" stroke="#d64545" stroke-width="2" stroke-linecap="round" marker-end="url(#arrR)"/>
+<rect x="288.00" y="594.00" width="116.00" height="52.00" rx="8" fill="#fff5f5" stroke="#d64545" stroke-width="1.4"/>
+<text x="346.00" y="617.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#d64545">퓨즈 F1 3A</text>
+<text x="346.00" y="635.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">P14·P15</text>
+<line x1="275.00" y1="620.00" x2="286.00" y2="620.00" stroke="#d64545" stroke-width="2" stroke-linecap="round" marker-end="url(#arrR)"/>
+<rect x="418.00" y="594.00" width="116.00" height="52.00" rx="8" fill="#fff5f5" stroke="#d64545" stroke-width="1.4"/>
+<text x="476.00" y="617.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#d64545">5V 분배 TB1</text>
+<text x="476.00" y="635.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#52606d">P18</text>
+<line x1="405.00" y1="620.00" x2="416.00" y2="620.00" stroke="#d64545" stroke-width="2" stroke-linecap="round" marker-end="url(#arrR)"/>
+<path d="M476,594 L476,560 L520,560 L520,424" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="2" marker-end="url(#arrR)"/>
+<path d="M534,620 L820,620 L820,424" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#d64545" stroke-width="2" marker-end="url(#arrR)"/>
+<text x="528.00" y="548.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#d64545" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">ESP32 5V 핀</text>
+<text x="826.00" y="600.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#d64545" stroke="#ffffff" stroke-width="4" paint-order="stroke" stroke-linejoin="round">JD-VCC · COM1~4</text>
+<text x="30.00" y="676.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">GND(−)는 어댑터·ESP32·릴레이·펌프 모두 공통 (TB2 + J1 − 단자).</text>
+<text x="30.00" y="698.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#52606d">1000µF 커패시터 C1은 5V–GND 사이에 달아 펌프가 켜질 때 전압이 순간적으로 떨어지는 것을 막습니다.</text>
+<rect x="30.00" y="450.00" width="250.00" height="112.00" rx="10" fill="#f8f9fa" stroke="#52606d" stroke-width="1.6"/>
+<text x="155.00" y="474.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#1f2933">앞판 · 박스 안 부품</text>
+<text x="155.00" y="496.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">시작/정지 버튼 SW2 → GPIO4</text>
+<text x="155.00" y="513.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">상태 LED1 + R1 220Ω → GPIO2</text>
+<text x="155.00" y="530.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#52606d">부저 BZ1 → GPIO23</text>
+<path d="M280,500 C380,500 420,470 470,424" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="#52606d" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrS)"/>
+</svg>

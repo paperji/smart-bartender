@@ -270,7 +270,7 @@
 <rect x="860.00" y="500.00" width="300.00" height="101.00" rx="6" fill="#f1f8ff" stroke="#1c7ed6" stroke-width="1.2"/>
 <text x="870.00" y="520.00" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#1c7ed6">B안 (A안이 안 켜질 때) — 전원 모두 뺀 뒤</text>
 <text x="870.00" y="537.40" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">① VCC ← 3V3 선(주황)을 뽑아 치움</text>
-<text x="870.00" y="554.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">② +5V 선(빨강)을 JD-VCC → VCC 핀으로</text>
+<text x="870.00" y="554.80" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">② +5V선(빨강): JD-VCC → 입력 헤더 VCC</text>
 <text x="870.00" y="572.20" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">③ 점퍼 캡 끼움(JD-VCC 핀엔 캡만)</text>
 <text x="870.00" y="589.60" font-family="'Malgun Gothic','맑은 고딕','Noto Sans KR','NanumGothic',sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#1f2933">B안에서는 VCC를 3V3에 연결 금지!</text>
 <line x1="60.00" y1="836.00" x2="86.00" y2="836.00" stroke="#e8590c" stroke-width="4" stroke-linecap="round"/>
