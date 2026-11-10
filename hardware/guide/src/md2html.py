@@ -183,9 +183,12 @@ def parse_list(lines, i):
     st = f' start="{start}"' if ordered and start != 1 else ''
     parts = []
     for buf in items:
-        task = False
+        task = done = False
         if buf[0].startswith('[ ] '):
             task = True
+            buf[0] = buf[0][4:]
+        elif buf[0].startswith('[x] '):          # 이미 끝낸 항목: 체크된 채로, 글자는 지우지 않음
+            task = done = True
             buf[0] = buf[0][4:]
         if len(buf) == 1:
             inner = inline(buf[0])
@@ -200,10 +203,10 @@ def parse_list(lines, i):
             if rest:
                 inner += parse(rest)
         if task:
-            parts.append(f'<li class="task"><label><input type="checkbox" class="ck"> <span>{inner}</span></label></li>')
+            parts.append(f'<li class="task{" done" if done else ""}"><label><input type="checkbox" class="ck"{" checked" if done else ""}> <span>{inner}</span></label></li>')
         else:
             parts.append(f'<li>{inner}</li>')
-    cls = ' class="tasks"' if all(p.startswith('<li class="task"') for p in parts) else ''
+    cls = ' class="tasks"' if all(p.startswith('<li class="task') for p in parts) else ''
     return i, f'<{tag}{st}{cls}>' + ''.join(parts) + f'</{tag}>'
 
 
@@ -269,6 +272,7 @@ li.task label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
 li.task input{margin-top:5px}
 input.ck{width:15px;height:15px;accent-color:#2b8a3e;flex:0 0 auto;vertical-align:-2px}
 li.task input:checked + span{color:#7b8794;text-decoration:line-through}
+li.task.done input:checked + span{color:inherit;text-decoration:none}
 .tw{overflow-x:auto;margin:10px 0}
 table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.45}
 th,td{border:1px solid #cbd2d9;padding:5px 7px;vertical-align:top}
@@ -318,13 +322,13 @@ JS = r'''
   var boxes=[].slice.call(document.querySelectorAll('input.ck'));
   var saved={};
   try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
-  boxes.forEach(function(b,i){ if(saved[i]) b.checked=true;
+  boxes.forEach(function(b,i){ if(i in saved) b.checked=!!saved[i];
     b.addEventListener('change',function(){saved[i]=b.checked; try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){} upd();});});
   var cnt=document.getElementById('cnt');
   function upd(){ if(!cnt) return; var c=boxes.filter(function(b){return b.checked}).length; cnt.textContent='체크 '+c+' / '+boxes.length; }
   upd();
   document.getElementById('bprint').onclick=function(){window.print()};
-  document.getElementById('breset').onclick=function(){ if(confirm('체크 표시를 모두 지울까요?')){ boxes.forEach(function(b){b.checked=false}); saved={}; try{localStorage.removeItem(KEY)}catch(e){} upd(); } };
+  document.getElementById('breset').onclick=function(){ if(confirm('체크 표시를 모두 지울까요?')){ saved={}; boxes.forEach(function(b,i){b.checked=false; saved[i]=false}); try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){} upd(); } };
 })();
 '''
 

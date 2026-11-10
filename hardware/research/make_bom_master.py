@@ -16,6 +16,7 @@ from openpyxl.styles import Alignment
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from bom_data import (HW, SRC_XLSX, SRC_MD_REL, DM, CAT_ORDER, load_cfg, build_items, vendor_group, order_sheet, copy_sheet,  # noqa: E402
+                      ledger, orders, plan_diff, bought_in, purchase_total, line_amount,
                       f_title, f_sub, f_body, f_bold, f_grey, f_link, f_sec, fill_row, fill_buy, fill_done, fill_none,
                       fill_total, fill_input, wrap, center, NUM, put, header, widths)
 
@@ -25,6 +26,9 @@ src = openpyxl.load_workbook(SRC_XLSX)
 S = build_items(cfg, "solder", src, warn=False)
 N = build_items(cfg, "nosolder", src, warn=False)
 VS, VN = cfg["variants"]["solder"], cfg["variants"]["nosolder"]
+LED = ledger(cfg)          # 지출 장부(부품 줄까지 펼침)
+OD = orders(cfg)           # 주문 단위 요약
+DM_SHIP, DM_FREE = 2700, 66000   # 디바이스마트 기본 배송비·무료배송 기준(2026-11 조사값)
 sm, nm = {x["id"]: x for x in S}, {x["id"]: x for x in N}
 ids = sorted(set(sm) | set(nm), key=lambda p: (CAT_ORDER.index((sm.get(p) or nm.get(p))["category"]), int(p[1:])))
 
@@ -84,7 +88,7 @@ COLS = ["No", "ID", "분류", "부품명", "규격/모델", "적용", "필요\n�
 header(ws, 3, COLS)
 ws.row_dimensions[3].height = 32
 r0 = 4
-S1 = 3 + len(cfg["spent"])
+S1 = 3 + len(LED)
 rid = {}
 for i, row in enumerate(rows):
     r = r0 + i
@@ -118,11 +122,13 @@ put(ws, R_TOT, 4, "합계 (추가 구매, VAT 포함 · 가격 미확인 품목 
 put(ws, R_TOT, 13, f"=SUM(M{r0}:M{rl})", f_bold, fill_total, NUM)
 put(ws, R_TOT, 14, f"=SUM(N{r0}:N{rl})", f_bold, fill_total, NUM)
 put(ws, R_TOT, 16, f"=SUM(P{r0}:P{rl})", f_bold, fill_total, NUM)
-put(ws, R_TOT, 15, "지출 완료 합계 →", f_bold, fill_total)
+put(ws, R_TOT, 15, "부품별 지출 합계 →", f_bold, fill_total)
 R_DM = R_TOT + 1
 put(ws, R_DM, 4, "  └ 디바이스마트 주문 합계 (VAT 포함)", f_bold)
 put(ws, R_DM, 13, f'=SUMIF(Q{r0}:Q{rl},"{DM}",M{r0}:M{rl})', f_bold, None, NUM)
 put(ws, R_DM, 14, f'=SUMIF(Q{r0}:Q{rl},"{DM}",N{r0}:N{rl})', f_bold, None, NUM)
+put(ws, R_DM, 15, "전체 지출 (배송비 포함) →", f_bold, fill_total)
+put(ws, R_DM, 16, f"=지출_완료!F{S1 + 1}", f_bold, fill_total, NUM)
 R_ETC = R_DM + 1
 put(ws, R_ETC, 4, "  └ 다이소·편의점 등 (가격 아는 품목만)", f_bold)
 put(ws, R_ETC, 13, f'=SUMIF(Q{r0}:Q{rl},"<>{DM}",M{r0}:M{rl})', f_bold, None, NUM)
@@ -134,9 +140,9 @@ ws.auto_filter.ref = f"A3:U{rl}"
 # ================================================================ 지출_완료
 we = wb.create_sheet("지출_완료")
 put(we, 1, 1, "이미 결제한 것 (2학기) — 두 기준 공통", f_title, b=False, align=Alignment())
-put(we, 2, 1, "사용자가 알려 준 금액 그대로입니다. 영수증·거래명세서를 보관해 결과보고서 정산서에 씁니다.", f_sub, b=False, align=Alignment())
+put(we, 2, 1, "금액은 VAT 포함 결제액. 디바이스마트는 거래명세서(VAT 별도 단가 × 1.1), 나머지는 알려 준 금액입니다. 영수증·거래명세서를 보관해 결과보고서 정산서에 씁니다.", f_sub, b=False, align=Alignment())
 header(we, 3, ["No", "날짜", "품목", "구매처", "수량", "금액(원)", "상태", "BOM ID", "비고"])
-sp = cfg["spent"]
+sp = LED
 for i, s_ in enumerate(sp, 1):
     r = 3 + i
     for c, v in enumerate([i, s_["date"], s_["name"], s_["vendor"], s_["qty"], s_["amount"], s_["status"], s_.get("bomId"), s_.get("note")], 1):
@@ -187,13 +193,19 @@ R_B1 = r
 put(wbud, r, 1, "이미 결제한 것 (지출_완료)")
 put(wbud, r, 2, f"=지출_완료!F{R_SP}", f_body, None, NUM)
 put(wbud, r, 3, f"=지출_완료!F{R_SP}", f_body, None, NUM)
-put(wbud, r, 4, " · ".join(f"{s_['name']} {s_['amount']:,}원" for s_ in sp) + " (3D 프린팅은 견적 금액)")
+put(wbud, r, 4, " · ".join(f"{s_['name']} {s_['amount']:,}원" for s_ in OD))
 r += 1
 R_B2 = r
 put(wbud, r, 1, "앞으로 ① 디바이스마트 (VAT 포함)")
 put(wbud, r, 2, f"=BOM_전체!M{R_DM}", f_body, None, NUM)
 put(wbud, r, 3, f"=BOM_전체!N{R_DM}", f_body, None, NUM)
 put(wbud, r, 4, "무료배송 기준 66,000원. 학교 의뢰서(VAT 별도)는 기준별 BOM의 '추가구매_의뢰서용' 시트")
+r += 1
+R_BS = r
+put(wbud, r, 1, "  └ 디바이스마트 배송비 (주문액 66,000원 미만일 때)")
+put(wbud, r, 2, f"=IF(AND(B{R_B2}>0,B{R_B2}<{DM_FREE}),{DM_SHIP},0)", f_body, None, NUM)
+put(wbud, r, 3, f"=IF(AND(C{R_B2}>0,C{R_B2}<{DM_FREE}),{DM_SHIP},0)", f_body, None, NUM)
+put(wbud, r, 4, f"{DM_SHIP:,}원(조사값, VAT 포함)")
 r += 1
 R_B3 = r
 put(wbud, r, 1, "앞으로 ② 다이소·편의점 등 (가격 아는 것만)")
@@ -202,9 +214,9 @@ put(wbud, r, 3, f"=BOM_전체!N{R_ETC}", f_body, None, NUM)
 r += 1
 R_BALL = r
 put(wbud, r, 1, "2학기 전체 (이미 결제 + 앞으로)", f_bold, fill_total)
-put(wbud, r, 2, f"=B{R_B1}+B{R_B2}+B{R_B3}", f_bold, fill_total, NUM)
-put(wbud, r, 3, f"=C{R_B1}+C{R_B2}+C{R_B3}", f_bold, fill_total, NUM)
-put(wbud, r, 4, "선택 구매·공구 구매·가격 미확인 품목 제외")
+put(wbud, r, 2, f"=B{R_B1}+B{R_B2}+B{R_BS}+B{R_B3}", f_bold, fill_total, NUM)
+put(wbud, r, 3, f"=C{R_B1}+C{R_B2}+C{R_BS}+C{R_B3}", f_bold, fill_total, NUM)
+put(wbud, r, 4, "선택 구매·공구 구매·가격 미확인 품목 제외 · 배송비 포함")
 for ex in VS.get("budget_extra", []):
     r += 1
     same = any(e["label"] == ex["label"] for e in VN.get("budget_extra", []))
@@ -261,10 +273,20 @@ for gname in (DM + " (devicemart.co.kr — 학교 인터넷 구매신청)", "다
     rs = [(row["x"], {"price": f"=BOM_전체!L{rid[row['id']]}", "qs": f"=BOM_전체!J{rid[row['id']]}", "qn": f"=BOM_전체!K{rid[row['id']]}", "memo": memo(row)})
           for row in buy if vendor_group(row["x"]) == key]
     grp.append((gname, rs))
+done = []
+for p in cfg.get("purchases", []):
+    rs = []
+    for row in rows:
+        x = row["n"] or row["s"]
+        b = bought_in(x, p["title"])
+        if b:
+            rs.append((x, {"check": f"☑ {p['date']}", "price": b["unitInc"], "qs": None, "qn": b["qty"], "memo": "[무납땜 BOM 대비] " + plan_diff(x, p["title"])}))
+    done.append((f"☑ 이미 산 것 — {p['title']} · {p['status']} · 산 수량은 무납땜 열에", rs))
 order_sheet(wb, f"주문 링크 — 두 기준 비교 (앞으로 살 것 {len(buy)}품목, 수량 0 = 그 기준에서는 사지 않음)",
             "링크를 누르면 상품 페이지가 열립니다. 고른 기준의 수량 열만 보고 주문하세요. 수량·단가는 BOM_전체 시트와 연동됩니다. "
-            "디바이스마트 링크·가격은 2026-11-06~10 조사 기준 — 주문 전에 품절·가격을 다시 확인. 학교 의뢰서는 기준별 BOM의 '추가구매_의뢰서용' 시트.",
-            grp, [("수량\n납땜", "qs", "금액\n납땜"), ("수량\n무납땜", "qn", "금액\n무납땜")], index=0)
+            "디바이스마트 링크·가격은 2026-11-06~10 조사 기준 — 주문 전에 품절·가격을 다시 확인. 주문액이 66,000원 미만이면 배송비 2,700원(조사값)이 따로 붙음(예산 시트에 포함). 학교 의뢰서는 기준별 BOM의 '추가구매_의뢰서용' 시트.",
+            grp, [("수량\n납땜", "qs", "금액\n납땜"), ("수량\n무납땜", "qn", "금액\n무납땜")], index=0, done=done,
+            empty_note="앞으로 살 부품이 없습니다 — 아래 '이미 산 것'과 지출_완료 시트를 보세요.")
 
 # ================================================================ 요약
 wsum = wb.create_sheet("요약", 0)
@@ -272,8 +294,9 @@ put(wsum, 1, 1, "통합 BOM — 납땜 기준 · 무납땜 기준 비교 · 사�
 put(wsum, 2, 1, f"팀 홍당무 · 작성 {DATE} · 원본 BOM(2026-11-06)은 research/BOM_원본_20261106.xlsx 로 보관. 기준별 자세한 BOM: BOM_납땜기준.xlsx · BOM_무납땜기준.xlsx", f_sub, b=False, align=Alignment())
 r = 4
 put(wsum, r, 1, "이 파일은", f_sec, b=False)
-intro = ["두 기준(납땜 = 인두기로 원래 설계대로, 무납땜 = 레버 커넥터·선 달린 부품)을 한 표로 비교한 통합판입니다. 부품마다 '적용'(공통 / 납땜 기준만 / 무납땜 기준만)과 기준별 필요·구매 수량이 있습니다.",
-         "주문할 때는 '주문_링크' 시트를 보세요 — 앞으로 살 부품만 구매처별로 모았고, 링크를 누르면 상품 페이지가 열립니다.",
+intro = ["**2026-11-11 팀은 무납땜 기준으로 부품을 모두 샀습니다**(디바이스마트 35품목 · 다이소 6품목 — 지출_완료 시트에 부품별). 무납땜 열의 '앞으로 살 것'은 0이고, 납땜 열은 '지금 납땜 기준으로 바꾸면 더 사야 할 것'입니다.",
+         "두 기준(납땜 = 인두기로 원래 설계대로, 무납땜 = 레버 커넥터·선 달린 부품)을 한 표로 비교한 통합판입니다. 부품마다 '적용'(공통 / 납땜 기준만 / 무납땜 기준만)과 기준별 필요·구매 수량이 있습니다.",
+         "주문할 때는 '주문_링크' 시트를 보세요 — 앞으로 살 부품을 구매처별로 모았고(이미 산 것은 아래 '☑ 이미 산 것' 구획), 링크를 누르면 상품 페이지가 열립니다.",
          "학교 물품구매의뢰서 양식(VAT 별도)은 기준별 BOM의 '추가구매_의뢰서용' 시트에 있습니다.",
          "제작 방법은 guide/제작가이드_납땜기준.md · guide/제작가이드_무납땜기준.md."]
 for line in intro:
@@ -286,9 +309,10 @@ header(wsum, r, ["항목", "납땜 기준(원)", "무납땜 기준(원)", "비�
 for lab, a, b_, note in [
     ("앞으로 ① 디바이스마트 (VAT 포함)", f"=BOM_전체!M{R_DM}", f"=BOM_전체!N{R_DM}",
      f"품목 수: 납땜 {sum(1 for x in S if x.get('vendor') == DM and x['qtyToBuy'] > 0)} · 무납땜 {sum(1 for x in N if x.get('vendor') == DM and x['qtyToBuy'] > 0)}"),
+    ("  └ 디바이스마트 배송비 (66,000원 미만일 때)", f"=예산!B{R_BS}", f"=예산!C{R_BS}", "2,700원(조사값, VAT 포함)"),
     ("앞으로 ② 다이소·편의점 등 (가격 아는 것만)", f"=BOM_전체!M{R_ETC}", f"=BOM_전체!N{R_ETC}", "가격 미확인: " + (" · ".join(sorted({row['id'] for row in buy if vendor_group(row['x']) != DM and not isinstance(row['x']['unitPriceKRW'], (int, float))})) or "없음")),
-    ("이미 결제한 것", f"=지출_완료!F{R_SP}", f"=지출_완료!F{R_SP}", "3D 프린팅(견적) · 포맥스 — 두 기준 공통"),
-    ("2학기 전체", f"=예산!B{R_BALL}", f"=예산!C{R_BALL}", "선택 구매·공구 구매 제외"),
+    ("이미 결제한 것", f"=지출_완료!F{R_SP}", f"=지출_완료!F{R_SP}", " · ".join(o["name"] for o in OD) + " — 실제로 쓴 돈이라 두 기준 같음"),
+    ("2학기 전체", f"=예산!B{R_BALL}", f"=예산!C{R_BALL}", "선택 구매·공구 구매 제외 · 디바이스마트 주문액이 66,000원 미만이면 배송비 2,700원 포함"),
 ]:
     r += 1
     put(wsum, r, 1, lab, f_bold if "전체" in lab else f_body)
@@ -344,7 +368,8 @@ def sums(items):
     return dm, dmx, etc, n_dm, n_etc
 
 
-spent = sum(s_["amount"] for s_ in sp)
+spent = sum(o["amount"] for o in OD)
+assert spent == sum(s_["amount"] for s_ in LED), "주문 요약과 지출 장부 합계가 다름"
 ds, dsx, es, nds, nes = sums(S)
 dn, dnx, en, ndn, nen = sums(N)
 
@@ -369,12 +394,19 @@ A(f"> 기준별 자세한 BOM(학교 의뢰서 양식 포함): [`BOM_납땜기�
 A("")
 A("## 0. 한눈에 보기")
 A("")
+if cfg.get("purchases"):
+    A("> **2026-11-11 팀은 무납땜 기준으로 부품을 모두 샀습니다**(디바이스마트 35품목 · 다이소 6품목, 4장). 무납땜의 '앞으로 살 것'은 0원이고, 납땜 열은 '지금 납땜 기준으로 바꾸면 더 사야 할 것'입니다.")
+    A("")
 A("| 항목 | 납땜 기준 | 무납땜 기준 | 비고 |")
 A("|---|---:|---:|---|")
 A(f"| 앞으로 ① 디바이스마트 (VAT 포함) | {ds:,}원 ({nds}품목) | {dn:,}원 ({ndn}품목) | 학교 의뢰서(VAT 별도): 납땜 {dsx:,} · 무납땜 {dnx:,} |")
+ss = DM_SHIP if 0 < ds < DM_FREE else 0
+sn = DM_SHIP if 0 < dn < DM_FREE else 0
+if ss or sn:
+    A(f"| └ 디바이스마트 배송비 | {ss:,}원 | {sn:,}원 | 주문액 66,000원 미만일 때 {DM_SHIP:,}원(조사값) |")
 A(f"| 앞으로 ② 다이소·편의점 등 | {es:,}원 ({nes}품목) | {en:,}원 ({nen}품목) | 가격 아는 것만 |")
-A(f"| 이미 결제한 것 | {spent:,}원 | {spent:,}원 | " + " · ".join(f"{s_['name']} {s_['amount']:,}원" for s_ in sp) + " |")
-A(f"| **2학기 전체** | **{spent + ds + es:,}원** | **{spent + dn + en:,}원** | 선택 구매·공구 구매 제외 |")
+A(f"| 이미 결제한 것 | {spent:,}원 | {spent:,}원 | " + " · ".join(f"{o['name']} {o['amount']:,}원" for o in OD) + " |")
+A(f"| **2학기 전체** | **{spent + ds + ss + es:,}원** | **{spent + dn + sn + en:,}원** | 선택 구매·공구 구매 제외 · 배송비 포함 |")
 if rf:
     A("")
     A("환불 예정(합계 미포함): " + " · ".join(f"{s_['name']} {s_['amount']:,}원" for s_ in rf))
@@ -429,12 +461,27 @@ for cat in CAT_ORDER:
 A("")
 A("## 4. 이미 결제한 것 (2학기, 두 기준 공통)")
 A("")
-A("| 날짜 | 품목 | 구매처 | 금액(원) | 상태 |")
-A("|---|---|---|---:|---|")
-for s_ in sp:
-    A(f"| {s_['date']} | {s_['name']} | {s_['vendor']} | {s_['amount']:,} | {s_['status']} |")
-A(f"| | **합계** | | **{spent:,}** | |")
+A("| 날짜 | 품목 | 구매처 | 수량 | 금액(원) | 상태 |")
+A("|---|---|---|---|---:|---|")
+for o in OD:
+    A(f"| {o['date']} | {cell(o['name'])} | {o['vendor']} | {o['qty']} | {o['amount']:,} | {cell(o['status'])} |")
+A(f"| | **합계** | | | **{spent:,}** | |")
 A("")
+for p in cfg.get("purchases", []):
+    ex = p["vat"] == "ex"
+    A(f"### {p['title']} ({p['date']}) — 무납땜 BOM 계획 대비")
+    A("")
+    A(("거래명세서의 품명·수량·단가(VAT 별도) 그대로입니다. " if ex else "") + (p.get("note") or ""))
+    A("")
+    A("| No | ID | 품명 | 수량 | 단가(원) " + ("VAT 별도" if ex else "VAT 포함") + " | 금액(원) VAT 포함 | 무납땜 BOM 계획 대비 |")
+    A("|---:|---|---|---:|---:|---:|---|")
+    for i, ln in enumerate(p["lines"], 1):
+        x = nm.get(ln["id"])
+        A(f"| {i} | {ln['id']} | {cell(ln['name'])} | {ln['qty']} | {ln['unit']:,} | {line_amount(ln, p):,} | {cell(plan_diff(x, p['title'])) if x else ''} |")
+    if p.get("shipping"):
+        A(f"| | | 배송비 | | | {p['shipping']:,} | {cell(p.get('shippingNote') or '')} |")
+    A(f"| | | **합계** | | | **{purchase_total(p):,}** | " + (f"공급가액 {p['supplyKRW']:,} + 부가세 {p['vatKRW']:,}" if p.get("supplyKRW") else "") + " |")
+    A("")
 A("## 5. 확인할 것 (공통)")
 A("")
 for line in cfg["common"]["todo"]:
