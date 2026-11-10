@@ -3,145 +3,30 @@
 
 사용: python make_boms.py bom_variants.json solder|nosolder
 그다음(선택) Excel로 재계산해 캐시 값을 넣으려면 recalc_excel.ps1, 공개 전에는 반드시 scrub_xlsx.py(작성자·경로 지우기)
-- 원본: hardware/research/canonical_bom.json (69항목) + hardware/BOM.xlsx (VAT 별도 단가·선택_업그레이드·보유_미사용·1학기 예산 값)
+- 원본: hardware/research/canonical_bom.json (69항목) + hardware/research/BOM_원본_20261106.xlsx (VAT 별도 단가·선택_업그레이드·보유_미사용·1학기 예산 값)
+- 공통 부분(데이터·서식·주문 링크 시트)은 bom_data.py, 두 기준을 한 표로 비교한 통합판 BOM.xlsx/BOM.md는 make_bom_master.py
 - config.json: 공통 변경(출력 부품·지출 완료·용기)과 변형별 변경
 """
-import copy
-from decimal import Decimal, ROUND_HALF_UP
 import json
 import os
 import sys
 
+sys.dont_write_bytecode = True
 import openpyxl
-from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
-from openpyxl.utils import get_column_letter
+from openpyxl.styles import Alignment, Font
 
-HW = os.environ.get("BOM_HW") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC_JSON = os.path.join(HW, "research", "canonical_bom.json")
-SRC_XLSX = os.path.join(HW, "BOM.xlsx")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from bom_data import (HW, SRC_XLSX, SRC_MD_REL, DM, CAT_ORDER, FONT, load_cfg, build_items, vendor_group, order_sheet, copy_sheet,  # noqa: E402
+                      f_title, f_sub, f_head, f_body, f_bold, f_grey, f_link, f_sec, fill_head, fill_row, fill_buy,
+                      fill_done, fill_none, fill_total, fill_input, border, wrap, center, NUM, put, header, widths)
 
-cfg = json.load(open(sys.argv[1], encoding="utf-8"))
+cfg = load_cfg(sys.argv[1])
 VAR = sys.argv[2]
 V = cfg["variants"][VAR]
 OUT_BASE = os.path.join(HW, V["file"])
 DATE = cfg["date"]
-DM = "디바이스마트"
-
-# ---------------------------------------------------------------- 데이터
-items = json.load(open(SRC_JSON, encoding="utf-8"))
 src = openpyxl.load_workbook(SRC_XLSX)
-
-# VAT 별도 단가: 원본 의뢰서 시트 F열 'Pxx · ...' → D열
-vat_ex = {}
-ws = src["추가구매_의뢰서용"]
-for r in range(10, 39):
-    f = ws.cell(r, 6).value
-    d = ws.cell(r, 4).value
-    if isinstance(f, str) and f.startswith("P") and isinstance(d, (int, float)):
-        vat_ex[f.split(" ")[0]] = d
-
-
-def apply(item_list, changes, adds):
-    byid = {x["id"]: x for x in item_list}
-    for pid, ch in changes.items():
-        if pid not in byid:
-            raise SystemExit(f"변경 대상 없음: {pid}")
-        byid[pid].update(ch)
-    for a in adds:
-        if a["id"] in byid:
-            raise SystemExit(f"중복 ID: {a['id']}")
-        base = {"qtyOwned": 0, "qtyToBuy": 0, "productNo": None, "url": None, "note": "", "usedIn": "", "unitPriceKRW": None}
-        base.update(a)
-        item_list.append(base)
-        byid[a["id"]] = base
-
-
-apply(items, cfg["common"]["changes"], cfg["common"]["add"])
-apply(items, V.get("changes", {}), V.get("add", []))
-
-CAT_ORDER = ["제어", "구동", "전원", "배선", "배관", "외형", "3D 프린팅", "공구", "선택", "미사용"]
-items.sort(key=lambda x: (CAT_ORDER.index(x["category"]), int(x["id"][1:]) if x["id"][1:].isdigit() else 999))
-
-
-def status(x):
-    if x.get("status"):
-        return x["status"]
-    if x["category"] == "미사용":
-        return "미사용"
-    if x["category"] == "선택":
-        return "선택(구매 안 함)"
-    if x["qtyToBuy"] > 0:
-        return "구매 필요"
-    if x["category"] == "공구":
-        return "학교 대여"
-    if x["qtyNeeded"] == 0:
-        return "불필요"
-    if x["qtyOwned"] >= x["qtyNeeded"]:
-        return "보유"
-    return "확인 필요"
-
-
-for x in items:
-    x["_status"] = status(x)
-    x.setdefault("spent", 0)
-    if x.get("vendor") == DM and x["qtyToBuy"] > 0:
-        calc = int((Decimal(x["unitPriceKRW"]) / Decimal("1.1")).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
-        if x["id"] in vat_ex and vat_ex[x["id"]] != calc:
-            print("경고: VAT 별도 단가가 원본 의뢰서와 다름", x["id"], vat_ex[x["id"]], calc)
-        x["vatEx"] = calc
-
-# ---------------------------------------------------------------- 스타일
-FONT = "맑은 고딕"
-f_title = Font(name=FONT, size=14, bold=True)
-f_sub = Font(name=FONT, size=9, color="FF595959")
-f_head = Font(name=FONT, size=10, bold=True, color="FFFFFFFF")
-f_body = Font(name=FONT, size=10)
-f_bold = Font(name=FONT, size=10, bold=True)
-f_grey = Font(name=FONT, size=10, color="FF808080")
-f_link = Font(name=FONT, size=10, color="FF0563C1", underline="single")
-f_sec = Font(name=FONT, size=11, bold=True, color="FFB34700")
-fill_head = PatternFill("solid", fgColor="FFFF7A1A")
-fill_row = PatternFill("solid", fgColor="FFFFF6EF")
-fill_buy = PatternFill("solid", fgColor="FFFFE3CC")
-fill_done = PatternFill("solid", fgColor="FFE2EFDA")
-fill_none = PatternFill("solid", fgColor="FFF2F2F2")
-fill_total = PatternFill("solid", fgColor="FFFFD9B3")
-fill_input = PatternFill("solid", fgColor="FFFFFF00")
-thin = Side(style="thin", color="FFD9D9D9")
-border = Border(left=thin, right=thin, top=thin, bottom=thin)
-wrap = Alignment(wrap_text=True, vertical="top")
-center = Alignment(horizontal="center", vertical="top", wrap_text=True)
-NUM = "#,##0"
-
-
-def plain(v):
-    if isinstance(v, str) and not v.startswith("="):
-        return v.replace("**", "").replace("`", "")
-    return v
-
-
-def put(ws, r, c, v, font=f_body, fill=None, fmt=None, align=wrap, b=True):
-    cell = ws.cell(r, c, plain(v))
-    cell.font = font
-    if fill:
-        cell.fill = fill
-    if fmt:
-        cell.number_format = fmt
-    cell.alignment = align
-    if b:
-        cell.border = border
-    return cell
-
-
-def header(ws, r, names):
-    for i, n in enumerate(names, 1):
-        put(ws, r, i, n, f_head, fill_head, align=center)
-
-
-def widths(ws, ws_list):
-    for i, w in enumerate(ws_list, 1):
-        ws.column_dimensions[get_column_letter(i)].width = w
-
+items = build_items(cfg, VAR, src)
 
 wb = openpyxl.Workbook()
 wb.remove(wb.active)
@@ -149,7 +34,7 @@ wb.remove(wb.active)
 # ================================================================ BOM_전체
 ws = wb.create_sheet("BOM_전체")
 put(ws, 1, 1, f"AI 스마트 바텐더 — {V['title']} BOM (부품 전체 목록)", f_title, b=False, align=Alignment())
-put(ws, 2, 1, f"팀 홍당무 · 작성 {DATE} (원본 BOM.xlsx 2026-11-06을 최신화) · 단가 = 디바이스마트 VAT 포함 판매가(빈칸 = 가격 확인 필요) · "
+put(ws, 2, 1, f"팀 홍당무 · 작성 {DATE} (원본 BOM 2026-11-06 — research/BOM_원본_20261106.xlsx — 을 최신화) · 단가 = 디바이스마트 VAT 포함 판매가(빈칸 = 가격 확인 필요) · "
               "추가구매금액 = 추가구매수량 × 단가 · 지출 완료 = 이미 결제한 금액", f_sub, b=False, align=Alignment())
 COLS = ["No", "ID", "분류", "부품명", "규격/모델", "필요수량", "보유수량", "추가구매수량", "단가(원)\nVAT 포함",
         "추가구매금액(원)\n=수량×단가", "상태", "지출 완료(원)", "구매처", "상품번호", "링크", "사용 위치\n(회로 기호/조립 STEP)", "비고"]
@@ -313,26 +198,7 @@ widths(wo, [5, 6, 40, 9, 11, 9, 16, 12, 13, 70])
 
 # ================================================================ 선택_업그레이드 (원본 그대로 복사)
 wu = wb.create_sheet("선택_업그레이드")
-s_u = src["선택_업그레이드"]
-for row in s_u.iter_rows():
-    for c in row:
-        n_ = wu.cell(c.row, c.column, c.value)
-        if c.has_style:
-            n_.font = copy.copy(c.font)
-            n_.fill = copy.copy(c.fill)
-            n_.border = copy.copy(c.border)
-            n_.alignment = copy.copy(c.alignment)
-            n_.number_format = c.number_format
-        if c.hyperlink:
-            n_.hyperlink = c.hyperlink.target
-for k, d in s_u.column_dimensions.items():
-    wu.column_dimensions[k].width = d.width
-for k, d in s_u.row_dimensions.items():
-    if d.height:
-        wu.row_dimensions[k].height = d.height
-for m in s_u.merged_cells.ranges:
-    wu.merge_cells(str(m))
-wu.freeze_panes = s_u.freeze_panes
+copy_sheet(src["선택_업그레이드"], wu)
 
 # ================================================================ 예산
 wbud = wb.create_sheet("예산")
@@ -445,13 +311,31 @@ put(wbud, r, 3, f"=B{R_F}-B{r}", f_body, None, NUM)
 put(wbud, r, 5, f'=IF(C{r}>=0,"재원 합계 안에서 가능","재원 합계 초과")')
 widths(wbud, [52, 14, 18, 4, 90])
 
+# ================================================================ 주문_링크 (요약 다음)
+def _memo(x):
+    t = x.get("reqNote") if x.get("vendor") == DM else (x.get("note") or x.get("reqNote"))
+    return " ".join((t or x.get("usedIn") or "").split())
+
+
+buy = [x for x in items if x["qtyToBuy"] > 0]
+grp = []
+for gname in (DM + " (devicemart.co.kr — 학교 인터넷 구매신청)", "다이소 (daisomall.co.kr — 매장 픽업 또는 택배)", "기타 (편의점 등)"):
+    key = gname.split(" ")[0]
+    rows = [(x, {"price": f"=BOM_전체!I{rid[x['id']]}", "q": f"=BOM_전체!H{rid[x['id']]}", "memo": _memo(x)})
+            for x in buy if vendor_group(x) == key]
+    grp.append((gname, rows))
+order_sheet(wb, f"주문 링크 — {V['title']} (앞으로 살 것 {len(buy)}품목)",
+            "링크를 누르면 상품 페이지가 열립니다. 수량·단가는 BOM_전체 시트와 연동됩니다. 주문하면 '주문함' 칸의 ☐를 ✔ 또는 날짜로 바꾸세요. "
+            "디바이스마트 링크·가격은 2026-11-06~10 조사 기준이라 주문 전에 품절·가격을 다시 확인하세요. 학교 의뢰서는 '추가구매_의뢰서용' 시트.",
+            grp, [("수량", "q", "금액(원)")], index=0)
+
 # ================================================================ 요약 (맨 앞)
 wsum = wb.create_sheet("요약", 0)
 put(wsum, 1, 1, f"BOM — {V['title']} · 사용자의 감정 및 취향 분석 기반 AI 맞춤형 음료 및 칵테일 배합 메이커", f_title, b=False, align=Alignment())
-put(wsum, 2, 1, f"팀 홍당무 · 작성 {DATE} · 원본 BOM.xlsx(2026-11-06)를 최신화. 다른 기준은 `{cfg['variants'][[k for k in cfg['variants'] if k != VAR][0]]['file']}.xlsx`", f_sub, b=False, align=Alignment())
+put(wsum, 2, 1, f"팀 홍당무 · 작성 {DATE} · 원본 BOM(2026-11-06, research 폴더 보관)을 최신화. 두 기준을 한 표로 비교한 통합판은 BOM.xlsx. 다른 기준은 `{cfg['variants'][[k for k in cfg['variants'] if k != VAR][0]]['file']}.xlsx`", f_sub, b=False, align=Alignment())
 r = 4
 put(wsum, r, 1, "이 BOM은", f_sec, b=False)
-for line in V["desc"]:
+for line in V["desc"] + ["**주문할 때는 '주문_링크' 시트**를 보세요 — 앞으로 살 부품만 구매처별로 모았고, 링크를 누르면 상품 페이지가 열립니다."]:
     r += 1
     put(wsum, r, 1, "• " + line, f_body, b=False)
 r += 2
@@ -516,8 +400,8 @@ A = L.append
 other = cfg["variants"][[k for k in cfg["variants"] if k != VAR][0]]["file"]
 A(f"# BOM — {V['title']} · 사용자의 감정 및 취향 분석 기반 AI 맞춤형 음료 및 칵테일 배합 메이커")
 A("")
-A(f"> 팀 홍당무 · 작성 {DATE} · 원본 [`BOM.md`](BOM.md)(2026-11-06)를 최신화한 판입니다. 다른 기준은 [`{other}.md`]({other}.md).")
-A(f"> 엑셀: `{V['file']}.xlsx` (시트: 요약 / BOM_전체 / 추가구매_의뢰서용 / 지출_완료 / 보유_미사용 / 선택_업그레이드 / 예산). 이 문서와 엑셀은 같은 스크립트로 만들어 숫자가 같습니다.")
+A(f"> 팀 홍당무 · 작성 {DATE} · 원본 [`{SRC_MD_REL}`]({SRC_MD_REL})(2026-11-06)를 최신화한 판입니다. 다른 기준은 [`{other}.md`]({other}.md), 두 기준을 한 표로 비교한 통합판은 [`BOM.md`](BOM.md).")
+A(f"> 엑셀: `{V['file']}.xlsx` (시트: 요약 / 주문_링크 / BOM_전체 / 추가구매_의뢰서용 / 지출_완료 / 보유_미사용 / 선택_업그레이드 / 예산). 이 문서와 엑셀은 같은 스크립트로 만들어 숫자가 같습니다.")
 A("")
 A("## 0. 한눈에 보기")
 A("")
@@ -570,6 +454,8 @@ for cat in CAT_ORDER:
 sec += 1
 A(f"## {sec}. 추가 구매 목록 (구매처별)")
 A("")
+A("주문할 때는 엑셀 `주문_링크` 시트(링크를 누르면 상품 페이지)나 아래 표의 상품 번호·링크를 씁니다.")
+A("")
 A(f"### {sec}.1 디바이스마트: {len(dm)}품목, 합계 {dm_inc:,}원 (VAT 포함) / {dm_ex:,}원 (VAT 별도)")
 A("")
 A("학교 물품구매의뢰서에는 **VAT 별도 단가**를 적습니다. 엑셀 `추가구매_의뢰서용` 시트를 그대로 옮겨 쓰면 됩니다.")
@@ -615,7 +501,7 @@ A(f"| **2학기 전체** | **{spent_sum + dm_inc + etc_known:,}** | 선택 구�
 for extra in V.get("budget_extra", []):
     A(f"| {extra['label']} | {won(extra['amount'])} | {extra['note']} |")
 A("")
-A("엑셀 `예산` 시트의 노란 칸(재원)을 확인한 값으로 고치면 판단이 자동으로 다시 계산됩니다. 선택 업그레이드(로드셀·연동펌프 등)는 원본 `BOM.md` 4장과 같고 엑셀 `선택_업그레이드` 시트에 그대로 있습니다.")
+A("엑셀 `예산` 시트의 노란 칸(재원)을 확인한 값으로 고치면 판단이 자동으로 다시 계산됩니다. 선택 업그레이드(로드셀·연동펌프 등)는 원본 `" + SRC_MD_REL + "` 4장과 같고 엑셀 `선택_업그레이드` 시트에 그대로 있습니다.")
 A("")
 sec += 1
 A(f"## {sec}. 확인할 것")
@@ -624,6 +510,6 @@ for line in cfg["common"]["todo"] + V.get("todo", []):
     A(f"- {line}")
 A("")
 A("---")
-A(f"*이 문서와 `{V['file']}.xlsx`는 `research/canonical_bom.json`과 `BOM.xlsx`(2026-11-06)를 원본으로 `research/make_boms.py`(설정 `research/bom_variants.json`)가 만들었습니다. 엑셀에서 수량이나 단가 칸만 고쳐도 금액·합계·예산이 자동으로 다시 계산됩니다.*")
+A(f"*이 문서와 `{V['file']}.xlsx`는 `research/canonical_bom.json`과 `research/BOM_원본_20261106.xlsx`(2026-11-06)를 원본으로 `research/make_boms.py`(설정 `research/bom_variants.json`)가 만들었습니다. 엑셀에서 수량이나 단가 칸만 고쳐도 금액·합계·예산이 자동으로 다시 계산됩니다.*")
 open(OUT_BASE + ".md", "w", encoding="utf-8", newline="\n").write("\n".join(L) + "\n")
 print("saved", OUT_BASE, "items", len(items), "dm", len(dm), dm_inc, dm_ex, "etc", len(etc), etc_known, "spent", spent_sum)
