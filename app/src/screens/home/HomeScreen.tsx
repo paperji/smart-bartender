@@ -5,7 +5,7 @@
  *  - PC(≥900px): 왼쪽 입력(넓으면 2열) + 오른쪽에 따라 내려오는 요약·실행 카드
  *  - 새로: 첫 실행 안내 카드("AI 키를 등록하면…", 닫으면 settings.onboardingDismissed)
  */
-import { Sparkles } from 'lucide-react';
+import { CircleQuestionMark, Sparkles } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { CalibrationBanner, ScreenBoundary } from '@/components';
@@ -13,7 +13,8 @@ import { recommendAndShow } from '@/lib/flow';
 import { haptic } from '@/platform/haptics';
 import { DEFAULT_INPUT, useDraft, useSession } from '@/store/draft';
 import { installedSlots, useSlots } from '@/store/slots';
-import { alertMessage, Button, Columns, Page, PageHeader, Stack } from '@/ui';
+import { startTutorial } from '@/store/tutorial';
+import { alertMessage, Button, Columns, IconButton, Page, PageHeader, Stack } from '@/ui';
 
 import { ActionCard, InstalledCard, OnboardingCard } from './HomeCards';
 import { CupSection, MoodSection, PreferenceSection, SituationSection, StrengthSection, TasteSection, WeatherSection } from './HomeSections';
@@ -73,8 +74,14 @@ function HomeScreenContent() {
     <Page
       width="wide"
       className="home-page"
-      header={<PageHeader title="오늘의 한 잔" subtitle="지금 기분과 취향을 알려 주시면 딱 맞게 섞어 드릴게요." />}
-      footer={wide ? undefined : <Button size="lg" icon={Sparkles} label="AI 레시피 만들기" onClick={onGenerate} loading={generating} full />}>
+      header={
+        <PageHeader
+          title="오늘의 한 잔"
+          subtitle="지금 기분과 취향을 알려 주시면 딱 맞게 섞어 드릴게요."
+          actions={<IconButton icon={CircleQuestionMark} label="사용법 보기" onClick={startTutorial} />}
+        />
+      }
+      footer={wide ? undefined : <Button size="lg" icon={Sparkles} label="AI 레시피 만들기" onClick={onGenerate} loading={generating} full data-tour="home-generate" />}>
       <Columns template="minmax(0, 1fr) minmax(300px, 340px)" gap={24} className="home-layout">
         <Stack gap={20} className="home-main">
           <OnboardingCard />
@@ -82,7 +89,10 @@ function HomeScreenContent() {
           <InstalledCard installed={installed} pumpCount={slots.length} onExplore={onExplore} />
           <div className="home-form">
             <div className="home-form__col">
-              <MoodSection moods={input.moods} onChange={(moods) => setInput({ moods })} />
+              {/* 사용법 안내가 비추는 칸 (lib/tutorial.ts) */}
+              <div data-tour="home-input">
+                <MoodSection moods={input.moods} onChange={(moods) => setInput({ moods })} />
+              </div>
               <TasteSection taste={input.taste} onChange={(taste) => setInput({ taste })} />
               <StrengthSection value={input.strength} hasAlcohol={hasAlcohol} onChange={(strength) => setInput({ strength })} />
             </div>

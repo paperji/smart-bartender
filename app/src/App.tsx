@@ -1,5 +1,5 @@
 /**
- * 앱 뼈대 — HashRouter + 화면 배치 + 전역 창(토스트·확인창·성인 확인·AI 로딩) + 시작 처리
+ * 앱 뼈대 — HashRouter + 화면 배치 + 전역 창(토스트·확인창·성인 확인·AI 로딩·사용법 안내) + 시작 처리
  * 라우트(WEBAPP_DESIGN §6): /, /recipe, /brewing, /explore, /shared, /history, /ingredients, /ingredients/:pump, /device, /calibrate, /settings
  * 숨은 화면: /ui (UI 키트 모아 보기)
  * 배치: 폭 < 900px → 위 상단바 + 하단 탭바(탭 화면에서만), 폭 ≥ 900px → 왼쪽 세로 내비게이션. 제조 화면(/brewing)은 전체 화면
@@ -10,6 +10,7 @@ import { HashRouter, Navigate, NavLink, Outlet, Route, Routes, useLocation, useN
 
 import { TAB_PATHS, TABS } from '@/appTabs';
 import { AppErrorBoundary, ScreenBoundary } from '@/components';
+import { TutorialHost } from '@/components/TutorialHost';
 import { UpdatePrompt } from '@/components/UpdatePrompt';
 import { registerJobEffects } from '@/lib/brew';
 import { deviceClient } from '@/lib/device/client';
@@ -241,6 +242,7 @@ function Hosts() {
       <ToastHost />
       <PlatformHost />
       <UpdatePrompt />
+      <TutorialHost />
     </>
   );
 }

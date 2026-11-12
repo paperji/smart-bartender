@@ -79,10 +79,10 @@ function IngredientsScreenContent() {
       ) : null}
 
       <Columns gap={16} className="ingredients-grid">
-        {slots.map((s) => {
+        {slots.map((s, i) => {
           const picked = !!pick && pick.pump === s.pump;
           return (
-            <div key={s.pump} className={cx('ingredients-grid__cell', picked && 'is-picked')}>
+            <div key={s.pump} className={cx('ingredients-grid__cell', picked && 'is-picked')} data-tour={i === 0 ? 'ingredients-first' : undefined}>
               {picked ? <Badge tone="accent" icon={PackagePlus} label="추천 펌프" className="ingredients-grid__pickbadge" /> : null}
               <PumpCard slot={s} mlps={cal?.[s.pump - 1]} onPress={() => open(s.pump)} className={picked ? 'ingredients-pumpcard--picked' : undefined} />
             </div>

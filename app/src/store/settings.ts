@@ -1,5 +1,5 @@
 /**
- * 앱 설정 — AI 방식·회사·모델, 데모 모드, 성인 인증, 배출 모드, 마지막 연결 기기, 알림 권한 요청 여부, 첫 실행 안내 등
+ * 앱 설정 — AI 방식·회사·모델, 데모 모드, 성인 인증, 배출 모드, 마지막 연결 기기, 알림 권한 요청 여부, 첫 실행 안내·사용법 안내 등
  * (AI API 키 자체는 여기 저장하지 않고 platform/secrets 에 회사별로 따로 보관 — 여기에는 마지막 4자리 힌트만)
  * v3.0: 서버 모드·서버 주소 제거, aiMode (기본 AI, 키가 없으면 실제로는 오프라인) | 'offline' (WEBAPP_DESIGN §4)
  * v3.1: AI 회사 고르기(aiProvider) · 회사별 모델(aiModels)·키 힌트(aiKeyHints). 예전 저장값(aiMode 'gemini'·geminiModel·
@@ -42,6 +42,8 @@ export interface SettingsData {
   notifyAsked: boolean;
   /** 첫 실행 안내 카드("AI 키를 등록하면…")를 닫았는지 */
   onboardingDismissed: boolean;
+  /** 사용법 안내(튜토리얼)를 봤거나 건너뛰었는지 — false 면 처음 접속 때 환영 창이 뜸 (store/tutorial.ts) */
+  tutorialSeen: boolean;
 }
 
 export interface SettingsState extends SettingsData {
@@ -66,6 +68,7 @@ export const SETTINGS_DEFAULTS: SettingsData = {
   lastDevices: {},
   notifyAsked: false,
   onboardingDismissed: false,
+  tutorialSeen: false,
 };
 
 const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v);
@@ -116,6 +119,7 @@ export function sanitizeSettings(raw: unknown): SettingsData {
     lastDevices,
     notifyAsked: bool(p.notifyAsked, d.notifyAsked),
     onboardingDismissed: bool(p.onboardingDismissed, d.onboardingDismissed),
+    tutorialSeen: bool(p.tutorialSeen, d.tutorialSeen),
   };
 }
 
@@ -126,6 +130,9 @@ export function sanitizeSettings(raw: unknown): SettingsData {
 export function mergeSettings<T extends SettingsData>(persisted: unknown, current: T): T {
   const p = isObj(persisted) ? persisted : {};
   const s = sanitizeSettings(p);
+  // 사용법 안내 "봤음"(새 칸): 예전 버전 탭이 쓴 값에는 이 칸이 없으므로 지금 값을 지킴 (다른 탭 때문에 환영 창이 다시 뜨지 않게).
+  // 처음 불러올 때는 지금 값이 기본값(false)이라 같고, 다른 탭이 '데이터 초기화'로 false 를 직접 쓴 경우는 그대로 따라감
+  if (!('tutorialSeen' in p)) s.tutorialSeen = current.tutorialSeen;
   const hasNew = 'aiProvider' in p || 'aiModels' in p || 'aiKeyHints' in p;
   if (hasNew || !isObj(persisted)) return { ...current, ...s };
   return {

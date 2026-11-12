@@ -82,6 +82,7 @@
 - 키 저장: 브라우저/PWA·Electron = localStorage(`sb.secret.geminiKey`), APK = `@capacitor/preferences`. 키는 기기 밖으로 보내지 않음(Google 외).
   다른 창(탭)에서 키를 저장·삭제하면 `storage` 이벤트로 받아 열린 창의 힌트·'Gemini 사용 중' 표시를 바로 맞춤(App 시작 처리에서 구독, APK 는 해당 없음).
 - 첫 실행 안내 카드: "AI 키를 등록하면 Gemini 가 레시피를 만들어요. 없어도 오프라인 추천으로 바로 쓸 수 있어요."
+- 사용법 안내(튜토리얼, 2026-11-12): 처음 접속 환영 창([사용법 보기]/[건너뛰기]) → 실제 화면을 열어 `data-tour` 요소를 비추는 9단계 안내 → "준비 끝" 창. 단계·위치 계산 `src/lib/tutorial.ts`, 진행 상태 `src/store/tutorial.ts`, 화면 `src/components/TutorialHost.tsx`, 봤음 표시 `settings.tutorialSeen`(고르는 순간 저장). 다시 보기(이미 봤어도): 설정 화면 맨 위 '사용법'·바텐더 ? 버튼. 테스트 `tests/tutorial.test.ts`.
 - **개발용 테스트 키**: `app/.env.development.local` 의 `VITE_DEV_GEMINI_KEY` — `npm run dev` 에서만 읽음(`import.meta.env.DEV` 로 감싸 배포 빌드에서 제거). 키가 비어 있을 때 설정 화면에 "개발용 테스트 키 사용" 버튼만 보임. **배포·APK·EXE 에는 절대 넣지 않음** — `npm run build` 뒤 `scripts/check-no-secrets.mjs` 가 dist·APK·EXE 안에 `AQ.`/`AIza` 형태 키나 .env 값이 있으면 실패시킴. 작업자는 키 값을 출력·복사·로그에 남기지 않음.
 - 백엔드(`smart-bartender/backend/`)는 앱이 쓰지 않음. SPEC §3.3 보정 규칙의 **기준 구현**으로 남기고, 앱↔백엔드 결과 비교 테스트(parity)는 유지.
 

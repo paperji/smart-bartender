@@ -197,7 +197,7 @@ export function DeviceScreen() {
 
   // ───────── 왼쪽(모바일 위쪽): 연결 ─────────
   const connectionCard = (
-    <Card className="device-card device-conn" aria-label="기기 연결">
+    <Card className="device-card device-conn" aria-label="기기 연결" data-tour="device-conn">
       <div className="device-conn__head">
         <span className={cx('device-bigicon', `device-tone--${connTone}`)} aria-hidden="true">
           <KindIcon size={26} />
@@ -416,16 +416,19 @@ export function DeviceScreen() {
 
   // ───────── 오른쪽(모바일 아래쪽): 작업·관리 ─────────
   const calibrateSection = (
-    <Section title="캘리브레이션" description="펌프마다 1초에 나오는 양(ml)을 측정해 정확도를 높여요" icon={Gauge}>
-      <LinkCard
-        icon={Gauge}
-        accent
-        title="캘리브레이션 마법사"
-        caption="계량컵으로 10초 동안 나온 양을 재서 입력하면 자동 계산돼요"
-        pressLabel="캘리브레이션 마법사 열기"
-        onPress={() => go('/calibrate')}
-      />
-    </Section>
+    // data-tour: 사용법 안내가 비추는 칸 (lib/tutorial.ts)
+    <div data-tour="device-calibrate">
+      <Section title="캘리브레이션" description="펌프마다 1초에 나오는 양(ml)을 측정해 정확도를 높여요" icon={Gauge}>
+        <LinkCard
+          icon={Gauge}
+          accent
+          title="캘리브레이션 마법사"
+          caption="계량컵으로 10초 동안 나온 양을 재서 입력하면 자동 계산돼요"
+          pressLabel="캘리브레이션 마법사 열기"
+          onPress={() => go('/calibrate')}
+        />
+      </Section>
+    </div>
   );
 
   const primeSection = (

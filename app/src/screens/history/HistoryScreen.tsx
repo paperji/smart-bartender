@@ -59,16 +59,19 @@ function HistoryScreenContent() {
 
   return (
     <Page width="wide" header={<PageHeader title="기록" subtitle={historySummary(entries.length, likes)} />}>
-      <Segmented<TabKey>
-        ariaLabel="기록 종류"
-        className="history-tabs"
-        value={tab}
-        onChange={setTab}
-        options={[
-          { value: 'history', label: `제조 기록 ${entries.length}` },
-          { value: 'favorites', label: `즐겨찾기 ${favorites.length}` },
-        ]}
-      />
+      {/* data-tour: 사용법 안내가 비추는 칸 (lib/tutorial.ts) */}
+      <div data-tour="history-tabs">
+        <Segmented<TabKey>
+          ariaLabel="기록 종류"
+          className="history-tabs"
+          value={tab}
+          onChange={setTab}
+          options={[
+            { value: 'history', label: `제조 기록 ${entries.length}` },
+            { value: 'favorites', label: `즐겨찾기 ${favorites.length}` },
+          ]}
+        />
+      </div>
 
       {tab === 'history' ? (
         entries.length === 0 ? (

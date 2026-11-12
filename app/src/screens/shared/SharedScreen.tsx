@@ -178,50 +178,53 @@ function SharedScreenContent() {
         />
       ) : null}
 
-      <Section
-        title={`인기 레시피 TOP ${TOP_COUNT}`}
-        icon={Trophy}
-        description="실제로 많이 만든 순이에요"
-        action={<Button size="sm" variant="ghost" icon={RefreshCw} label="새로고침" loading={top.status === 'loading'} onClick={loadTop} />}>
-        {top.status === 'error' ? (
-          <Banner tone="error" title="불러오지 못했어요" message={top.error} action={{ label: '다시 시도', icon: RefreshCw, onClick: loadTop }} />
-        ) : top.status !== 'ok' && !topItems.length ? (
-          <Card className="shared-loading">
-            <Spinner label="인기 레시피를 불러오는 중" />
-          </Card>
-        ) : topItems.length === 0 ? (
-          <Card>
-            <EmptyState
-              icon={Users}
-              title="아직 공유된 레시피가 없어요"
-              message="기록 탭에서 만든 잔의 [공유] 버튼을 누르면 첫 레시피가 돼요."
-              action={<Button label="기록 탭으로" icon={HistoryIcon} variant="secondary" onClick={() => go('/history')} />}
-            />
-          </Card>
-        ) : (
-          <>
-            {ranked.length ? (
-              <ul className="shared-grid" aria-label={`인기 레시피 TOP ${TOP_COUNT}`}>
-                {ranked.map((s, i) => card(s, i + 1))}
-              </ul>
-            ) : (
-              <Text variant="small" tone="secondary">
-                아직 공유 레시피로 실제로 만든 사람이 없어요. 먼저 만들어 보면 그 레시피가 1위가 돼요.
-              </Text>
-            )}
-            {fresh.length ? (
-              <>
-                <Text variant="label" as="h3" className="shared-subhead">
-                  새로 올라온 레시피
-                </Text>
-                <ul className="shared-grid" aria-label="새로 올라온 레시피">
-                  {fresh.map((s) => card(s))}
+      {/* data-tour: 사용법 안내가 비추는 칸 (lib/tutorial.ts) */}
+      <div data-tour="shared-top">
+        <Section
+          title={`인기 레시피 TOP ${TOP_COUNT}`}
+          icon={Trophy}
+          description="실제로 많이 만든 순이에요"
+          action={<Button size="sm" variant="ghost" icon={RefreshCw} label="새로고침" loading={top.status === 'loading'} onClick={loadTop} />}>
+          {top.status === 'error' ? (
+            <Banner tone="error" title="불러오지 못했어요" message={top.error} action={{ label: '다시 시도', icon: RefreshCw, onClick: loadTop }} />
+          ) : top.status !== 'ok' && !topItems.length ? (
+            <Card className="shared-loading">
+              <Spinner label="인기 레시피를 불러오는 중" />
+            </Card>
+          ) : topItems.length === 0 ? (
+            <Card>
+              <EmptyState
+                icon={Users}
+                title="아직 공유된 레시피가 없어요"
+                message="기록 탭에서 만든 잔의 [공유] 버튼을 누르면 첫 레시피가 돼요."
+                action={<Button label="기록 탭으로" icon={HistoryIcon} variant="secondary" onClick={() => go('/history')} />}
+              />
+            </Card>
+          ) : (
+            <>
+              {ranked.length ? (
+                <ul className="shared-grid" aria-label={`인기 레시피 TOP ${TOP_COUNT}`}>
+                  {ranked.map((s, i) => card(s, i + 1))}
                 </ul>
-              </>
-            ) : null}
-          </>
-        )}
-      </Section>
+              ) : (
+                <Text variant="small" tone="secondary">
+                  아직 공유 레시피로 실제로 만든 사람이 없어요. 먼저 만들어 보면 그 레시피가 1위가 돼요.
+                </Text>
+              )}
+              {fresh.length ? (
+                <>
+                  <Text variant="label" as="h3" className="shared-subhead">
+                    새로 올라온 레시피
+                  </Text>
+                  <ul className="shared-grid" aria-label="새로 올라온 레시피">
+                    {fresh.map((s) => card(s))}
+                  </ul>
+                </>
+              ) : null}
+            </>
+          )}
+        </Section>
+      </div>
 
       <Section title="레시피 찾기" icon={Search} description="이름·재료·별명으로 다른 공유 레시피를 찾아요">
         <Card className="shared-search">

@@ -120,7 +120,7 @@ export function ActionCard({ input, wide, generating, onGenerate, onExplore, onR
               ))}
             </dl>
             <Divider />
-            <Button size="lg" icon={Sparkles} label="AI 레시피 만들기" onClick={onGenerate} loading={generating} full />
+            <Button size="lg" icon={Sparkles} label="AI 레시피 만들기" onClick={onGenerate} loading={generating} full data-tour="home-generate" />
           </>
         ) : null}
         <Button

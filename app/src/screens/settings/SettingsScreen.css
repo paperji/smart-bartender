@@ -6,6 +6,14 @@
 .settings-stack { display: flex; flex-direction: column; gap: var(--space-6); min-width: 0; }
 .settings-card { display: flex; flex-direction: column; gap: var(--space-3); }
 
+/* ── 사용법 다시 보기 (화면 맨 위) — 넓으면 글 왼쪽·버튼 오른쪽, 좁으면 아래로 ── */
+.settings-tutorial { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.settings-tutorial__text { display: flex; flex-direction: column; gap: var(--space-1); flex: 1 1 260px; min-width: 0; }
+.settings-tutorial__btn { flex: 0 0 auto; }
+@media (max-width: 599px) {
+  .settings-tutorial__btn { flex: 1 1 100%; }
+}
+
 /* ── AI 방식 ── */
 .settings-effective { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
 .settings-help { color: var(--text-2); font-size: var(--fs-caption); line-height: 1.55; }

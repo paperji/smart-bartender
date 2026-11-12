@@ -3,9 +3,10 @@
  *  - AI: 추천 방식(AI 내 키 / 오프라인)·AI 회사 고르기·API 키 등록(키 확인·저장·삭제)·모델·회사별 키 발급 방법 → AiSection
  *  - 기기 연결(데모 모드·자동 재연결·기억한 기기), 배출 모드(순차/동시), 성인 인증(만 19세) 상태·초기화, 데이터 초기화
  *  - 앱 정보(버전·실행 환경·내려받기·개인정보·오픈소스) → AppInfoSection
- * 배치: PC(≥900px) 2열 [AI | 기기·배출·성인·데이터·앱 정보], 모바일 1열(같은 순서)
+ *  - 사용법(튜토리얼) 다시 보기 → store/tutorial.startTutorial — 한 번 봤거나 건너뛰었어도 언제든. 찾기 쉽게 화면 맨 위(2열 위)에
+ * 배치: 맨 위 사용법 → PC(≥900px) 2열 [AI | 기기·배출·성인·데이터·앱 정보], 모바일 1열(같은 순서)
  */
-import { Bluetooth, Database, GitBranch, RefreshCw, ShieldCheck, Trash2 } from 'lucide-react';
+import { Bluetooth, CircleQuestionMark, Database, GitBranch, PlayCircle, RefreshCw, ShieldCheck, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import { fmtDate } from '@/lib/format';
@@ -18,6 +19,7 @@ import { deleteAllAiKeys, useSettings } from '@/store/settings';
 import { useShared } from '@/store/shared';
 import { useSlots } from '@/store/slots';
 import { toast } from '@/store/toast';
+import { startTutorial } from '@/store/tutorial';
 import { Badge, Button, Card, Columns, confirm, Divider, Page, PageHeader, Section, Segmented, Switch, Text } from '@/ui';
 
 import { AiSection } from './AiSection';
@@ -91,6 +93,24 @@ function DispenseSettings() {
   );
 }
 
+/** 사용법(튜토리얼) 다시 보기 — 이미 봤거나 건너뛰었어도 여기서 언제든 (화면 맨 위, 휴대폰에서도 바로 보이게) */
+function TutorialSettings() {
+  const seen = useSettings((s) => s.tutorialSeen);
+  return (
+    <Section title="사용법" icon={CircleQuestionMark}>
+      <Card className="settings-tutorial">
+        <div className="settings-tutorial__text">
+          <Text>화면을 하나씩 비추며 기능을 알려 줘요 (1분, 9단계).</Text>
+          <Text variant="caption" tone="muted">
+            {seen ? '이미 본 사용법도 몇 번이든 다시 볼 수 있어요. ' : ''}바텐더 화면 오른쪽 위 ? 버튼으로도 볼 수 있어요.
+          </Text>
+        </div>
+        <Button variant="secondary" label={seen ? '사용법 다시 보기' : '사용법 보기'} icon={PlayCircle} onClick={startTutorial} className="settings-tutorial__btn" />
+      </Card>
+    </Section>
+  );
+}
+
 function AdultSettings() {
   const adultVerifiedAt = useSettings((s) => s.adultVerifiedAt);
   const set = useSettings((s) => s.set);
@@ -159,7 +179,8 @@ export function SettingsScreen() {
   // 데이터 초기화 뒤 AI 칸의 입력·확인 결과·모델 목록도 처음 상태로 (다시 그림)
   const [resetSeq, setResetSeq] = useState(0);
   return (
-    <Page width="wide" gap={28} header={<PageHeader title="앱 설정" subtitle="AI 키·기기·성인 인증·데이터·앱 정보" back />}>
+    <Page width="wide" gap={28} header={<PageHeader title="앱 설정" subtitle="사용법·AI 키·기기·성인 인증·데이터·앱 정보" back />}>
+      <TutorialSettings />
       <Columns template="1fr 1fr" gap={28}>
         <AiSection key={resetSeq} />
         <div className="settings-stack">

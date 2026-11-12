@@ -287,12 +287,15 @@ export function AiSection() {
         </Card>
       </Section>
 
-      <Section title="AI 고르기" icon={Bot} description="레시피를 만들 AI 를 골라요. 키는 AI 마다 따로 저장돼요.">
-        <Card className="settings-card">
-          <ProviderPicker value={providerId} onChange={pickProvider} ariaLabel="레시피를 만들 AI" saved={keyHints} />
-          <p className="settings-help">{provider.priceNote}</p>
-        </Card>
-      </Section>
+      {/* data-tour: 사용법 안내가 비추는 칸 (lib/tutorial.ts) */}
+      <div data-tour="settings-ai">
+        <Section title="AI 고르기" icon={Bot} description="레시피를 만들 AI 를 골라요. 키는 AI 마다 따로 저장돼요.">
+          <Card className="settings-card">
+            <ProviderPicker value={providerId} onChange={pickProvider} ariaLabel="레시피를 만들 AI" saved={keyHints} />
+            <p className="settings-help">{provider.priceNote}</p>
+          </Card>
+        </Section>
+      </div>
 
       <Section title={`${provider.label} API 키`} icon={KeyRound} description={`${provider.keySiteLabel}에서 발급받은 내 키`}>
         <Card className="settings-card">
